@@ -1,0 +1,23 @@
+event(event) ::= <<<event:{eventInfo|
+<if(eventInfo.direction)>
+GET_EVENT_ID("<eventInfo.portName>", &<eventInfo.id>, &(ret));
+CHECK_CODE("GET_EVENT_ID(<eventInfo.portName>)", ret);
+
+WAIT_EVENT (<eventInfo.id> ,<eventInfo.timeOut>ll ,&(ret));
+if(ret == NO_ERROR)
+{
+   <eventInfo.computeEntrypoint.keys:{key|<eventInfo.computeEntrypoint.(key).methodName>();}; separator="\n">
+\}
+else
+{
+	printf("Wait event failure,retCode is :%d\n",ret);
+	break;
+\}
+<else>
+GET_EVENT_ID("<eventInfo.portName>", &<eventInfo.id>, &(ret));
+CHECK_CODE("GET_EVENT_ID(<eventInfo.portName>)", ret);
+
+SET_EVENT(<eventInfo.id>, &(ret));
+CHECK_CODE("SET_EVENT(<eventInfo.id>)", ret);
+<endif>}; separator="\n">
+>>

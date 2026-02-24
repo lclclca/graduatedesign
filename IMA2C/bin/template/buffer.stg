@@ -1,0 +1,15 @@
+buffer(buffer) ::= <<<buffer:{bufferInfo|
+<if(bufferInfo.direction)>
+GET_BUFFER_ID("<bufferInfo.portName>", &(<bufferInfo.id>), &(ret));
+CHECK_CODE("GET_BUFFER_ID(<bufferInfo.portName>)", ret);
+
+RECEIVE_BUFFER (<bufferInfo.id>, <bufferInfo.timeOut>ll, <bufferInfo.messageAddr>, &(<bufferInfo.length>), &(ret));
+CHECK_CODE("RECEIVE_BUFFER(<bufferInfo.id>)",ret);
+<else>
+GET_BUFFER_ID("<bufferInfo.portName>", &(<bufferInfo.id>), &(ret));
+CHECK_CODE("GET_BUFFER_ID(<bufferInfo.portName>)", ret);
+
+SEND_BUFFER (<bufferInfo.id>, <bufferInfo.messageAddr>, sizeof(<bufferInfo.dataType>), <bufferInfo.timeOut>ll, &(ret));
+CHECK_CODE("SEND_BUFFER(<bufferInfo.id>)", ret);
+<endif>}; separator="\n">
+>>

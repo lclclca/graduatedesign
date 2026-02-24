@@ -1,0 +1,5 @@
+memory(memory) ::= << <memory:{x|
+	\<Partition_Memory PartitionIdentifier="<x.partitionId>" PartitionName="<x.partitionName>">
+        \<Memory_Requirements Type="<x.memoryType>" SizeBytes="<x.memorySize>" Access="<x.memoryAccess>" PhysicalAddress= "<x.physicalAddress>"/>
+    \</Partition_Memory>}>
+>>

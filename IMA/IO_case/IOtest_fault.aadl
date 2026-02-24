@@ -1,0 +1,116 @@
+package IOtest_fault
+public
+	with Cheddar_Properties;
+
+	data R1
+	end R1;
+
+	data implementation R1.Impl
+		properties
+			Cheddar_Properties::Data_Concurrency_State => 1;
+			Concurrency_Control_Protocol => Priority_Inheritance;
+	end R1.Impl;
+
+	data R2
+	end R2;
+
+	data implementation R2.Impl
+		properties
+			Cheddar_Properties::Data_Concurrency_State => 1;
+			Concurrency_Control_Protocol => Priority_Inheritance;
+	end R2.Impl;
+
+	thread T1
+		features
+			R1_features: requires data access R1.Impl;
+			R2_features: requires data access R2.Impl;
+	end T1;
+
+	thread implementation T1.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 8ms .. 8ms;
+			Cheddar_Properties::Dispatch_Absolute_Time => 0ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 50;
+			Deadline => 31ms;
+			Period => 31ms;
+	end T1.Impl;
+
+	thread T2
+		features
+			R1_features: requires data access R1.Impl;
+			R2_features: requires data access R2.Impl;
+	end T2;
+
+	thread implementation T2.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 8ms .. 8ms;
+			Cheddar_Properties::Dispatch_Absolute_Time => 2ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 100;
+			Deadline => 30ms;
+			Period => 30ms;
+	end T2.Impl;
+
+	process ea1
+	end ea1;
+
+	process implementation ea1.Impl
+		subcomponents
+			instancied_T1: thread T1.Impl;
+			instancied_T2: thread T2.Impl;
+			instancied_R1: data R1.Impl;
+			instancied_R2: data R2.Impl;
+		connections
+			c1: data access instancied_R1 -> instancied_T1.R1_features;
+			c2: data access instancied_R2 -> instancied_T1.R2_features;
+			c3: data access instancied_R1 -> instancied_T2.R1_features;
+			c4: data access instancied_R2 -> instancied_T2.R2_features;
+		properties
+			Cheddar_Properties::Critical_Section => (
+				"instancied_R1",
+				"instancied_T1","2","8",
+				"instancied_R1",
+				"instancied_T2","6","8",
+				"instancied_R2",
+				"instancied_T1","4","8",
+				"instancied_R2",
+				"instancied_T2","2","8"			);
+end ea1.Impl;
+virtual processor partition_rt
+		properties
+			Scheduling_Protocol => (RMS);
+	end partition_rt;
+
+	virtual processor implementation partition_rt.impl
+	end partition_rt.impl;
+
+processor cpu1
+end cpu1;
+
+processor implementation cpu1.Impl
+		subcomponents
+		partition_rt: virtual processor partition_rt;
+	properties 
+		Scheduling_Protocol => (RMS);
+		Preemptive_Scheduler => True;
+end cpu1.Impl;
+
+
+system Cheddar
+end Cheddar;
+
+system implementation Cheddar.Impl
+	subcomponents
+		instancied_cpu1 : processor cpu1.Impl;
+		instancied_ea1 : process ea1.Impl;
+	properties
+		Actual_Processor_Binding => (reference (instancied_cpu1.partition_rt)) applies to instancied_ea1;
+end Cheddar.Impl;
+
+
+
+	
+end IOtest_fault;

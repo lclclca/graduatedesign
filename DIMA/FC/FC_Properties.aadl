@@ -1,0 +1,80 @@
+property set FC_Properties is
+	
+	Category: type enumeration (netcard, switch);
+	
+	Net_Category: inherit list of FC_properties::Category applies to (device);
+	
+	-- 最大链路帧大小
+	Lmax : AADLINTEGER 64 Bytes .. 1518 Bytes units SIZE_UNITS applies to (bus);
+	
+	-- 最小链路帧大小，可以设置默认值
+	Lmin : AADLINTEGER 64 Bytes .. 1518 Bytes units SIZE_UNITS => 64 Bytes applies to (bus);
+	
+	Deadline: Time applies to (bus);
+	
+	NC_ID: AADLINTEGER 0 .. 65535 applies to (device);
+	
+	NT_ID: AADLINTEGER 0 .. 65535 applies to (device);
+	
+	-- 链路支持的速率 10 MBpersec,100 MBpersec or 1000 MBpersec 
+    -- 一般在终端和交换机进行bus access连接时有意义
+	Supported_Port_Speeds : inherit list of Data_Volume applies to (device,system,processor,bus access);
+	
+	-- 物理端口的速度，应符合终端和交换机的Supported_Port_Speeds
+	-- 至少在FC链路的一端有定义，只在终端和交换机进行bus access连接时有意义
+	portSpeed : inherit Data_Volume applies to (device,system,bus access);
+	
+	-- 可选网络，一般拓扑结构中会配置备用网络，避免意外情况，提高安全性
+    networkSelector : enumeration (A, B) applies to (device, bus access, virtual bus);
+    
+    
+    -- 发送路由
+	Send_Route_Table : list of record (
+									 S_msg_ID: aadlstring;
+                                     R_port : reference (bus access);
+                                     D_ports : list of reference (bus access);
+                                     jitter : time;
+                                     priority : enumeration (queue, sampling);
+                                     Size: aadlinteger;
+                                     categories : enumeration (queue, sampling);
+                                     use : enumeration (normal, load_file, load_status);
+                                    ) applies to (device,system);
+                                    
+                                    
+     -- 接收路由
+     Receive_Route_Table : list of record (
+									 R_msg_ID: aadlstring;
+                                     R_port : reference (bus access);
+                                     D_ports : list of reference (bus access);
+                                     jitter : time;
+                                     priority : enumeration (queue, sampling);
+                                     Size: aadlinteger;
+                                     categories : enumeration (queue, sampling);
+                                     receive : enumeration (query, request);
+                                     use: enumeration (normal, load_file, load_status);
+                                    ) applies to (device,system);                      
+     
+    
+    --命令序列
+    command_sequence: type record(
+    	R_CTL: aadlinteger;		--路由位和信息类别位
+    	D_ID: aadlinteger;		--目标标识符
+    	CS_CTL: aadlinteger;	--帧优先级
+    );
+    
+    
+    --状态序列
+    status_sequence: type record(
+    	R_CTL: aadlinteger;
+    	busy: aadlinteger;
+    );
+    
+    
+    --数据序列
+    data_sequence: type record(
+    	R_CTL: aadlinteger;
+    );
+    
+    
+     
+end FC_Properties;

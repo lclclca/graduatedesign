@@ -1,0 +1,16 @@
+queue(queue) ::= <<<queue:{queueInfo|
+<if(queueInfo.direction)>
+GET_QUEUING_PORT_ID("<queueInfo.portName>", &(<queueInfo.id>), &(ret));
+CHECK_CODE("GET_QUEUING_PORT_ID(<queueInfo.portName>)", ret);
+  
+RECEIVE_QUEUING_MESSAGE(<queueInfo.id>, <queueInfo.timeOut>ll, <queueInfo.messageAddr>, &(<queueInfo.length>), &(ret));
+CHECK_CODE("RECEIVE_QUEUING_MESSAGE(<queueInfo.id>)", ret);
+<else>
+GET_QUEUING_PORT_ID("<queueInfo.portName>", &(<queueInfo.id>), &(ret));
+CHECK_CODE("GET_QUEUING_PORT_ID(<queueInfo.portName>)", ret);
+
+SEND_QUEUING_MESSAGE(<queueInfo.id>, <queueInfo.messageAddr>, sizeof(<queueInfo.dataType>), <queueInfo.timeOut>ll, &(ret));
+CHECK_CODE("SEND_QUEUING_MESSAGE(<queueInfo.id>)", ret);
+<endif>}; separator="\n">
+>>
+

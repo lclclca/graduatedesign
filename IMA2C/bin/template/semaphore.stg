@@ -1,0 +1,15 @@
+semaphore(semaphore) ::= <<<semaphore:{semaphoreInfo|
+<if(semaphoreInfo.direction)>
+GET_SEMAPHORE_ID("<semaphoreInfo.portName>", &(<semaphoreInfo.id>), &(ret));
+CHECK_CODE("GET_SEMAPHORE_ID(<semaphoreInfo.portName>)", ret);
+
+WAIT_SEMAPHORE(<semaphoreInfo.id>, <semaphoreInfo.timeOut>ll, &(ret));
+CHECK_CODE("WAIT_SEMAPHORE(<semaphoreInfo.id>)", ret);
+<else>
+GET_SEMAPHORE_ID("<semaphoreInfo.portName>", &(<semaphoreInfo.id>), &(ret));
+CHECK_CODE("GET_SEMAPHORE_ID(<semaphoreInfo.portName>)", ret);
+
+SIGNAL_SEMAPHORE (<semaphoreInfo.id>, &(ret));
+CHECK_CODE("SIGNAL_SEMAPHORE(<semaphoreInfo.id>)", ret);
+<endif>}; separator="\n">
+>>

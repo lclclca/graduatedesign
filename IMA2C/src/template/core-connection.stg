@@ -1,0 +1,13 @@
+connection(connection) ::= <<  
+	\<Connection_Table><connection:{x|
+        \<Channel ChannelIdentifier="<x.channelId>" ChannelName="<x.channelName>">
+            \<Source>
+                \<Standard_Partition PartitionIdentifier= "<x.source.partitionId>" PartitionName="<x.source.partitionName>" PortName="<x.source.portName>"/>
+            \</Source>
+            \<Destination>
+                 \<Standard_Partition PartitionIdentifier= "<x.destination.partitionId>" PartitionName="<x.destination.partitionName>" PortName="<x.destination.portName>"/>
+            \</Destination>
+        \</Channel>}>
+    \</Connection_Table> 
+>>
+

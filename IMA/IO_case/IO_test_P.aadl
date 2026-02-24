@@ -1,0 +1,140 @@
+package IO_test_P
+public
+	with Cheddar_Properties;
+	with Partition_Proerties;
+	
+	data R1
+	end R1;
+
+	data implementation R1.impl
+		properties
+			Cheddar_Properties::Data_Concurrency_State => 1;
+			Concurrency_Control_Protocol => Priority_Ceiling;
+	end R1.impl;
+
+	data R2
+	end R2;
+
+	data implementation R2.impl
+		properties
+			Cheddar_Properties::Data_Concurrency_State => 1;
+			Concurrency_Control_Protocol => Priority_Ceiling;
+	end R2.impl;
+
+	process P1
+		features
+			R1_features: requires data access R1.Impl;
+			R2_features: requires data access R2.Impl;
+	end P1;
+
+	process implementation P1.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Execution_Time => 8ms;
+			Cheddar_Properties::Dispatch_Absolute_Time => 0ms;
+			Priority => 50;
+			Deadline => 31ms;
+			Period => 31ms;
+	end P1.impl;
+
+	process P2
+		features
+			R1_features: requires data access R1.Impl;
+			R2_features: requires data access R2.Impl;
+	end P2;
+
+	process implementation P2.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Execution_Time  => 8ms;
+			Cheddar_Properties::Dispatch_Absolute_Time => 2ms;
+			Priority => 100;
+			Deadline => 30ms;
+			Period => 30ms;
+	end P2.impl;
+
+
+--	process implementation ea1.impl
+--		subcomponents
+--			instancied_T1: thread T1.impl; 
+--			instancied_T2: thread T2.impl;
+--			instancied_R1: data R1.impl;
+--			instancied_R2: data R2.impl;
+--		
+--		connections
+--			c1: data access instancied_R1 -> instancied_T1.R1_features;
+--			c2: data access instancied_R2 -> instancied_T1.R2_features;
+--			c3: data access instancied_R1 -> instancied_T2.R1_features;
+--			c4: data access instancied_R2 -> instancied_T2.R2_features;
+--		properties
+--			Cheddar_Properties::Critical_Section => (
+--				"instancied_R1",
+--				"instancied_T1","2","8",
+--				"instancied_R1",
+--				"instancied_T2","6","8",
+--				"instancied_R2",
+--				"instancied_T1","4","8",
+--				"instancied_R2",
+--				"instancied_T2","2","8"			);
+--end ea1.impl;
+
+	virtual processor partition_rt1
+		properties
+			Scheduling_Protocol => (RMS);
+	end partition_rt1;
+
+	virtual processor implementation partition_rt1.impl
+	end partition_rt1.impl;
+	
+	virtual processor partition_rt2
+		properties
+			Scheduling_Protocol => (RMS);
+	end partition_rt1;
+
+	virtual processor implementation partition_rt2.impl
+	end partition_rt2.impl;
+
+processor cpu1
+end cpu1;
+
+processor implementation cpu1.impl
+	subcomponents
+		partition_rt1: virtual processor partition_rt1;
+		partition_rt2: virtual processor partition_rt2;
+	properties 
+		Scheduling_Protocol => (RMS);
+		Preemptive_Scheduler => True;
+end cpu1.impl;
+
+
+system Cheddar
+end Cheddar;
+
+system implementation Cheddar.impl
+	subcomponents
+		instancied_cpu1 : processor cpu1.impl;
+		instancied_ea1 : process P1.impl;
+		instancied_ea2 : process P2.impl;
+		instancied_R1: data R1.impl;
+		instancied_R2: data R2.impl;
+	connections
+			c1: data access instancied_R1 -> instancied_ea1.R1_features;
+			c2: data access instancied_R2 -> instancied_ea1.R2_features;
+			c3: data access instancied_R1 -> instancied_ea2.R1_features;
+			c4: data access instancied_R2 -> instancied_ea2.R2_features;
+	properties
+		Actual_Processor_Binding => (reference (instancied_cpu1.partition_rt1)) applies to instancied_ea1;
+		Actual_Processor_Binding => (reference (instancied_cpu1.partition_rt2)) applies to instancied_ea2;
+		Cheddar_Properties::Critical_Section => (
+				"instancied_R1",
+				"instancied_ea1","2","8",
+				"instancied_R1",
+				"instancied_ea2","6","8",
+				"instancied_R2",
+				"instancied_ea1","4","8",
+				"instancied_R2",
+				"instancied_ea2","2","8"			);
+end Cheddar.impl;
+
+	
+end IO_test_P;

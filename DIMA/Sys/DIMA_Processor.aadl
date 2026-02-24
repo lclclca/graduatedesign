@@ -1,0 +1,178 @@
+package DIMA_Processor
+public
+	
+	with ARINC653;
+	--Core
+	virtual processor core1
+	end core1;
+
+	virtual processor implementation core1.impl
+	end core1.impl;
+
+	virtual processor core2
+	end core2;
+
+	virtual processor implementation core2.impl
+	end core2.impl;
+	
+	virtual processor core3
+	end core3;
+
+	virtual processor implementation core3.impl
+	end core3.impl;
+	
+	processor powerpc
+		properties
+			Scheduling_Protocol => (POSIX_1003_HIGHEST_PRIORITY_FIRST_PROTOCOL);
+	end powerpc;
+
+	processor implementation powerpc.impl		
+		subcomponents
+			core1: virtual processor core1.impl;
+			core2: virtual processor core2.impl;
+			core3:virtual processor core3.impl;
+		properties
+			ARINC653::Module_Schedule =>( 
+				[Partition => reference (core1);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 20ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 30ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 20ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 20ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (core1);
+					Duration => 30ms;
+					Periodic_Processing_Start => true;]
+			);
+
+end powerpc.impl;
+	
+	
+	virtual processor partition_runtime
+		
+	end partition_runtime;
+	
+	virtual processor implementation partition_runtime.impl
+		properties
+			Scheduling_Protocol => (RMS);
+			ARINC653::System_Partition => true;
+	end partition_runtime.impl;
+	
+	virtual processor partition_runtime1
+		
+	end partition_runtime1;
+	
+	virtual processor implementation partition_runtime1.impl
+		properties
+			Scheduling_Protocol => (RMS);
+			ARINC653::System_Partition => true;
+	end partition_runtime1.impl;
+	
+	virtual processor partition_runtime2
+		
+	end partition_runtime2;
+	
+	virtual processor implementation partition_runtime2.impl
+		properties
+			Scheduling_Protocol => (RMS);
+			ARINC653::System_Partition => true;
+	end partition_runtime2.impl;
+	
+	virtual processor partition_runtime3
+		
+	end partition_runtime3;
+	
+	virtual processor implementation partition_runtime3.impl
+		properties
+			Scheduling_Protocol => (RMS);
+	end partition_runtime3.impl;
+
+	processor arinckernel
+	end arinckernel;
+	
+	processor implementation arinckernel.module1
+		subcomponents
+			part1: virtual processor partition_runtime1.impl;
+			part2: virtual processor partition_runtime2.impl;
+		properties
+			ARINC653::Module_Major_Frame => 25ms;
+			
+			ARINC653::Module_Schedule => ([Partition => reference (part1);
+					Duration => 5ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (part2);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (part1);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;]
+			);
+			ARINC653::HM_Error_ID_Levels => ([ErrorIdentifier => 1;
+					Description => "Module Config Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Config;
+				],
+				[ErrorIdentifier => 2;
+					Description => "Module Initialization Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Init;
+				],
+				[ErrorIdentifier => 3;
+					Description => "Module Scheduling Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Scheduling;
+				]);
+			ARINC653::HM_Error_ID_Actions => (
+				[ErrorIdentifier => 1;
+					Description => "Ignore the error";
+					Action => "ignore";
+				],
+				[ErrorIdentifier => 2;
+					Description => "Reset the Module";
+					Action => "reset";
+				],
+				[ErrorIdentifier => 3;
+					Description => "Reset the Module";
+					Action => "reset";
+				]
+			);
+	end arinckernel.module1;
+	
+	processor implementation arinckernel.module2
+		subcomponents
+			part1: virtual processor partition_runtime.impl;
+			part2: virtual processor partition_runtime.impl;
+			--part3: virtual processor partition_runtime;
+		properties
+			ARINC653::Module_Major_Frame => 25ms;
+			ARINC653::Module_Schedule => ([Partition => reference (part1);
+					Duration => 5ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (part2);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (part1);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;]
+			);
+	end arinckernel.module2;
+	
+		processor implementation arinckernel.module3
+		subcomponents
+			part1: virtual processor partition_runtime.impl;
+			part2: virtual processor partition_runtime.impl;
+		properties
+			ARINC653::Module_Major_Frame => 25ms;
+	end arinckernel.module3;
+end DIMA_Processor;

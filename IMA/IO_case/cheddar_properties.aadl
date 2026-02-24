@@ -1,0 +1,10 @@
+property set Cheddar_Properties is
+
+	Data_Concurrency_State: aadlinteger applies to ( data);
+	
+	Dispatch_Absolute_Time : inherit Time
+		applies to (thread, thread group, process);
+		
+	Critical_Section : list of aadlstring
+		applies to (system, process, thread, data);
+end Cheddar_Properties;

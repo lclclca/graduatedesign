@@ -1,0 +1,6 @@
+partition(partition)::= <<
+<partition:{x|
+	\<Partition PartitionIdentifier="<x.partitionIdentifier>" PartitionName="<x.partitionName>" Criticality="<x.criticality>" SystemPartition="<x.systemPartition>" EntryPoint="<x.entryPoint>"><x.portProperties:{y|
+    	\<<y.portType> PortName="<y.portName>" MaxMessageSize="<y.maxMessageSize>" Direction="<y.direction>" <if(y.maxNbMessages)> MaxNbMessages = "<y.maxNbMessages>"<endif> <if(y.refreshRateSeconds)> RefreshRateSeconds = "<y.refreshRateSeconds>"<endif>/>}>
+    \</Partition>}>
+>>

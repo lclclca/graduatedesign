@@ -1,0 +1,15 @@
+content-types/org.eclipse.compare.wordDoc/charset=UTF-8
+content-types/org.eclipse.core.runtime.text/charset=UTF-8
+content-types/org.eclipse.ease.engine.python.content-type/charset=UTF-8
+content-types/org.eclipse.ease.lang.java.content-type/charset=UTF-8
+content-types/org.eclipse.ease.lang.scala.content-type/charset=UTF-8
+content-types/org.eclipse.egit.contenttype.gitignore/charset=UTF-8
+content-types/org.eclipse.egit.patch/charset=UTF-8
+content-types/org.eclipse.emf.codegen.jet/charset=UTF-8
+content-types/org.eclipse.jdt.core.javaClass/charset=UTF-8
+content-types/org.eclipse.jdt.core.javaProperties/charset=UTF-8
+content-types/org.eclipse.jdt.core.javaSource/charset=UTF-8
+content-types/org.eclipse.team.genericeditor.diff.extension.patch/charset=UTF-8
+content-types/org.eclipse.ui.views.log.log/charset=UTF-8
+content-types/org.osate.core.instanceModelFile/charset=UTF-8
+eclipse.preferences.version=1

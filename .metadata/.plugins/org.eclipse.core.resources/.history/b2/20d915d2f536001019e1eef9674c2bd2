@@ -1,0 +1,353 @@
+package Active_aircraft_airspeed_control_system_5
+public
+	
+	system Active_aircraft_airspeed_control_system_5
+	end Active_aircraft_airspeed_control_system_5;
+	
+	system implementation Active_aircraft_airspeed_control_system_5.impl
+		subcomponents
+			Active_aircraft_airspeed_control_module: system Active_aircraft_airspeed_control_module.impl;
+			Nose_Airspeed_sensor_1: device Nose_Airspeed_sensor_1.impl;
+			Nose_Airspeed_sensor_2: device Nose_Airspeed_sensor_2.impl;
+			Fuselage_airspeed_sensor_1: device Fuselage_airspeed_sensor_1.impl;
+			Fuselage_airspeed_sensor_2: device Fuselage_airspeed_sensor_2.impl;
+			Fuselage_airspeed_sensor_3: device Fuselage_airspeed_sensor_3.impl;
+			Fuselage_airspeed_sensor_4: device Fuselage_airspeed_sensor_4.impl;
+			Tail_airspeed_sensor_1: device Tail_airspeed_sensor_1.impl;
+			Tail_airspeed_sensor_2: device Tail_airspeed_sensor_2.impl;
+			Display: device Display.impl;
+			Airspeed_control_command_sensor: device Airspeed_control_command_sensor.impl;
+			Throttle: device Throttle.impl;
+			Elevator: device Elevator.impl;
+			Spoiler: device Spoiler.impl;
+			CAN_1: bus CAN_1.impl;
+			CAN_2: bus CAN_2.impl;
+			CAN_3: bus CAN_3.impl;
+			CAN_4: bus CAN_4.impl;
+			CAN_5: bus CAN_5.impl;
+			CAN_6: bus CAN_6.impl;
+			CAN_7: bus CAN_7.impl;
+			CAN_8: bus CAN_8.impl;
+			CAN_9: bus CAN_9.impl;
+			CAN_10: bus CAN_10.impl;
+			CAN_11: bus CAN_11.impl;
+			CAN_12: bus CAN_12.impl;
+			CAN_13: bus CAN_13.impl;
+	end Active_aircraft_airspeed_control_system_5.impl;
+	
+	system Active_aircraft_airspeed_control_module
+	end Active_aircraft_airspeed_control_module;
+	
+	system implementation Active_aircraft_airspeed_control_module.impl
+		subcomponents
+			Airspeed_calculation_partition: process Airspeed_calculation_partition.impl;
+			Airspeed_response_partition: process Airspeed_response_partition.impl;
+			Active_aircraft_airspeed_control_processor: processor Active_aircraft_airspeed_control_processor.impl;
+			Active_aircraft_airspeed_control_memory: memory Active_aircraft_airspeed_control_memory.impl;
+	end Active_aircraft_airspeed_control_module.impl;
+	
+	process Airspeed_calculation_partition	
+	end Airspeed_calculation_partition;
+	
+	process implementation Airspeed_calculation_partition.impl
+		subcomponents
+			Airspeed_calculation_task: thread Airspeed_calculation_task.impl;
+	end Airspeed_calculation_partition.impl;
+	
+	thread Airspeed_calculation_task		
+	end Airspeed_calculation_task;
+	
+	thread implementation Airspeed_calculation_task.impl
+	end Airspeed_calculation_task.impl;
+	
+	process Airspeed_response_partition		
+	end Airspeed_response_partition;
+	
+	process implementation Airspeed_response_partition.impl
+		subcomponents
+			Airspeed_response_task: thread Airspeed_response_task.impl;
+	end Airspeed_response_partition.impl;
+	
+	thread Airspeed_response_task		
+	end Airspeed_response_task;
+	
+	thread implementation Airspeed_response_task.impl
+	end Airspeed_response_task.impl;
+	
+	processor Active_aircraft_airspeed_control_processor
+	end Active_aircraft_airspeed_control_processor;
+	
+	processor implementation Active_aircraft_airspeed_control_processor.impl
+		subcomponents
+			Airspeed_calculation_partition_runtime: virtual processor Airspeed_calculation_partition_runtime.impl;
+			Airspeed_response_partition_runtime: virtual processor Airspeed_response_partition_runtime.impl;
+	end Active_aircraft_airspeed_control_processor.impl;
+	
+	virtual processor Airspeed_calculation_partition_runtime
+	end Airspeed_calculation_partition_runtime;
+	
+	virtual processor implementation Airspeed_calculation_partition_runtime.impl
+	end Airspeed_calculation_partition_runtime.impl;
+	
+	virtual processor Airspeed_response_partition_runtime
+	end Airspeed_response_partition_runtime;
+	
+	virtual processor implementation Airspeed_response_partition_runtime.impl
+	end Airspeed_response_partition_runtime.impl;
+	
+	memory Active_aircraft_airspeed_control_memory
+	end Active_aircraft_airspeed_control_memory;
+	
+	memory implementation Active_aircraft_airspeed_control_memory.impl
+		subcomponents
+			Airspeed_calculation_partition_memory: memory Airspeed_calculation_partition_memory.impl;
+			Airspeed_response_partition_memory: memory Airspeed_response_partition_memory.impl;
+	end Active_aircraft_airspeed_control_memory.impl;
+	
+	memory Airspeed_calculation_partition_memory
+	end Airspeed_calculation_partition_memory;
+	
+	memory implementation Airspeed_calculation_partition_memory.impl
+	end Airspeed_calculation_partition_memory.impl;
+	
+	memory Airspeed_response_partition_memory
+	end Airspeed_response_partition_memory;
+	
+	memory implementation Airspeed_response_partition_memory.impl
+	end Airspeed_response_partition_memory.impl;
+	
+	device Nose_airspeed_sensor_1
+	end Nose_airspeed_sensor_1;
+	
+	device implementation Nose_airspeed_sensor_1.impl
+	end Nose_airspeed_sensor_1.impl;
+	
+	device Nose_airspeed_sensor_2
+	end Nose_airspeed_sensor_2;
+	
+	device implementation Nose_airspeed_sensor_2.impl
+	end Nose_airspeed_sensor_2.impl;
+	
+	device Fuselage_airspeed_sensor_1
+	end Fuselage_airspeed_sensor_1;
+	
+	device implementation Fuselage_airspeed_sensor_1.impl
+	end Fuselage_airspeed_sensor_1.impl;
+	
+	device Fuselage_airspeed_sensor_2
+	end Fuselage_airspeed_sensor_2;
+	
+	device implementation Fuselage_airspeed_sensor_2.impl
+	end Fuselage_airspeed_sensor_2.impl;
+	
+	device Fuselage_airspeed_sensor_3
+	end Fuselage_airspeed_sensor_3;
+	
+	device implementation Fuselage_airspeed_sensor_3.impl
+	end Fuselage_airspeed_sensor_3.impl;
+	
+	device Fuselage_airspeed_sensor_4
+	end Fuselage_airspeed_sensor_4;
+	
+	device implementation Fuselage_airspeed_sensor_4.impl
+	end Fuselage_airspeed_sensor_4.impl;
+	
+	device Tail_airspeed_sensor_1
+	end Tail_airspeed_sensor_1;
+	
+	device implementation Tail_airspeed_sensor_1.impl
+	end Tail_airspeed_sensor_1.impl;
+	
+	device Tail_airspeed_sensor_2
+	end Tail_airspeed_sensor_2;
+	
+	device implementation Tail_airspeed_sensor_2.impl
+	end Tail_airspeed_sensor_2.impl;
+	
+	device Display
+	end Display;
+	
+	device implementation Display.impl
+	end Display.impl;
+	
+	device Airspeed_control_command_sensor
+	end Airspeed_control_command_sensor;
+	
+	device implementation Airspeed_control_command_sensor.impl
+	end Airspeed_control_command_sensor.impl;
+	
+	device Throttle
+	end Throttle;
+	
+	device implementation Throttle.impl
+	end Throttle.impl;
+	
+	device Elevator
+	end Elevator;
+	
+	device implementation Elevator.impl
+	end Elevator.impl;
+	
+	device Spoiler
+	end Spoiler;
+	
+	device implementation Spoiler.impl
+	end Spoiler.impl;
+	
+	bus CAN_1
+	end CAN_1;
+	
+	bus implementation CAN_1.impl
+	end CAN_1.impl;
+	
+	bus CAN_2
+	end CAN_2;
+	
+	bus implementation CAN_2.impl
+	end CAN_2.impl;	
+	
+	bus CAN_3
+	end CAN_3;
+	
+	bus implementation CAN_3.impl
+	end CAN_3.impl;
+	
+	bus CAN_4
+	end CAN_4;
+	
+	bus implementation CAN_4.impl
+	end CAN_4.impl;	
+	
+	bus CAN_5
+	end CAN_5;
+	
+	bus implementation CAN_5.impl
+	end CAN_5.impl;
+	
+	bus CAN_6
+	end CAN_6;
+	
+	bus implementation CAN_6.impl
+	end CAN_6.impl;	
+	
+	bus CAN_7
+	end CAN_7;
+	
+	bus implementation CAN_7.impl
+	end CAN_7.impl;
+	
+	bus CAN_8
+	end CAN_8;
+	
+	bus implementation CAN_8.impl
+	end CAN_8.impl;
+	
+	bus CAN_9
+	end CAN_9;
+	
+	bus implementation CAN_9.impl
+	end CAN_9.impl;
+	
+	bus CAN_10
+	end CAN_10;
+	
+	bus implementation CAN_10.impl
+	end CAN_10.impl;	
+	
+	bus CAN_11
+	end CAN_11;
+	
+	bus implementation CAN_11.impl
+	end CAN_11.impl;
+	
+	bus CAN_12
+	end CAN_12;
+	
+	bus implementation CAN_12.impl
+	end CAN_12.impl;
+	
+	bus CAN_13
+	end CAN_13;
+	
+	bus implementation CAN_13.impl
+	end CAN_13.impl;
+	
+	data Nose_airspeed_1		
+	end Nose_airspeed_1;
+	
+	data implementation Nose_airspeed_1.impl
+	end Nose_airspeed_1.impl;
+	
+	data Nose_airspeed_2		
+	end Nose_airspeed_2;
+	
+	data implementation Nose_airspeed_2.impl
+	end Nose_airspeed_2.impl;
+	
+	data Fuselage_airspeed_1		
+	end Fuselage_airspeed_1;
+	
+	data implementation Fuselage_airspeed_1.impl
+	end Fuselage_airspeed_1.impl;
+	
+	data Fuselage_airspeed_2		
+	end Fuselage_airspeed_2;
+	
+	data implementation Fuselage_airspeed_2.impl
+	end Fuselage_airspeed_2.impl;
+	
+	data Fuselage_airspeed_3		
+	end Fuselage_airspeed_3;
+	
+	data implementation Fuselage_airspeed_3.impl
+	end Fuselage_airspeed_3.impl;
+	
+	data Fuselage_airspeed_4		
+	end Fuselage_airspeed_4;
+	
+	data implementation Fuselage_airspeed_4.impl
+	end Fuselage_airspeed_4.impl;
+	
+	data Tail_airspeed_1		
+	end Tail_airspeed_1;
+	
+	data implementation Tail_airspeed_1.impl
+	end Tail_airspeed_1.impl;
+	
+	data Tail_airspeed_2		
+	end Tail_airspeed_2;
+	
+	data implementation Tail_airspeed_2.impl
+	end Tail_airspeed_2.impl;
+	
+	data Comprehensive_airspeed
+	end Comprehensive_airspeed;
+	
+	data implementation Comprehensive_airspeed.impl
+	end Comprehensive_airspeed.impl;
+	
+	data Airspeed_control_command
+	end Airspeed_control_command;
+	
+	data implementation Airspeed_control_command.impl
+	end Airspeed_control_command.impl;
+	
+	data Throttle_response_command		
+	end Throttle_response_command;
+	
+	data implementation Throttle_response_command.impl
+	end Throttle_response_command.impl;
+	
+	data Elevator_response_command		
+	end Elevator_response_command;
+	
+	data implementation Elevator_response_command.impl
+	end Elevator_response_command.impl;
+	
+	data Spoiler_response_command
+	end Spoiler_response_command;
+	
+	data implementation Spoiler_response_command.impl
+	end Spoiler_response_command.impl;
+	
+end Active_aircraft_airspeed_control_system_4;

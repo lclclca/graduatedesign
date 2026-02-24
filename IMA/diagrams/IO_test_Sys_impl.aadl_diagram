@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="74176861-4561-4807-adc4-20a3faeede01" manual="true">
+    <element uuid="7ca94753-5279-4e92-8a51-19452922998b" manual="true">
+      <element uuid="8c6cfd6b-dd54-46ed-972c-ae0d932acd68" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>partition_rt</seg>
+        </bo>
+        <position x="10.0" y="50.0"/>
+        <size width="120.0" height="35.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>instancied_cpu1</seg>
+      </bo>
+      <position x="860.0" y="140.0"/>
+      <size width="154.0" height="110.0"/>
+    </element>
+    <element uuid="ef980644-c673-47d4-8f15-49b15a05aa9c" manual="true">
+      <element uuid="525812df-ae26-427e-a035-e553b022a384" manual="true">
+        <element uuid="1bea0a70-a001-4345-9b06-5d12c26fe423" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c1</seg>
+        </bo>
+        <bendpoints>
+          <point x="336.0" y="427.0"/>
+          <point x="342.0" y="427.0"/>
+          <point x="342.0" y="309.0"/>
+        </bendpoints>
+      </element>
+      <element uuid="5c963022-37c1-4283-ba42-0fef405cf9a3" manual="true">
+        <element uuid="d1d69b71-1503-4354-ae62-a38d4c0be930" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c2</seg>
+        </bo>
+        <bendpoints>
+          <point x="332.0" y="259.0"/>
+        </bendpoints>
+      </element>
+      <element uuid="9dec9224-5ba6-4d30-9698-ece3a50fdf93" manual="true">
+        <element uuid="ad751814-2716-4fd5-98a7-5c058dabcbee" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c3</seg>
+        </bo>
+        <bendpoints>
+          <point x="332.0" y="439.0"/>
+        </bendpoints>
+      </element>
+      <element uuid="78338e98-5aef-4e73-90c7-6ca2a6133bf8" manual="true">
+        <element uuid="dd2e6b9d-a1ae-4246-9d8a-f81948bde7c2" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c4</seg>
+        </bo>
+        <bendpoints>
+          <point x="336.0" y="271.0"/>
+          <point x="352.0" y="271.0"/>
+          <point x="352.0" y="389.0"/>
+        </bendpoints>
+      </element>
+      <element uuid="a9367d8a-6017-4638-af48-f51837e78320" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+          <seg>dd5db947-8e78-4369-ae6a-25450b817c2a</seg>
+        </bo>
+      </element>
+      <element uuid="344a5f59-b3f1-4e2d-b3b8-8290576fb39d" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+          <seg>8c6cfd6b-dd54-46ed-972c-ae0d932acd68</seg>
+        </bo>
+      </element>
+      <element uuid="59e51331-b933-4125-a122-5fe3e42af519" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>instancied_R1</seg>
+        </bo>
+        <position x="90.0" y="246.0"/>
+        <size width="142.0" height="35.0"/>
+      </element>
+      <element uuid="dee9027d-e502-40d7-b732-732aeea4e781" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>instancied_R2</seg>
+        </bo>
+        <position x="90.0" y="77.0"/>
+        <size width="142.0" height="35.0"/>
+      </element>
+      <element uuid="7268206b-49bc-415f-b12c-c8e883fc8fcb" manual="true" background="#ffffcc" primaryLabelVisible="false">
+        <element uuid="d35dc570-b683-4789-802f-da6af1309da0" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>R1_features</seg>
+          </bo>
+          <position y="60.0"/>
+        </element>
+        <element uuid="9280dd5c-77a7-47fd-9d3d-88f1900a7735" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>R2_features</seg>
+          </bo>
+          <position y="10.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>instancied_T1</seg>
+        </bo>
+        <position x="262.0" y="47.0"/>
+        <size width="309.0" height="110.0"/>
+      </element>
+      <element uuid="f7b674fa-9c58-4719-887a-67693965f0cd" manual="true" background="#ffffcc" primaryLabelVisible="false">
+        <element uuid="fbcfaaea-656b-461f-a5c7-3ad22da6a9f7" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>R1_features</seg>
+          </bo>
+          <position y="60.0"/>
+        </element>
+        <element uuid="5a755427-1cf1-4a24-9554-6723d98950b3" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>R2_features</seg>
+          </bo>
+          <position y="10.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>instancied_T2</seg>
+        </bo>
+        <position x="262.0" y="177.0"/>
+        <size width="309.0" height="110.0"/>
+      </element>
+      <element uuid="43a19d64-0c02-4b7c-8464-8a7e098f3e35" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>sc_type</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>instancied_ea1</seg>
+      </bo>
+      <position x="40.0" y="80.0"/>
+      <size width="690.0" height="360.0"/>
+    </element>
+    <element uuid="69eba47a-4e22-466e-9d04-619508f99bc0" manual="true">
+      <element uuid="dd5db947-8e78-4369-ae6a-25450b817c2a" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>part1mem</seg>
+        </bo>
+        <position x="20.0" y="40.0"/>
+        <size width="117.0" height="35.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>mem</seg>
+      </bo>
+      <position x="860.0" y="320.0"/>
+      <size width="160.0" height="90.0"/>
+    </element>
+    <bo>
+      <seg>classifier</seg>
+      <seg>Sys.impl</seg>
+    </bo>
+    <position x="60.0" y="90.0"/>
+    <size width="1080.0" height="510.0"/>
+  </element>
+  <config type="structure" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties>
+      <property>deployment_properties::actual_memory_binding</property>
+      <property>deployment_properties::actual_processor_binding</property>
+    </enabledAadlProperties>
+    <context>
+      <seg>classifier</seg>
+      <seg>IO_test::Sys.impl</seg>
+    </context>
+  </config>
+</diagram:Diagram>

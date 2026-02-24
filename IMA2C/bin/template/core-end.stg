@@ -1,0 +1,76 @@
+end(end) ::= <<
+	    \<System_HM_Table>
+	      \<System_State_Entry SystemState="1" Description="Module Init">
+	        \<Error_ID_Level ErrorIdentifier="1" Description="Configuration Error" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="2" Description="Module Config Error" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="5" Description="segmentation error" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="6" Description="time duration exceeded" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="7" Description="invalid OS call" ErrorLevel="MODULE"/>
+	      \</System_State_Entry>
+	      \<System_State_Entry SystemState="2" Description="System Function Execution">
+	        \<Error_ID_Level ErrorIdentifier="5" Description="Segmentation Violation" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="6" Description="time duration exceeded" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="7" Description="invalid OS call" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="8" Description="divide by 0" ErrorLevel="MODULE"/>
+	        \<Error_ID_Level ErrorIdentifier="9" Description="floating point error" ErrorLevel="MODULE"/>
+	      \</System_State_Entry>
+	      \<System_State_Entry SystemState="3" Description="Partition Init">
+	        \<Error_ID_Level ErrorIdentifier="3" Description="partition config error" ErrorLevel="PARTITION"/>
+	        \<Error_ID_Level ErrorIdentifier="4" Description="partition init error" ErrorLevel="PARTITION"/>
+	        \<Error_ID_Level ErrorIdentifier="5" Description="segmenation violation" ErrorLevel="PARTITION"/>
+	        \<Error_ID_Level ErrorIdentifier="6" Description="time duration exceeded" ErrorLevel="PARTITION"/>
+	        \<Error_ID_Level ErrorIdentifier="7" Description="invalid OS call" ErrorLevel="PARTITION"/>
+	      \</System_State_Entry>
+	    \</System_HM_Table>
+	    \<Module_HM_Table ModuleCallback="module_HM_callback">
+	      \<System_State_Entry SystemState="1" Description="module init">
+	        \<Error_ID_Action ErrorIdentifier="1" Action="SHUTDOWN"/>
+	        \<Error_ID_Action ErrorIdentifier="2" Action="SHUTDOWN"/>
+	        \<Error_ID_Action ErrorIdentifier="5" Action="SHUTDOWN"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Action="IGNORE"/>
+	      \</System_State_Entry>
+	      \<System_State_Entry SystemState="2" Description="system function execution">
+	        \<Error_ID_Action ErrorIdentifier="5" Action="SHUTDOWN"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="8" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="9" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="10" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="12" Action="RESET"/>
+	      \</System_State_Entry>
+	    \</Module_HM_Table>
+	    \<Partition_HM_Table PartitionIdentifier="1" PartitionName="ps1" PartitionCallback="partition_HM_callback">
+	      \<System_State_Entry SystemState="1" Description="partition init">
+	        \<Error_ID_Action ErrorIdentifier="3" Description="partition config error" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="4" Description="partition init error" Action="COLD_START"/>
+	        \<Error_ID_Action ErrorIdentifier="5" Description="segmentation error" Action="COLD_START"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Description="invalid OS call" Action="IGNORE"/>
+	      \</System_State_Entry>
+	      \<System_State_Entry SystemState="2" Description="partition error handler">
+	        \<Error_ID_Action ErrorIdentifier="5" Description="segmentation error" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Description="invalid OS call" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="8" Description="divide by 0" Action="WARM_START"/>
+	        \<Error_ID_Action ErrorIdentifier="9" Description="overflow" Action="WARM_START"/>
+	      \</System_State_Entry>
+	    \</Partition_HM_Table>
+	    \<Partition_HM_Table PartitionIdentifier="2" PartitionName="ps2" PartitionCallback="partition_HM_callback">
+	      \<System_State_Entry SystemState="1" Description="partition init">
+	        \<Error_ID_Action ErrorIdentifier="3" Description="partition config error" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="4" Description="partition init error" Action="COLD_START"/>
+	        \<Error_ID_Action ErrorIdentifier="5" Description="segmentation error" Action="COLD_START"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Description="invalid OS call" Action="IGNORE"/>
+	      \</System_State_Entry>
+	      \<System_State_Entry SystemState="2" Description="partition error handler">
+	        \<Error_ID_Action ErrorIdentifier="5" Description="segmentation error" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+	        \<Error_ID_Action ErrorIdentifier="7" Description="invalid OS call" Action="IDLE"/>
+	        \<Error_ID_Action ErrorIdentifier="8" Description="divide by 0" Action="WARM_START"/>
+	        \<Error_ID_Action ErrorIdentifier="9" Description="overflow" Action="WARM_START"/>
+	      \</System_State_Entry>
+	    \</Partition_HM_Table>
+\</ARINC_653_Module>
+>>

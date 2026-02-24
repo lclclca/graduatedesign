@@ -1,0 +1,116 @@
+package DIMA_models
+public
+	with DIMA_partitions;
+	with DIMA_Memory;
+	with DIMA_Processor;
+	with FC;
+	with ARINC653;
+	with Base_Types;
+	with DIMA_Memory;
+	
+	--
+	system arincsystem
+	end arincsystem;
+
+	system implementation arincsystem.impl
+		subcomponents
+			mem: memory DIMA_Memory::main_memory.impl;
+			cpu: processor DIMA_Processor::powerpc.impl;
+			P1:process DIMA_partitions::P1.impl;
+			P2:process DIMA_partitions::P2.impl;
+			P3:process DIMA_partitions::P3.impl;
+			P4:process DIMA_partitions::P4.impl;
+			P5:process DIMA_partitions::P5.impl;
+	end arincsystem.impl;
+	
+	system M1 extends FC::End_System
+		features
+			v1_out: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+	end M1;
+
+	system implementation M1.impl
+		subcomponents
+			net1: device FC::NetworkTerminal.impl;
+			cpu1: processor DIMA_Processor::arinckernel.module1;
+			mem1: memory DIMA_Memory::mainmemory.module1;
+			ps1: process DIMA_partitions::P1.impl;
+			ps2: process DIMA_partitions::P2.impl;
+		connections
+			msg1_snd: port ps1.pr1samplingout -> ps2.pr2samplingin;
+			msg2_snd: port ps2.pr2queueingout -> ps1.pr1queueingin;
+			M1_impl_new_connection: bus access FC -> net1.thebus;
+		properties
+			Actual_Processor_Binding => (reference (cpu1.part1)) applies to ps1;
+			Actual_Processor_Binding => (reference (cpu1.part2)) applies to ps2;
+			--Allowed_Processor_Binding => (reference (cpu1.part3)) applies to net1;
+			Actual_Memory_Binding => (reference (mem1.mem1)) applies to ps1;
+			Actual_Memory_Binding => (reference (mem1.mem2)) applies to ps2;
+			--Allowed_Memory_Binding => (reference (mem1.mem3)) applies to net1;
+	end M1.impl;
+
+	
+
+
+
+	system M2 extends FC::End_System
+		features
+			v1_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			v4_out: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			v3_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end M2;
+
+	system implementation M2.impl
+		subcomponents
+			net2: device FC::NetworkTerminal.impl;
+			cpu2: processor DIMA_Processor::arinckernel.module2;
+			mem2: memory DIMA_Memory::mainmemory.module2;
+			ps3: process DIMA_partitions::P3.impl;
+			ps5: process DIMA_partitions::P5.impl;
+		connections
+			M2_impl_new_connection: port v1_in -> ps3.order_in;
+			M2_impl_new_connection2: port v1_in -> ps5.order_in;
+			M2_impl_new_connection3: port v3_in -> ps3.queueingin;
+			M2_impl_new_connection4: port ps5.queueingout -> v4_out;
+			M2_impl_new_connection5: bus access FC -> net2.thebus;
+		properties
+			Actual_Processor_Binding => (reference (cpu2.part1)) applies to ps3;
+			Actual_Processor_Binding => (reference (cpu2.part2)) applies to ps5;
+			--Actual_Processor_Binding => (reference (cpu2.part3)) applies to net2;
+			Actual_Memory_Binding => (reference (mem2.mem1)) applies to ps3;
+			Actual_Memory_Binding => (reference (mem2.mem2)) applies to ps5;
+			--Actual_Memory_Binding => (reference (mem2.mem3)) applies to net2;
+	end M2.impl;
+	
+	system M3 extends FC::End_System
+		features
+			V1_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			V4_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			V3_out: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end M3;
+
+	system implementation M3.impl
+		subcomponents
+			net3: device FC::NetworkTerminal.impl;
+			cpu3: processor DIMA_Processor::arinckernel.module3;
+			mem3: memory DIMA_Memory::mainmemory.module3;
+			ps4: process DIMA_partitions::P4.impl;
+		connections
+			msg1: port ps4.queueingout -> V3_out;
+			msg3: port V4_in -> ps4.queueingin;
+			msg4: port V1_in -> ps4.order_in;
+			M3_impl_new_connection: bus access FC -> net3.thebus;
+		properties
+			Actual_Processor_Binding => (reference (cpu3.part1)) applies to ps4;
+			Actual_Processor_Binding => (reference (cpu3.part2)) applies to net3;
+			Actual_Memory_Binding => (reference (mem3.mem1)) applies to ps4;
+			Actual_Memory_Binding => (reference (mem3.mem2)) applies to net3;
+	end M3.impl;
+	
+	
+end DIMA_models;

@@ -1,0 +1,184 @@
+package nuaa.GUI;
+
+
+import org.jb2011.lnf.beautyeye.ch12_progress.BEProgressBarUI;
+import org.jb2011.lnf.beautyeye.ch3_button.BEButtonUI;
+import org.jb2011.lnf.beautyeye.ch4_scroll.BEScrollBarUI;
+import org.jb2011.lnf.beautyeye.ch5_table.BETableUI;
+import org.osate.aadl2.instance.impl.SystemInstanceImpl;
+
+import nuaa.aadlparser.Core;
+import nuaa.aadlparser.Threads;
+import nuaa.solver.GetOutput;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.util.HashMap;
+
+
+public class AllResult extends JPanel {
+    //service接口
+
+    //表头（列名）
+//    private Object[] columnNames = {"", "核心一", "核心二", "核心三","内存路径一","内存路径二"};
+    //列表内容
+    private Object[][] rowData=new Object[30][6];
+    //分页
+
+
+    public void getData(){
+
+    }
+    private class Progress extends Thread
+    {
+        JProgressBar progressBar;
+        JButton button;
+        //进度条上的数字
+        int[] progressValues={6,18,27,39,51,66,81,100};
+        Progress(JProgressBar progressBar,JButton button)
+        {
+            this.progressBar=progressBar;
+            this.button=button;
+        }
+        public void run()
+        {
+            for(int i=0;i<progressValues.length;i++)
+            {
+                try
+                {
+                    Thread.sleep(800);
+                }
+                catch(InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+                //设置进度条的值
+                progressBar.setValue(progressValues[i]);
+            }
+            progressBar.setIndeterminate(false);
+            progressBar.setString("求解完成！");
+            button.setEnabled(true);
+        }
+    }
+
+
+
+    public AllResult(SystemInstanceImpl SystemInstanceImpl) {
+    	
+    	Core core=new Core();
+    	String[] core=pro.coreArray(SystemInstanceImpl);
+    	int coreNum=core.coreNum();
+    	Threads task=new Threads();
+    	int taskNum=task.threadNum();
+    	String[] columnNames=new String[coreNum+1];
+    	columnNames[0]="";
+    	HashMap<Integer,String> map=new HashMap<>();
+    	map.put(1, "一");
+    	map.put(2, "二");
+    	map.put(3, "三");
+    	map.put(4, "四");
+    	map.put(5, "五");
+    	map.put(6, "六");
+    	map.put(7, "七");
+    	for(int i=1;i<=coreNum;i++) {
+    		columnNames[i]="核心"+map.get(i);
+    		System.out.println(columnNames[i]);
+    	}
+//    	Object[][] rowData=new Object[taskNum][coreNum+1];
+    	
+    	
+    	
+        setLayout(new BorderLayout());
+        setBackground(Color.GRAY);
+        /**
+         * banner
+         */
+        JPanel titleJpanel=new JPanel(new BorderLayout());
+        titleJpanel.setBorder(BorderFactory.createEtchedBorder());
+        //进度条
+        JProgressBar progressBar=new JProgressBar();
+        progressBar.setStringPainted(true);
+        progressBar.setUI(new BEProgressBarUI());
+        JButton done=new JButton("完成");
+        done.setEnabled(false);
+
+        done.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.normal));
+
+        titleJpanel.add(progressBar,BorderLayout.CENTER);
+        titleJpanel.add(done,BorderLayout.EAST);
+        add(titleJpanel,BorderLayout.NORTH);
+
+        JPanel allResult=new JPanel(new BorderLayout());
+
+
+        //表格
+
+        JTable table=new JTable(rowData,columnNames);
+        table.setBorder(BorderFactory.createEtchedBorder());
+
+        table.setEnabled(false);//设置表格不可编辑
+        table.getTableHeader().setReorderingAllowed(false);
+        table.setUI(new BETableUI());
+
+        AllTableCellRenderer renderer=new AllTableCellRenderer();//进行渲染
+
+        if (rowData.length>0){//判断是否有值
+            for (int i=0;i<columnNames.length;i++){
+                TableColumn tableColumn=table.getColumn(columnNames[i]);
+                tableColumn.setCellRenderer(renderer);
+            }
+        }
+
+        JScrollPane sp = new JScrollPane(table);
+        sp.getVerticalScrollBar().setUI(new BEScrollBarUI());
+
+        done.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GetOutput getoutput=new GetOutput();
+                String[][] heros=getoutput.taskall(SystemInstanceImpl);
+//                getData();
+                //创建一个TableModel对象，并传入表头和表内容
+                TableModel tableModel=new DefaultTableModel(heros,columnNames);
+//				将TableModel对象传入Table表格
+                table.setModel(tableModel);
+
+                AllTableCellRenderer renderer=new AllTableCellRenderer();//进行渲染
+                if (rowData.length>0){//判断是否有值
+                    for (int i=0;i<columnNames.length;i++){
+                        TableColumn tableColumn=table.getColumn(columnNames[i]);
+                        tableColumn.setCellRenderer(renderer);
+                    }
+                }
+
+            }
+        });
+
+        //信息展示
+        JLabel label=new JLabel("表格中0表示任务未分配到相应核心或内存路径，1表示分配");
+
+        allResult.add(sp,BorderLayout.CENTER);
+        allResult.add(label,BorderLayout.SOUTH);
+
+
+        JPanel commit=new JPanel();
+        commit.setBorder(BorderFactory.createEtchedBorder());
+        JButton button=new JButton("求解分配问题");
+        button.setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
+        button.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                progressBar.setString("求解进行中...");
+                new Progress(progressBar,done).start();
+            }
+        });
+        commit.add(button);
+
+        add(allResult,BorderLayout.CENTER);
+        add(commit,BorderLayout.SOUTH);
+    }
+}

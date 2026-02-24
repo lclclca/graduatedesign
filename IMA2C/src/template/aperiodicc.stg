@@ -1,0 +1,63 @@
+import "outport.stg"
+import "inport.stg"
+
+activityHeader(partition)::= <<
+#include \<os/pos/apex/apexLib.h>
+#include \<stdio.h>
+#include \<stdlib.h>
+#include \<string.h>
+#include "activity.h"
+#include "gtypes.h"
+#include "deployment.h"
+#include "globals.h"
+#include "subprograms.h"
+
+#define SZ 1024
+
+>>
+
+activity(thread,inport,outport)::= <<
+<if(thread.is_Periodic)>
+/*  Periodic task : <thread.threadName>  */
+<endif>
+<if(thread.is_Sporadic)>
+/*  Sporadic task : <thread.threadName> */
+<endif>
+<thread.queueInfo:{queue|extern QUEUING_PORT_ID_TYPE <queue.id>;}; separator="\n">
+<thread.sampleInfo:{sample|extern SAMPLING_PORT_ID_TYPE <sample.id>;}; separator="\n">
+<thread.bufferInfo:{buffer|extern BUFFER_ID_TYPE <buffer.id>;}; separator="\n">
+<thread.blackboardInfo:{blackboard|extern BLACKBOARD_ID_TYPE <blackboard.id>;}; separator="\n">
+<thread.eventInfo:{event|extern EVENT_ID_TYPE <event.id>;}; separator="\n">
+<thread.semaphoreInfo:{semaphore|extern SEMAPHORE_ID_TYPE <semaphore.id>;}; separator="\n">
+void* <thread.threadName>_job (void)
+{
+
+  RETURN_CODE_TYPE ret;
+  <thread.queueInfo:{queue|char <queue.messageAddr>[SZ];};separator="\n">
+  <thread.sampleInfo:{sample|char <sample.messageAddr>[SZ];}; separator="\n">
+  <thread.bufferInfo:{buffer|char <buffer.messageAddr>[SZ];}; separator="\n">
+  <thread.blackboardInfo:{blackboard|char <blackboard.messageAddr>[SZ];}; separator="\n">
+  <thread.queueInfo:{queue|memset(<queue.messageAddr>, 0, 1024);};separator="\n">
+  <thread.sampleInfo:{sample|memset(<sample.messageAddr>, 0, 1024);}; separator="\n">
+  <thread.bufferInfo:{buffer|memset(<buffer.messageAddr>, 0, 1024);}; separator="\n">
+  <thread.blackboardInfo:{blackboard|memset(<blackboard.messageAddr>, 0, 1024);}; separator="\n">
+  <thread.queueInfo:{queue|<if(queue.direction)>MESSAGE_SIZE_TYPE <queue.length>;<endif>}; separator="\n">
+  <thread.sampleInfo:{sample|<if(sample.direction)>MESSAGE_SIZE_TYPE <sample.length>;<\n>VALIDITY_TYPE <sample.validityType>;<endif>}; separator="\n">
+  <thread.bufferInfo:{buffer|<if(buffer.direction)>MESSAGE_SIZE_TYPE <buffer.length>;<endif>}; separator="\n">
+  <thread.blackboardInfo:{blackboard|<if(blackboard.direction)>MESSAGE_SIZE_TYPE <blackboard.length>;<endif>}; separator="\n">
+  <if(thread.hasSubprogram)><thread.initializeEntrypoint.keys:{key|<thread.initializeEntrypoint.(key).methodName>();}; separator="\n"><endif>
+  <! //调用功能函数需要提前申明的参数 !>
+  <!<thread.threadCalls:{subprogram|<subprogram.threadVariables:{variable|<variable.keys:{key|<variable.(key)> <key>;}>}; separator="\n">}>!>
+  while (1)
+  {
+    /* Get the IN ports values */
+    <inport>
+    <if(thread.threadCalls)> /*  Call Subprograms */ <endif>
+    <!<thread.threadCalls:{subprogram|<subprogram.methodName>(<subprogram.threadParameters:{parameter|<parameter.keys:{key|<key>}> }; separator=",">)}> !>
+    <thread.threadCalls:{subprogram|<subprogram.methodName>(<subprogram.threadVariables:{parameter|<parameter>}; separator=",">)}>
+    /* Send the OUT ports values */
+    <outport>
+  }  
+}
+>>
+

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;nuaa.solver.Partiton&apos; to &apos;Partition&apos;&#x0D;&#x0A;- Original project: &apos;MyPlugin&apos;&#x0D;&#x0A;- Original element: &apos;nuaa.solver.Partiton&apos;&#x0D;&#x0A;- Renamed element: &apos;nuaa.solver.Partition&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Partiton&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;nuaa.solver{Partiton.java[Partiton" matchStrategy="1" name="Partition" qualified="false" references="true" similarDeclarations="false" stamp="1667531191425" textual="false" version="1.0"/>
+</session>

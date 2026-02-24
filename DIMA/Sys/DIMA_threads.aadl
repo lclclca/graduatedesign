@@ -1,0 +1,432 @@
+package DIMA_threads
+public
+	
+	with CH_Properties;
+	with ARINC653;
+	with Base_Types;
+	with DIMA_datatype;
+	with subprograms;
+	
+	thread Tsk11
+		features
+			--分区间采样通信
+			task1sampling: out data port Base_Types::Integer;
+			
+			--分区内 BLACKBOARD with task2
+			task1_acc1_out: out data port Base_Types::Integer;
+			task1_acc2_out: out data port Base_Types::Integer;
+			--分区内 Buffer with task2
+			task1_sensor_in: in event data port Base_Types::Integer;
+	end Tsk11;
+
+	thread implementation Tsk11.impl
+		calls
+			Mycalls: {
+				receive_spg: subprogram subprograms::commandboard_receiveinput_spg;
+				print_spg: subprogram subprograms::commandboard_printinfos_spg;
+			};
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 25ms;
+			Period => 25ms;
+			CH_Properties::Dispatch_Absolute_Time => 2ms;
+			CH_Properties::Execution_Time => 1.3ms;
+			Priority => 2;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 25ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk11.impl;
+
+	thread Tsk12
+		features
+			--分区内 BLACKBOARD with task1
+			task2_acc1_in: in data port Base_Types::Integer;
+			task2_acc2_in: in data port Base_Types::Integer;
+			--分区内 Buffer with task1
+			task2_sensor_out: out event data port Base_Types::Integer;
+			-- 分区内 BlackBoard with task3
+			-- 写消息
+			task2_printer: requires data access DIMA_datatype::protected_data {ARINC653::Queueing_Discipline => FIFO;
+				Access_Right => write_only;
+			};
+
+	end Tsk12;
+
+	thread implementation Tsk12.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 3ms;
+			CH_Properties::Execution_Time => 0.4ms;
+			Priority => 3;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk12.impl;
+
+	thread Tsk13
+		features
+			-- with task2 BlackBoard
+			-- 读消息
+			task3_receiver: requires data access DIMA_datatype::protected_data {ARINC653::Queueing_Discipline => FIFO;
+				Access_Right => read_only;
+			};
+			-- with task4 Buffer
+			task3_buffer_send: out event data port Base_Types::Integer;
+			task3_buffer_receive: in event data port Base_Types::Integer;
+			-- with task4 BlackBoard
+			task3_blackboard_read: in event data port Base_Types::Integer;
+			task3_blackboard_write: out event data port Base_Types::Integer;
+	end Tsk13;
+
+	thread implementation Tsk13.impl
+		calls
+			Mycalls: {
+				receive_spg: subprogram subprograms::commandboard_receiveinput_spg;
+				
+			};
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 3ms;
+			CH_Properties::Execution_Time => 4.2ms;
+			Priority => 4;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk13.impl;
+
+	thread Tsk14
+		features
+			-- with task3 Buffer
+			task4_buffer_send: out event data port Base_Types::Integer;
+			task4_buffer_receive: in event data port Base_Types::Integer;
+			-- with task3 BlackBoard
+			task4_blackboard_read: in event data port Base_Types::Integer;
+			task4_blackboard_write: out event data port Base_Types::Integer;
+			--分区间队列通信
+			task4Queuing: in event data port Base_Types::Integer;
+
+	end Tsk14;
+
+	thread implementation Tsk14.impl
+		calls
+			Mycalls: {
+				calculate_spg: subprogram subprograms::calculate_spg;
+			};
+		connections
+			C1: parameter task4_blackboard_read -> calculate_spg.data_in;
+			C2: parameter calculate_spg.data_out -> task4_blackboard_write;
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 0.2ms;
+			Priority => 5;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk14.impl;
+	
+	
+	thread Tsk21
+		features
+			task21sampling : in data port Base_Types::Integer;
+			--分区内 BLACKBOARD with task2
+			task1_acc3_out: out data port Base_Types::Integer;
+			--分区内 Buffer with task2
+			task1_order_in: in event data port Base_Types::Integer;
+	end Tsk21;
+
+	thread implementation Tsk21.impl
+		calls
+			Mycalls: {
+				receive_spg: subprogram subprograms::commandboard_receiveinput_spg;
+				print_spg: subprogram subprograms::commandboard_printinfos_spg;
+			};
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 3.0ms;
+			Priority => 2;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk21.impl;
+
+	thread Tsk22
+		features
+			--分区内 BLACKBOARD with task1
+			task2_acc3_in: in data port Base_Types::Integer;
+			--分区内 Buffer with task1
+			task2_order_out: out event data port Base_Types::Integer;
+			-- 分区内 BlackBoard with task2
+			-- with task2 Buffer
+			task2_buffer_send: out event data port Base_Types::Integer;
+			task2_buffer_receive: in event data port Base_Types::Integer;
+			-- with task2 BlackBoard
+			task2_blackboard_read: in event data port Base_Types::Integer;
+			task2_blackboard_write: out event data port Base_Types::Integer;
+	end Tsk22;
+
+	thread implementation Tsk22.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 2ms;
+			CH_Properties::Execution_Time => 0.2ms;
+			Priority => 3;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms;
+			ARINC653::Deadline_Type => soft;
+	end Tsk22.impl;
+
+	thread Tsk23
+		features
+		-- with task3 Buffer
+			task3_buffer_send: out event data port Base_Types::Integer;
+			task3_buffer_receive: in event data port Base_Types::Integer;
+			-- with task3 BlackBoard
+			task3_blackboard_read: in event data port Base_Types::Integer;
+			task3_blackboard_write: out event data port Base_Types::Integer;
+			--分区间队列通信
+			task3Queuing: out event data port Base_Types::Integer;
+	end Tsk23;
+
+	thread implementation Tsk23.impl
+		calls
+			Mycalls: {
+				receive_spg: subprogram subprograms::commandboard_receiveinput_spg;
+				print_spg: subprogram subprograms::commandboard_printinfos_spg;
+			};
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 10ms;
+			Period => 100ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 0.2ms;
+			Priority => 4;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk23.impl;
+	
+	
+	thread Tsk31
+		features
+			msg1_in: in event data port Base_Types::Integer;
+
+	end Tsk31;
+
+	thread implementation Tsk31.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 25ms;
+			Period => 25ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 0.8ms;
+			Priority => 2;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk31.impl;
+		
+	thread Tsk32
+		features
+			msg2_in: in event data port Base_Types::Integer;
+
+	end Tsk32;
+
+	thread implementation Tsk32.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 1.1ms;
+			Priority => 3;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk32.impl;
+
+	thread Tsk33
+		features
+			msg3_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end Tsk33;
+
+	thread implementation Tsk33.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 1.6ms;
+			Priority => 4;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk33.impl;
+	
+	thread Tsk41
+
+	end Tsk41;
+
+	thread implementation Tsk41.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 25ms;
+			Period => 25ms;
+			CH_Properties::Dispatch_Absolute_Time => 3ms;
+			CH_Properties::Execution_Time => 1.2ms;
+			Priority => 2;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk41.impl;
+
+	thread Tsk42
+		features
+			msg1_in: in event data port Base_Types::Integer;
+			msg3_out: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end Tsk42;
+
+	thread implementation Tsk42.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 5ms;
+			CH_Properties::Execution_Time => 1.9ms;
+			Priority => 3;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk42.impl;
+
+	thread Tsk43
+		features
+			msg4_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end Tsk43;
+
+	thread implementation Tsk43.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 25ms;
+			CH_Properties::Execution_Time => 0.2ms;
+			Priority => 4;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk43.impl;
+
+	thread Tsk44
+
+	end Tsk44;
+
+	thread implementation Tsk44.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 100ms;
+			Period => 100ms;
+			CH_Properties::Dispatch_Absolute_Time => 11ms;
+			CH_Properties::Execution_Time => 1.1ms;
+			Priority => 5;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk44.impl;
+
+	thread Tsk45
+
+	end Tsk45;
+
+	thread implementation Tsk45.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 200ms;
+			Period => 200ms;
+			CH_Properties::Dispatch_Absolute_Time => 13ms;
+			CH_Properties::Execution_Time => 5.8ms;
+			Priority => 6;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk45.impl;
+	
+	thread Tsk51
+		features
+			msg1_in: in event data port Base_Types::Integer;
+
+	end Tsk51;
+
+	thread implementation Tsk51.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 1.1ms;
+			Priority => 1;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk51.impl;
+
+	thread Tsk52
+		features
+			msg2_in: in event data port Base_Types::Integer;
+			msg4_out: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end Tsk52;
+
+	thread implementation Tsk52.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 50ms;
+			Period => 50ms;
+			CH_Properties::Dispatch_Absolute_Time => 2ms;
+			CH_Properties::Execution_Time => 1.9ms;
+			Priority => 2;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk52.impl;
+
+	thread Tsk53
+
+	end Tsk53;
+
+	thread implementation Tsk53.impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Deadline => 200ms;
+			Period => 200ms;
+			CH_Properties::Dispatch_Absolute_Time => 0ms;
+			CH_Properties::Execution_Time => 0.6ms;
+			Priority => 3;
+			Stack_Size => 8Kbyte;
+			ARINC653::Time_Capacity => 50ms; 
+			ARINC653::Deadline_Type => soft;
+	end Tsk53.impl;
+	
+end DIMA_threads;

@@ -1,0 +1,2189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+/* Time */
+const int[0, 200000] MaxTime = 200000;
+typedef int[0, MaxTime] time_t;
+
+const int INFINITY = 0;    // Infinite time constant
+const int INVAL = 0;    // Invalid time constant
+
+const time_t MajorFrame = 25000;
+
+clock t;    // Global clock
+int bandwidth = 2; //Bandwidth in GB
+bool error = false;
+
+/* Resource */
+const int Resources = 28;                 // Number of resources
+typedef int[0,Resources - 1] rid_t;
+
+const int RQs = 7;    // Number of RQ
+const int MUXs = 3;    // Number of MUX
+const int MSGs = 4;    // Number of MSG
+const int PORTs = 11;    // Number of PORT
+const int SWITCHPORTs = 4;    // Number of switch output ports
+const int VLs = 4;    // Number of virtual links
+
+// Resource constants
+const rid_t NONE = 0;
+// CPU resource
+const rid_t CPU = 0;
+const rid_t CPU1 = CPU;
+const rid_t CPU2 = CPU + 1;
+const rid_t CPU3 = CPU + 2;
+// RQ resource
+const rid_t CPU_RQ = CPUs;
+const rid_t CPU1_Q1_1 = CPU_RQ;
+const rid_t CPU1_Q1_2 = CPU_RQ + 1;
+const rid_t CPU1_Q2_1 = CPU_RQ + 2;
+const rid_t CPU1_Q2_2 = CPU_RQ + 3;
+const rid_t CPU2_Q1 = CPU_RQ + 4;
+const rid_t CPU2_Q2 = CPU_RQ + 5;
+const rid_t CPU3_Q1 = CPU_RQ + 6;
+// Mutex resource
+const rid_t MUX = CPUs + RQs;
+const rid_t MUX1 = MUX;
+const rid_t MUX2 = MUX + 1;
+const rid_t MUX3 = MUX + 2;
+// Message resource
+const rid_t MSG = CPUs + RQs + MUXs;
+const rid_t MSG1 = MSG;
+const rid_t MSG2 = MSG + 1;
+const rid_t MSG3 = MSG + 2;
+const rid_t MSG4 = MSG + 3;
+// Port resource
+const rid_t PORT = CPUs + RQs + MUXs + MSGs;
+const rid_t PORT1_1Ss = PORT;
+const rid_t PORT2_2Ss = PORT + 1;
+const rid_t PORT3_1Ds = PORT + 2;
+const rid_t PORT3_2Ds = PORT + 3;
+const rid_t PORT3_3Dq = PORT + 4;
+const rid_t PORT4_1Ds = PORT + 5;
+const rid_t PORT4_3Sq = PORT + 6;
+const rid_t PORT4_4Dq = PORT + 7;
+const rid_t PORT5_1Ds = PORT + 8;
+const rid_t PORT5_2Ds = PORT + 9;
+const rid_t PORT5_4Sq = PORT + 10;
+
+/* Partition */
+typedef int[0, Partitions - 1] pid_t;
+
+// Constants of partition ID
+const pid_t P1 = 0;
+const pid_t P2 = 1;
+const pid_t P3 = 2;
+const pid_t P4 = 3;
+const pid_t P5 = 4;
+
+// Type of partition
+typedef struct {
+    rid_t cpu_id;
+    rid_t rq_id;
+    time_t period;
+    int wind_num;
+    int wind_idx;
+} partition_t;
+
+// Partition list
+const partition_t partition[Partitions] = {
+    {CPU1, CPU1_Q1_1, 25000, 1, 0},
+    {CPU1, CPU1_Q2_1, 25000, 1, 1},
+    {CPU2, CPU2_Q1, 25000, 1, 2},
+    {CPU3, CPU3_Q1, 25000, 1, 3},
+    {CPU2, CPU2_Q2, 25000, 1, 4}
+};
+
+// Type of partition window
+typedef struct {
+    time_t offset;
+    time_t duration;
+} partition_window_t;
+
+const int TotalWindowsNum = 5;    // Tatal number of partition windows within one major time frame
+const partition_window_t partition_windows[TotalWindowsNum] = {
+    // Partition 1
+    {0, 5000},
+    // Partition 2
+    {5000, 5000},
+    // Partition 3
+    {10000, 5000},
+    // Partition 4
+    {15000, 5000},
+    // Partition 5
+    {20000, 5000}
+};
+
+bool in_partition[pid_t];    // Flag set after entering current partition
+bool perror[pid_t];    // Error flags for each partition
+
+const int MaxLockLevel = MUXs;    // Maximal number of locks locked at the same time
+int[0, MaxLockLevel] lock_level[Partitions];    // Preemption is disabled with corresponding LOCK_LEVEL &gt;= 0
+
+/* Task */
+typedef int[0, Tasks - 1] tid_t;
+
+const int MaxTasks = 5;    // Maximal Number of tasks in a partition
+
+// Type code of task
+typedef int tsktype_t;
+const tsktype_t Periodic = 0;
+const tsktype_t Sporadic = 1;
+
+// Priority type of task
+const int MaxPrio = 0;
+const int MinPrio = 10;
+typedef int[MaxPrio, MinPrio] prio_t;
+
+// Command code of task operation
+typedef int cmd_t;    // Type of command code
+const cmd_t COMPUTE = 0;
+const cmd_t LOCK = 1;
+const cmd_t UNLOCK = 2;
+const cmd_t DELAY = 3;
+const cmd_t SEND = 4;
+const cmd_t RECEIVE = 5;
+const cmd_t END = 6;
+
+// Type of CPU cores
+const int CORES = 2;
+typedef int[0, CORES - 1] cid_t;
+const cid_t CORE_0 = 0;
+const cid_t CORE_1 = 1;
+
+// Type of task operation
+typedef struct {
+    cmd_t cmd;//???? Cmd ????????????????????????? {Compute, Lock, Unlock, Delay, Send,Receive, End} ??????????
+    rid_t res;//Res ?????????????????????????????????????????????????????????????????
+    time_t bcet;
+    time_t wcet;
+} operation_t;
+
+// Operation table
+const int OperationTableLength = 73;
+const operation_t op[OperationTableLength] = {
+    // Task11 (0-)
+    {COMPUTE, CPU, 1300, 1300},
+    {COMPUTE, CPU, 200, 200},
+    {END, NONE, 0, 0},
+    // Task12 (3-)
+    {COMPUTE, CPU, 400, 400},
+    {SEND, MSG1, 0, 0},
+    {END, NONE, 0, 0},
+    // Task13 (6-)
+    {COMPUTE, CPU, 4200, 4200},
+    {END, NONE, 0, 0},
+    // Task14 (8-)
+    {LOCK, MUX1, 0, 0},
+    {COMPUTE, CPU, 200, 200},
+    {UNLOCK, MUX1, 0, 0},
+    {END, NONE, 0, 0},
+    // Task15 (12-)
+    {COMPUTE, CPU, 100, 100},
+    {LOCK, MUX1, 0, 0},
+    {COMPUTE, CPU, 200, 200},
+    {UNLOCK, MUX1, 0, 0},
+    {END, NONE, 0, 0},
+    // Task21 (17-)
+    {COMPUTE, CPU, 3000, 3000},
+    {END, NONE, 0, 0},
+    // Task22 (19-)
+    {COMPUTE, CPU, 100, 100},
+    {SEND, MSG2, 0, 0},
+    {END, NONE, 0, 0},
+    // Task23 (22-)
+    {LOCK, MUX2, 0, 0},
+    {COMPUTE, CPU, 200, 200},
+    {UNLOCK, MUX2, 0, 0},
+    {END, NONE, 0, 0},
+    // Task24 (26-)
+    {COMPUTE, CPU, 1300, 1300},
+    {LOCK, MUX2, 0, 0},
+    {COMPUTE, CPU, 300, 300},
+    {UNLOCK, MUX2, 0, 0},
+    {END, NONE, 0, 0},
+    // Task31 (31-)
+    {RECEIVE, PORT3_1Ds, 0, 0},
+    {COMPUTE, CPU, 800, 800},
+    {END, NONE, 0, 0},
+    // Task32 (34-)
+    {RECEIVE, PORT3_2Ds, 0, 0},
+    {COMPUTE, CPU, 1100, 1100},
+    {END, NONE, 0, 0},
+    // Task33 (37-)
+    {RECEIVE, PORT3_3Dq, 0, 0},
+    {COMPUTE, CPU, 1600, 1600},
+    {END, NONE, 0, 0},
+    // Task34 (40-)
+    {COMPUTE, CPU, 1100, 1000},
+    {COMPUTE, CPU, 300, 300},
+    {END, NONE, 0, 0},
+    // Task41 (43-)
+    {COMPUTE, CPU, 1200, 1200},
+    {END, NONE, 0, 0},
+    // Task42 (45-)
+    {RECEIVE, PORT4_1Ds, 0, 0},
+    {COMPUTE, CPU, 1900, 1900},
+    {SEND, MSG3, 0, 0},
+    {END, NONE, 0, 0},
+    // Task43 (49-)
+    {RECEIVE, PORT4_4Dq, 0, 0},
+    {COMPUTE, CPU, 200, 200},
+    {END, NONE, 0, 0},
+    // Task44 (52-)
+    {COMPUTE, CPU, 1100, 1100},
+    {END, NONE, 0, 0},
+    // Task45 (54-)
+    {COMPUTE, CPU, 5800, 5800},
+    {END, NONE, 0, 0},
+    // Task51 (56-)
+    {RECEIVE, PORT5_1Ds, 0, 0},
+    {COMPUTE, CPU, 1100, 1100},
+    {END, NONE, 0, 0},
+    // Task52 (59-)
+    {RECEIVE, PORT5_2Ds, 0, 0},
+    {COMPUTE, CPU, 1900, 1900},
+    {SEND, MSG4, 0, 0},
+    {END, NONE, 0, 0},
+    //Task53 (63-)
+    {COMPUTE, CPU, 600, 600},
+    {LOCK, MUX3, 0, 0},
+    {COMPUTE, CPU, 300, 300},
+    {UNLOCK, MUX3, 0, 0},
+    {END, NONE, 0, 0},
+    //Task54 (68-)
+    {COMPUTE, CPU, 2200, 2200},
+    {LOCK, MUX3, 0, 0},
+    {COMPUTE, CPU, 200, 200},
+    {UNLOCK, MUX3, 0, 0},
+    {END, NONE, 0, 0}
+};
+
+// Type of task
+typedef struct {
+    tsktype_t type;
+    time_t initial_offset;
+    time_t min_period;
+    time_t max_period;
+    time_t offset;
+    time_t jitter;
+    time_t deadline;
+    pid_t pid;
+    int prio;
+    int pc_start;//operation???????
+    cid_t affinity;
+} task_t;
+
+// Task list
+const task_t task[Tasks] = {
+    // Task11
+    {Periodic, 0, 25000, 25000, 2000, 0, 25000, P1, 2, 0, CORE_0},
+    // Task12
+    {Periodic, 0, 50000, 50000, 3000, 0, 50000, P1, 3, 3, CORE_1},
+    // Task13
+    {Periodic, 0, 50000, 50000, 3000, 0, 50000, P1, 4, 6, CORE_0},
+    // Task14
+    {Periodic, 0, 50000, 50000, 0, 0, 50000, P1, 5, 8, CORE_1},
+    // Task15
+    {Sporadic, 0, 120000, INFINITY, 0, 0, 120000, P1, 6, 12, CORE_0},
+    // Task21
+    {Periodic, 0, 50000, 50000, 0, 500, 50000, P2, 2, 17, CORE_1},
+    // Task22
+    {Periodic, 0, 50000, 50000, 2000, 0, 50000, P2, 3, 19, CORE_0},
+    // Task23
+    {Periodic, 0, 100000, 100000, 0, 0, 100000, P2, 4, 22, CORE_1},
+    // Task24
+    {Sporadic, 0, 100000, INFINITY, 10000, 0, 100000, P2, 5, 26, CORE_0},
+    // Task31
+    {Periodic, 0, 25000, 25000, 0, 500, 25000, P3, 2, 31, CORE_0},
+    // Task32
+    {Periodic, 0, 50000, 50000, 0, 0, 50000, P3, 3, 34, CORE_0},
+    // Task33
+    {Periodic, 50000, 50000, 50000, 0, 0, 50000, P3, 4, 37, CORE_0},
+    // Task34
+    {Sporadic, 0, 100000, INFINITY, 11000, 0, 100000, P3, 5, 40, CORE_0},
+    // Task41
+    {Periodic, 0, 25000, 25000, 3000, 200, 25000, P4, 2, 43, CORE_0},
+    // Task42
+    {Periodic, 0, 50000, 50000, 5000, 0, 50000, P4, 3, 45, CORE_0},
+    // Task43
+    {Periodic, 0, 50000, 50000, 25000, 0, 50000, P4, 4, 49, CORE_0},
+    // Task44
+    {Periodic, 0, 100000, 100000, 11000, 0, 100000, P4, 5, 52, CORE_0},
+    // Task45
+    {Periodic, 0, 200000, 200000, 13000, 0, 200000, P4, 6, 54, CORE_0},
+    // Task51
+    {Periodic, 0, 50000, 50000, 0, 300, 50000, P5, 1, 56, CORE_0},
+    // Task52
+    {Periodic, 0, 50000, 50000, 2000, 0, 50000, P5, 2, 59, CORE_0},
+    //Task53
+    {Periodic, 0, 200000, 200000, 0, 0, 200000, P5, 3, 63, CORE_0},
+    //Task54
+    {Sporadic, 0, 200000, INFINITY, 14000, 0, 200000, P5, 4, 68, CORE_0}
+};
+
+// Type of task queue
+typedef struct {
+  int[0, MaxTasks + 1] len;
+  tid_t list[MaxTasks + 1];
+} queue_t;
+
+queue_t rq[CPUs + RQs + MUXs];    // Request queue of ready or blocked tasks
+
+typedef int[0, 1] policy_t;    // Scheduling policy
+const policy_t FIFO = 0;    // First in first out
+const policy_t FP = 1;    // Fixed priority
+
+// Resource status
+typedef struct {
+    int[0, 1] occupied;
+    tid_t owner;
+    int[0, MaxTasks] waiting;
+} resstat_t;
+resstat_t resstat[MUXs];
+
+// Highest priority of all tasks that may lock a MUX
+const prio_t Ceiling[MUXs] = {5, 4, 3};
+
+// Partition ID of MUXs
+const pid_t MuxPtn[MUXs] = {P1, P2, P5};
+
+// Current priority of tasks
+prio_t cprio[Tasks];
+
+/* Ports */
+// Type of port
+typedef int[0, 1] pmode_t;
+const pmode_t SAMPLING = 0;
+const pmode_t QUEUING = 1;
+typedef int[0, 1] dir_t;
+const dir_t SRC = 0;    //????
+const dir_t DEST = 1;   //?????
+typedef struct {
+    rid_t rid;
+    pmode_t mode;
+    dir_t dir;
+    int max_nb;
+    time_t refresh_rate;
+} port_t;
+
+// Port list
+const port_t port[PORTs] = {
+    // Port_1
+    {PORT1_1Ss, SAMPLING, SRC, 1, INVAL},
+    // PORT_2
+    {PORT2_2Ss, SAMPLING, SRC, 1, INVAL},
+    // PORT_3
+    {PORT3_1Ds, SAMPLING, DEST, 1, 50000},
+    // PORT_4
+    {PORT3_2Ds, SAMPLING, DEST, 1, 50000},
+    // PORT_5
+    {PORT3_3Dq, QUEUING, DEST, 1, INVAL},
+    // PORT_6
+    {PORT4_1Ds, SAMPLING, DEST, 1, 50000},
+    // PORT_7
+    {PORT4_3Sq, QUEUING, SRC, 1, INVAL},
+    // PORT_8
+    {PORT4_4Dq, QUEUING, DEST, 1, INVAL},
+    // PORT_9
+    {PORT5_1Ds, SAMPLING, DEST, 1, 50000},
+    // PORT_10
+    {PORT5_2Ds, SAMPLING, DEST, 1, 50000},
+    // PORT_11
+    {PORT5_4Sq, QUEUING, SRC, 1, INVAL}
+};
+
+typedef int[0, SWITCHPORTs - 1] swpid_t;    // Type of switch output ports' id
+typedef int[0, PORTs + SWITCHPORTs + ESs - 1] portid_t;
+// Const identifier of the ports
+const portid_t NUL = 0;
+const portid_t PORT_1 = 0;
+const portid_t PORT_2 = 1;
+const portid_t PORT_3 = 2;
+const portid_t PORT_4 = 3;
+const portid_t PORT_5 = 4;
+const portid_t PORT_6 = 5;
+const portid_t PORT_7 = 6;
+const portid_t PORT_8 = 7;
+const portid_t PORT_9 = 8;
+const portid_t PORT_10 = 9;
+const portid_t PORT_11 = 10;
+
+const portid_t SWITCHPORT_1 = 11;
+const portid_t SWITCHPORT_2 = 12;
+const portid_t SWITCHPORT_3 = 13;
+const portid_t SWITCHPORT_4 = 14;
+
+const portid_t ESPORT_1 = 15;
+const portid_t ESPORT_2 = 16;
+const portid_t ESPORT_3 = 17;
+
+// To indicate if a port is disabled in compositional analysis
+// Global analysis (full network structure) and Compositional analysis for partition 1&amp;2
+const bool port_disabled[PORTs + SWITCHPORTs] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+//Compositional analysis for partition 3
+//const bool port_disabled[PORTs + SWITCHPORTs] = {0,0,0,0,0,0,0,0,1,1,0,0,1,0,0};
+// Compositional analysis for partition 4
+//const bool port_disabled[PORTs + SWITCHPORTs] = {0,0,0,0,0,0,1,0,0,0,0,1,0,0,0};
+// Compositional analysis for partition 5
+//const bool port_disabled[PORTs + SWITCHPORTs] = {0,0,1,1,1,0,0,0,0,0,1,0,1,0,0};
+
+clock port_clock[PORTs];    // Clocks used to check for the refresh rate of sampling ports
+
+/* Virtual links and End systems*/
+// Type of virtual link ID
+typedef int[0, VLs - 1] vlid_t;
+
+const vlid_t NVL = 0;
+const vlid_t VL1 = 0;
+const vlid_t VL2 = 1;
+const vlid_t VL3 = 2;
+const vlid_t VL4 = 3;
+
+// Type of end system id
+typedef int[0, ESs - 1] esid_t;
+
+const esid_t ES1 = 0;
+const esid_t ES2 = 1;
+const esid_t ES3 = 2;
+
+// Type of the entry of forwarding table
+typedef struct {
+    portid_t src;    //????
+    portid_t dst;    //?????
+} ft_t;
+const int MaxFTSize = 6;
+
+// Type of virtual link
+typedef struct {
+    time_t TransferDelay;
+    esid_t es;
+    portid_t src;
+    int[0, MaxFTSize] ft_size;    // Size of forwarding table
+    ft_t ft[MaxFTSize];    // Forwarding table
+} vl_t;
+
+const vl_t vlink[VLs] = {
+    // VL 1
+    {16, ES1, PORT_1, 6, {
+        {ESPORT_1, SWITCHPORT_1},
+        {ESPORT_1, SWITCHPORT_2},
+        {SWITCHPORT_1, SWITCHPORT_3},
+        {SWITCHPORT_2, PORT_6},
+        {SWITCHPORT_3, PORT_3},
+        {SWITCHPORT_3, PORT_9}}
+    },
+    // VL 2
+    {80, ES1, PORT_2, 4, {
+        {ESPORT_1, SWITCHPORT_1},
+        {SWITCHPORT_1, SWITCHPORT_3},
+        {SWITCHPORT_3, PORT_4},
+        {SWITCHPORT_3, PORT_10},
+        {NUL, NUL},
+        {NUL, NUL}}
+    },
+    // VL 3
+    {40, ES3, PORT_7, 3, {
+        {ESPORT_3, SWITCHPORT_1},
+        {SWITCHPORT_1, SWITCHPORT_3},
+        {SWITCHPORT_3, PORT_5},
+        {NUL, NUL},
+        {NUL, NUL},
+        {NUL, NUL}}
+    },
+    // VL 4
+    {16, ES2, PORT_11, 3, {
+        {ESPORT_2, SWITCHPORT_4},
+        {SWITCHPORT_4, SWITCHPORT_2},
+        {SWITCHPORT_2, PORT_8},
+        {NUL, NUL},
+        {NUL, NUL},
+        {NUL, NUL}}
+    }
+};
+
+clock vl_clock[VLs];    // BAG timer of VLs
+bool vl_first[VLs];    // To indicate if the first frame of VLs is sent
+
+// Type of end systems
+typedef struct {
+    int tx_cnt;    //????vl????
+    vlid_t tx_vl[VLs];
+    int rx_cnt;    //????vl????
+    vlid_t rx_vl[VLs];
+} es_t;
+
+const es_t es[ESs] = {
+    // End system 1
+    {2, {VL1, VL2, NVL, NVL}, 0, {NVL, NVL, NVL, NVL}},
+    // End system 2
+    {1, {VL4, NVL, NVL, NVL}, 3, {VL1, VL2, VL3, NVL}},
+    // End system 3
+    {1, {VL3, NVL, NVL, NVL}, 2, {VL1, VL4, NVL, NVL}}
+};
+
+/* Message */
+//Type of message priority
+const int MSGPRIOs = 3;
+typedef int[0, MSGPRIOs] msgprio_t;
+const msgprio_t DATA = 1;
+const msgprio_t EVENT = 2;
+const msgprio_t URGENT = 3;
+
+// Type of message
+typedef struct {
+    rid_t rid;
+    time_t initial_offset;
+    time_t min_period;
+    time_t max_period;
+    time_t offset;
+    time_t jitter;
+    msgprio_t msgprio;
+    vlid_t vl;
+    int length;    //unit B
+    //time_t sendDelay;
+} msg_t;
+
+typedef int[0, MSGs - 1] msgid_t;    // Type of message id
+
+// Message list
+const msg_t msg[MSGs] = {
+    {MSG1, 0, 50000, 50000, 3199, 701, DATA, VL1, 153},
+    {MSG2, 5000, 50000, 50000, 2699, 901, EVENT, VL2, 953},
+    {MSG3, 15000, 50000, 50000, 26199, 701, URGENT, VL3, 453},
+    {MSG4, 20000, 50000, 50000, 3199, 701, DATA, VL4, 153}
+};
+
+const int MaxMsgs = 5;    // Upper bound of message buffer
+
+// Type of message buffer
+typedef int[0, MaxMsgs] msgbuf_t;
+
+// Message buffers
+msgbuf_t portbuf[PORTs];
+
+bool porterror[PORTs + SWITCHPORTs];    // Error state of ES and switch ports (Overflow or violation of refresh rates)
+
+bool msgErr = false;        // Error state of messages (Overflow or violation of refresh rates)
+
+// Switch output ports' buffer
+// Type of message queue
+typedef struct {
+  int[0, MaxMsgs] len;
+  msgid_t list[MaxMsgs];
+} msg_queue_t;
+
+msg_queue_t msgprioq[MSGPRIOs + 1];    //???????????????????????????
+msg_queue_t swq[SWITCHPORTs];    //  message queue of switches
+msg_queue_t esq[ESs];    //  message queue of ESs
+
+/* Channel */
+broadcast chan enter_partition[pid_t];
+broadcast chan exit_partition[pid_t];
+broadcast chan ready[tid_t];
+urgent broadcast chan sched[tid_t];
+urgent broadcast chan no_tasks;
+broadcast chan stop[tid_t];
+broadcast chan wakeup[rid_t];
+broadcast chan release[pid_t][tid_t];
+broadcast chan vl[vlid_t];
+broadcast chan pmsg[msgid_t];
+urgent broadcast chan frame;
+broadcast chan msgSched[vlid_t];
+broadcast chan msgStop[vlid_t];
+broadcast chan msgRelease[msgid_t];
+broadcast chan netCard[msgid_t];
+broadcast chan sched_msg[msgid_t];
+broadcast chan stop_msg[msgid_t];
+broadcast chan release_msg[msgid_t];
+
+/* Global functions */
+void _enque1(rid_t rid, tid_t tid, int start, policy_t policy){
+    if(policy == FIFO)
+        rq[rid].list[rq[rid].len++] = tid;
+    if(policy == FP){
+        tid_t tmp;
+        rq[rid].list[rq[rid].len++] = tid;
+        if (rq[rid].len &gt; 1){
+            int i = rq[rid].len - 1;
+            while(i &gt; start &amp;&amp; cprio[rq[rid].list[i]] &lt; cprio[rq[rid].list[i - 1]]){
+                tmp = rq[rid].list[i - 1];
+                rq[rid].list[i - 1] = rq[rid].list[i];
+                rq[rid].list[i] = tmp;
+                i--;
+            }
+        }
+    }
+}
+
+void _deque1(rid_t rid){
+    int[1, Tasks] i;
+
+    for(i = 1; i &lt; rq[rid].len; i++) {
+      rq[rid].list[i - 1] = rq[rid].list[i];
+    }
+
+    rq[rid].list[rq[rid].len - 1] = 0;
+    rq[rid].len--;
+}
+
+tid_t _front(rid_t rid){
+    return rq[rid].list[0];
+}
+
+void sortQueue(rid_t rid, int start) {
+    int[0, MaxTasks] i, j;
+    tid_t target;
+
+    for(i = start + 1; i &lt; rq[rid].len; i++) {
+        j = i;
+        target = rq[rid].list[i];
+        while(j &gt; start &amp;&amp; cprio[target] &lt; cprio[rq[rid].list[j -1]]) {
+            rq[rid].list[j] = rq[rid].list[j -1];
+            j--;
+        }
+        rq[rid].list[j] = target;
+    }
+}
+
+void _enque2(swpid_t sid, vlid_t vid){
+    if(swq[sid].len &lt; MaxMsgs)
+        swq[sid].list[swq[sid].len++] = vid;
+    else
+        msgErr = true;
+}
+
+void _deque2(swpid_t sid){
+    int[1, MaxMsgs] i;
+
+    for(i = 1; i &lt; swq[sid].len; i++) {
+      swq[sid].list[i - 1] = swq[sid].list[i];
+    }
+
+    swq[sid].list[swq[sid].len - 1] = NVL;
+    swq[sid].len--;
+}
+
+void _enque3(esid_t eid, vlid_t vid){
+    if(esq[eid].len &lt; MaxMsgs)
+        esq[eid].list[esq[eid].len++] = vid;
+    else
+        msgErr = true;
+}
+
+void _deque3(esid_t eid){
+    int[1, MaxMsgs] i;
+
+    for(i = 1; i &lt; esq[eid].len; i++) {
+      esq[eid].list[i - 1] = esq[eid].list[i];
+    }
+
+    esq[eid].list[esq[eid].len - 1] = NVL;
+    esq[eid].len--;
+}
+
+void _enque4(msgid_t msgid){
+    if(msgprioq[msg[msgid].msgprio].len &lt; MaxMsgs)
+        msgprioq[msg[msgid].msgprio].list[msgprioq[msg[msgid].msgprio].len++] = msgid;
+    else
+        msgErr = true;
+}
+
+void _deque4(msgid_t msgid){
+    int[1,MaxMsgs] i;
+
+    for(i = 1; i &lt; msgprioq[msg[msgid].msgprio].len; i++){
+        msgprioq[msg[msgid].msgprio].list[i - 1] = msgprioq[msg[msgid].msgprio].list[i];
+    }
+
+    msgprioq[msg[msgid].msgprio].list[msgprioq[msg[msgid].msgprio].len - 1] = 0;
+    msgprioq[msg[msgid].msgprio].len--;
+}
+
+int muxid(rid_t rid) { return (rid - MUX); }
+rid_t mux2rid(int[0, MUXs - 1] muxid) { return (muxid + MUX); }
+
+msgid_t msgid(rid_t rid) { return (rid - MSG); }
+bool _getMsgErr(msgid_t msgid) { return porterror[vlink[msg[msgid].vl].src]; }
+void _setMsgErr(msgid_t msgid) { porterror[vlink[msg[msgid].vl].src] = true; msgErr = true; }
+msgprio_t _getMsgPrio(msgid_t msgid) { return msg[msgid].msgprio; }    //update
+
+
+portid_t portid(rid_t rid) { return (rid - PORT); }
+portid_t txPort(msgid_t msgid) { return vlink[msg[msgid].vl].src; }
+
+bool _getPortErr(portid_t port) { return porterror[port]; }
+void _setPortErr(portid_t port) { porterror[port] = true; msgErr = true; }
+
+void setError(pid_t pid) { error = true; perror[pid] = true; }
+
+swpid_t swpid(portid_t portid) { return (portid - PORTs); }
+pmode_t _portMode(portid_t p) { return port[p].mode; }
+int pcapacity(portid_t p) { return port[p].max_nb; }
+time_t refreshRate(rid_t rid) { return port[portid(rid)].refresh_rate; }
+bool portDisabled(portid_t port) { return port_disabled[port]; }
+portid_t espid(esid_t eid) { return (eid + PORTs + SWITCHPORTs); }
+
+bool isSwitch(portid_t port) { return (port &gt;= PORTs &amp;&amp; port &lt; PORTs + SWITCHPORTs); }
+bool isTerminal(portid_t port) { return (port &lt; PORTs); }
+
+rid_t tskSmpRq(tid_t tid) { return (partition[task[tid].pid].rq_id + task[tid].affinity); }
+rid_t smpRqID(pid_t pid, cid_t cid) { return (partition[pid].rq_id + cid); }</declaration>
+	<template>
+		<name>PartitionScheduler</name>
+		<parameter>pid_t pid</parameter>
+		<declaration>clock x;
+
+int[0, TotalWindowsNum] wind;
+
+time_t windStart(int[0, TotalWindowsNum] win){    //????????????wind_num??????1
+    if(win &lt; partition[pid].wind_num)
+        return partition_windows[partition[pid].wind_idx + win].offset;
+    else
+        return MajorFrame + 1;
+}
+
+time_t windEnd(int[0, TotalWindowsNum - 1] win){
+    return partition_windows[partition[pid].wind_idx + win].offset
+                + partition_windows[partition[pid].wind_idx + win].duration;
+}
+</declaration>
+		<location id="id0" x="-255" y="-425">
+			<name x="-265" y="-459">Init</name>
+			<committed/>
+		</location>
+		<location id="id1" x="-255" y="-323">
+			<name x="-265" y="-357">OutOfPartition</name>
+			<label kind="invariant" x="-314" y="-306">x &lt;= windStart(wind)
+&amp;&amp; x &lt;= MajorFrame</label>
+		</location>
+		<location id="id2" x="59" y="-323">
+			<name x="49" y="-357">InPartition</name>
+			<label kind="invariant" x="76" y="-340">x &lt;= windEnd(wind)
+&amp;&amp; x &lt;= MajorFrame</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="guard" x="59" y="-425">x &gt;= MajorFrame</label>
+			<label kind="synchronisation" x="59" y="-408">exit_partition[pid]!</label>
+			<label kind="assignment" x="59" y="-391">in_partition[pid] = false,
+x = 0, wind = 0</label>
+			<nail x="59" y="-425"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-382" y="-340">x &gt;= MajorFrame</label>
+			<label kind="assignment" x="-382" y="-323">x = 0, wind = 0</label>
+			<nail x="-399" y="-323"/>
+			<nail x="-399" y="-425"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-161" y="-273">x &gt;= windEnd(wind)
+&amp;&amp; x &lt; MajorFrame</label>
+			<label kind="synchronisation" x="-161" y="-239">exit_partition[pid]!</label>
+			<label kind="assignment" x="-161" y="-222">in_partition[pid] = false, wind++</label>
+			<nail x="59" y="-222"/>
+			<nail x="-255" y="-222"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-161" y="-340">x &gt;= windStart(wind)</label>
+			<label kind="synchronisation" x="-161" y="-323">enter_partition[pid]!</label>
+			<label kind="assignment" x="-161" y="-306">in_partition[pid] = true</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-161" y="-408">x &gt;= windStart(wind)</label>
+			<label kind="synchronisation" x="-161" y="-391">enter_partition[pid]!</label>
+			<label kind="assignment" x="-161" y="-374">in_partition[pid] = true</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-297" y="-391">x &lt; windStart(wind)</label>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">TaskScheduler</name>
+		<parameter>pid_t pid</parameter>
+		<declaration>tid_t running;    // Running task
+
+void resetRunning() { running = 0; }
+
+void enque(tid_t tid){
+    _enque1(partition[pid].rq_id, tid, 0, FP);
+}
+
+void deque(){
+    _deque1(partition[pid].rq_id);
+}
+
+tid_t front(){
+    return _front(partition[pid].rq_id);
+}
+
+int[0, MaxTasks] rqLen() { return rq[partition[pid].rq_id].len; }
+
+pid_t partition(tid_t tid) { return task[tid].pid; }</declaration>
+		<location id="id3" x="-391" y="-476">
+			<name x="-450" y="-501">NoTask</name>
+		</location>
+		<location id="id4" x="306" y="-323">
+			<name x="296" y="-357">Release</name>
+			<committed/>
+		</location>
+		<location id="id5" x="-391" y="-153">
+			<name x="-476" y="-187">WaitPartition</name>
+		</location>
+		<location id="id6" x="-221" y="-153">
+			<committed/>
+		</location>
+		<location id="id7" x="-51" y="-323">
+			<name x="-61" y="-357">Preempt</name>
+			<committed/>
+		</location>
+		<location id="id8" x="144" y="-153">
+			<name x="136" y="-187">Occupied</name>
+		</location>
+		<location id="id9" x="144" y="-323">
+			<name x="134" y="-357">Schedule</name>
+			<committed/>
+		</location>
+		<location id="id10" x="144" y="-476">
+			<name x="134" y="-510">Idle</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="select" x="-391" y="-398">n:tid_t</label>
+			<label kind="guard" x="-391" y="-382">partition(n) == pid</label>
+			<label kind="synchronisation" x="-391" y="-365">ready[n]?</label>
+			<label kind="assignment" x="-391" y="-348">enque(n)</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-178" y="-493">enter_partition[pid]?</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-178" y="-442">exit_partition[pid]?</label>
+			<nail x="76" y="-425"/>
+			<nail x="-331" y="-425"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id10"/>
+			<label kind="guard" x="195" y="-493">rqLen() == 0</label>
+			<nail x="306" y="-476"/>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="select" x="-416" y="-127">n:tid_t</label>
+			<label kind="guard" x="-416" y="-110">partition(n) == pid</label>
+			<label kind="synchronisation" x="-416" y="-93">ready[n]?</label>
+			<label kind="assignment" x="-416" y="-76">enque(n)</label>
+			<nail x="-459" y="-59"/>
+			<nail x="-323" y="-59"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-348" y="-170">stop[running]!</label>
+			<label kind="assignment" x="-348" y="-153">resetRunning()</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="-179" y="-400">enter_partition[pid]?</label>
+			<nail x="-213" y="-383"/>
+			<nail x="76" y="-382"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-178" y="-76">exit_partition[pid]?</label>
+			<nail x="144" y="-59"/>
+			<nail x="-221" y="-59"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id9"/>
+			<label kind="guard" x="195" y="-340">rqLen() != 0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id4"/>
+			<label kind="select" x="195" y="-187">n: tid_t</label>
+			<label kind="synchronisation" x="195" y="-170">release[pid][n]?</label>
+			<label kind="assignment" x="195" y="-153">deque(),
+resetRunning()</label>
+			<nail x="306" y="-153"/>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<label kind="select" x="-8" y="-272">n:tid_t</label>
+			<label kind="guard" x="-8" y="-255">partition(n) == pid</label>
+			<label kind="synchronisation" x="-8" y="-238">ready[n]?</label>
+			<label kind="assignment" x="-8" y="-221">enque(n)</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="guard" x="-8" y="-170">running == front()</label>
+			<nail x="-51" y="-153"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id9"/>
+			<label kind="guard" x="-8" y="-340">running != front()</label>
+			<label kind="synchronisation" x="-8" y="-323">stop[running]!</label>
+			<label kind="assignment" x="-8" y="-306">resetRunning()</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="144" y="-255">sched[front()]!</label>
+			<label kind="assignment" x="144" y="-238">running = front()</label>
+		</transition>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id9"/>
+			<label kind="select" x="144" y="-451">n:tid_t</label>
+			<label kind="guard" x="144" y="-433">partition(n) == pid</label>
+			<label kind="synchronisation" x="144" y="-416">ready[n]?</label>
+			<label kind="assignment" x="144" y="-399">enque(n)</label>
+		</transition>
+	</template>
+	<template>
+		<name>PeriodicTask</name>
+		<parameter>tid_t tid</parameter>
+		<declaration>clock x, curTime, exeTime;
+
+int[0, OperationTableLength] pc;    // Program counter
+
+bool isPeriodic() { return task[tid].type == Periodic; }
+bool isSporadic() { return task[tid].type == Sporadic; }
+pid_t pid() { return task[tid].pid; }
+time_t initialOffset() { return task[tid].initial_offset; }
+time_t minPeriod() { return task[tid].min_period; }
+time_t maxPeriod() { return task[tid].max_period; }
+time_t offset() { return task[tid].offset; }
+time_t jitter() { return task[tid].jitter; }
+time_t deadline() { return task[tid].deadline; }
+prio_t defPrio() { return task[tid].prio; }
+int pcStart() { return task[tid].pc_start; }
+//rid_t cpuID() { return partition[pid()].cpu_id; }
+//rid_t rqID() { return tskSmpRq(tid); }
+time_t pprd() { return partition[pid()].period; }
+
+void enque(rid_t rid, tid_t id, int start, policy_t policy){
+    _enque1(rid, id, start, policy);
+}
+
+void deque(rid_t rid){
+    _deque1(rid);
+}
+
+tid_t front(rid_t rid){
+    return _front(rid);
+}
+
+bool avail(rid_t rid) { return resstat[muxid(rid)].occupied == 0; }
+
+void lock(rid_t rid) {
+    resstat[muxid(rid)].occupied = 1;
+    resstat[muxid(rid)].owner = tid;
+
+    // Raise priority
+    if(Ceiling[muxid(rid)] &lt; cprio[tid])
+        cprio[tid] = Ceiling[muxid(rid)];
+}
+
+void unlock(rid_t rid) {
+    resstat[muxid(rid)].occupied = 0;
+    resstat[muxid(rid)].owner = 0;
+
+    // Restore priority
+    cprio[tid] = defPrio();
+}
+
+void wait(rid_t rid) {
+    //Add to waiting queue
+    resstat[muxid(rid)].waiting++;
+    enque(rid, tid, 0, FP);
+}
+
+void signal(rid_t rid) {
+    // The first task blocked on rid are resumed
+    if(resstat[muxid(rid)].waiting &gt; 0) {
+        //enque(rqID(), front(rid), 1, FP);
+        deque(rid);
+        resstat[muxid(rid)].waiting--;
+    }
+}
+
+bool isWaken(rid_t rid) { return (front(rid) == tid); }
+
+bool getMsgErr(rid_t rid) { return _getMsgErr(msgid(rid)); }
+bool getPortErr(rid_t rid) { return _getPortErr(portid(rid)); }
+void setPortErr(rid_t rid) { _setPortErr(portid(rid)); }
+pmode_t portMode(rid_t rid) { return _portMode(portid(rid)); }
+
+void rcvMsg(rid_t rid) {
+    portid_t ptid = portid(rid);
+
+    if(!getPortErr(rid))
+        if(portMode(rid) == SAMPLING){
+            //if(portbuf[ptid].buf != 1)
+                //setPortErr(rid);
+        }else{
+            if(portbuf[ptid] &gt; 0)
+                portbuf[ptid]--;
+        }
+}</declaration>
+		<location id="id11" x="-11526" y="-11467">
+			<name x="-11536" y="-11501">Resumption</name>
+			<urgent/>
+		</location>
+		<location id="id12" x="-10294" y="-11636">
+			<committed/>
+		</location>
+		<location id="id13" x="-10286" y="-11831">
+			<committed/>
+		</location>
+		<location id="id14" x="-10388" y="-11831">
+			<name x="-10398" y="-11865">MissDeadline1</name>
+		</location>
+		<location id="id15" x="-11118" y="-11466">
+			<name x="-11128" y="-11500">MissDeadline2</name>
+		</location>
+		<location id="id16" x="-10387" y="-11449">
+			<name x="-10397" y="-11483">MsgErr</name>
+		</location>
+		<location id="id17" x="-10481" y="-11636">
+			<name x="-10491" y="-11670">Receiving</name>
+			<committed/>
+		</location>
+		<location id="id18" x="-10387" y="-11271">
+			<name x="-10397" y="-11305">Sending</name>
+			<committed/>
+		</location>
+		<location id="id19" x="-11118" y="-11594">
+			<name x="-11128" y="-11628">WaitDelay</name>
+			<label kind="invariant" x="-11127" y="-11586">x &lt;= op[pc].wcet
+&amp;&amp; curTime &lt;= deadline()</label>
+		</location>
+		<location id="id20" x="-11322" y="-11466">
+			<name x="-11332" y="-11500">WaitResource</name>
+			<label kind="invariant" x="-11332" y="-11449">curTime &lt;= deadline()</label>
+		</location>
+		<location id="id21" x="-11118" y="-11322">
+			<name x="-11128" y="-11356">TryLock</name>
+			<committed/>
+		</location>
+		<location id="id22" x="-11721" y="-11271">
+			<name x="-11738" y="-11305">WaitNextRelease</name>
+			<label kind="invariant" x="-11738" y="-11263">curTime &lt;= maxPeriod()</label>
+		</location>
+		<location id="id23" x="-10693" y="-12044">
+			<name x="-10702" y="-12078">WaitForFirstWind</name>
+		</location>
+		<location id="id24" x="-10693" y="-11831">
+			<name x="-10703" y="-11865">Running</name>
+			<label kind="invariant" x="-10762" y="-11814">exeTime &lt;= op[pc].wcet
+&amp;&amp; curTime &lt;= deadline()</label>
+		</location>
+		<location id="id25" x="-11722" y="-11882">
+			<name x="-11748" y="-11916">WaitOffset</name>
+			<label kind="invariant" x="-11748" y="-11865">x &lt;= offset()</label>
+		</location>
+		<location id="id26" x="-10914" y="-12044">
+			<committed/>
+		</location>
+		<location id="id27" x="-11526" y="-11636">
+			<name x="-11536" y="-11670">Ready</name>
+			<label kind="invariant" x="-11536" y="-11619">exeTime' == 0
+&amp;&amp; curTime &lt;= deadline()</label>
+		</location>
+		<location id="id28" x="-11314" y="-12044">
+			<name x="-11324" y="-12078">WaitForPhase</name>
+			<label kind="invariant" x="-11323" y="-12035">x &lt;= pprd() - initialOffset() % pprd()</label>
+		</location>
+		<location id="id29" x="-11662" y="-11636">
+			<name x="-11687" y="-11670">WaitJitter</name>
+			<label kind="invariant" x="-11696" y="-11628">x &lt;= jitter()</label>
+		</location>
+		<location id="id30" x="-11721" y="-12044">
+			<name x="-11731" y="-12078">WaitInitialOffset</name>
+			<label kind="invariant" x="-11729" y="-12010">x &lt;= initialOffset()</label>
+		</location>
+		<location id="id31" x="-10693" y="-11636">
+			<name x="-10703" y="-11670">ReadOp</name>
+			<committed/>
+		</location>
+		<location id="id32" x="-11526" y="-12044">
+			<committed/>
+		</location>
+		<init ref="id30"/>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-11526" y="-11555">ready[tid]!</label>
+			<label kind="assignment" x="-11526" y="-11538">exeTime = 0</label>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-10651" y="-11772">portMode(op[pc].res) == SAMPLING &amp;&amp;
+port_clock[portid(op[pc].res)] &lt;= refreshRate(op[pc].res)</label>
+			<label kind="assignment" x="-10651" y="-11738">pc++</label>
+			<nail x="-10294" y="-11755"/>
+			<nail x="-10660" y="-11755"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-10651" y="-11704">portMode(op[pc].res) == QUEUING</label>
+			<label kind="assignment" x="-10651" y="-11687">pc++</label>
+			<nail x="-10320" y="-11687"/>
+			<nail x="-10660" y="-11687"/>
+		</transition>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-10430" y="-11610">portMode(op[pc].res) == SAMPLING
+&amp;&amp; port_clock[portid(op[pc].res)]
+&gt; refreshRate(op[pc].res)</label>
+			<label kind="synchronisation" x="-10430" y="-11551">release[pid()][tid]!</label>
+			<label kind="assignment" x="-10430" y="-11534">setPortErr(op[pc].res),
+setError(pid())</label>
+			<nail x="-10293" y="-11491"/>
+		</transition>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="synchronisation" x="-10378" y="-11900">release[pid()][tid]!</label>
+			<nail x="-10311" y="-11882"/>
+			<nail x="-10362" y="-11882"/>
+		</transition>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-10371" y="-11831">sched[tid]?</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-10446" y="-11407">getMsgErr(op[pc].res)</label>
+			<label kind="synchronisation" x="-10446" y="-11390">release[pid()][tid]!</label>
+			<label kind="assignment" x="-10445" y="-11373">setError(pid())</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-11127" y="-11899">curTime &gt;= deadline()</label>
+			<label kind="assignment" x="-11127" y="-11882">setError(pid())</label>
+			<nail x="-11526" y="-11882"/>
+			<nail x="-10388" y="-11882"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-10609" y="-11848">curTime &gt;= deadline()</label>
+			<label kind="synchronisation" x="-10609" y="-11831">release[pid()][tid]!</label>
+			<label kind="assignment" x="-10609" y="-11814">setError(pid())</label>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-11296" y="-11483">curTime &gt;= deadline()</label>
+			<label kind="assignment" x="-11296" y="-11466">setError(pid())</label>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-11169" y="-11551">curTime &gt;= deadline()</label>
+			<label kind="assignment" x="-11169" y="-11534">setError(pid())</label>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id16"/>
+			<label kind="guard" x="-10592" y="-11610">getPortErr(op[pc].res)</label>
+			<label kind="synchronisation" x="-10592" y="-11593">release[pid()][tid]!</label>
+			<label kind="assignment" x="-10591" y="-11577">setError(pid())</label>
+			<nail x="-10481" y="-11491"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-10922" y="-11415">op[pc].cmd == UNLOCK</label>
+			<label kind="synchronisation" x="-10922" y="-11398">wakeup[op[pc].res]!</label>
+			<label kind="assignment" x="-10922" y="-11381">unlock(op[pc].res),
+signal(op[pc].res),
+pc++</label>
+			<nail x="-10769" y="-11322"/>
+			<nail x="-10963" y="-11323"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-10464" y="-11653">!getPortErr(op[pc].res)</label>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-10591" y="-11449">!getMsgErr(op[pc].res)</label>
+			<label kind="assignment" x="-10591" y="-11432">pc++</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id17"/>
+			<label kind="guard" x="-10667" y="-11653">op[pc].cmd == RECEIVE</label>
+			<label kind="assignment" x="-10667" y="-11636">rcvMsg(op[pc].res)</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id18"/>
+			<label kind="guard" x="-10582" y="-11288">op[pc].cmd == SEND</label>
+			<label kind="synchronisation" x="-10582" y="-11271">pmsg[msgid(op[pc].res)]!</label>
+			<nail x="-10599" y="-11271"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id27"/>
+			<label kind="guard" x="-11296" y="-11611">x &gt;= op[pc].bcet</label>
+			<label kind="synchronisation" x="-11296" y="-11594">ready[tid]!</label>
+			<label kind="assignment" x="-11296" y="-11577">pc++, x = 0, exeTime = 0</label>
+			<nail x="-11381" y="-11594"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id19"/>
+			<label kind="guard" x="-10982" y="-11611">op[pc].cmd == DELAY</label>
+			<label kind="synchronisation" x="-10982" y="-11594">release[pid()][tid]!</label>
+			<label kind="assignment" x="-10982" y="-11577">x = 0</label>
+			<nail x="-10829" y="-11594"/>
+		</transition>
+		<transition>
+			<source ref="id20"/>
+			<target ref="id11"/>
+			<label kind="guard" x="-11483" y="-11484">isWaken(op[pc].res)</label>
+			<label kind="synchronisation" x="-11483" y="-11467">wakeup[op[pc].res]?</label>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-10982" y="-11551">avail(op[pc].res)</label>
+			<label kind="assignment" x="-10982" y="-11534">lock(op[pc].res),
+pc++</label>
+			<nail x="-11033" y="-11466"/>
+		</transition>
+		<transition>
+			<source ref="id21"/>
+			<target ref="id20"/>
+			<label kind="guard" x="-11322" y="-11415">!avail(op[pc].res)</label>
+			<label kind="synchronisation" x="-11322" y="-11398">release[pid()][tid]!</label>
+			<label kind="assignment" x="-11322" y="-11381">wait(op[pc].res)</label>
+			<nail x="-11322" y="-11321"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id21"/>
+			<label kind="guard" x="-10990" y="-11483">op[pc].cmd == LOCK</label>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id27"/>
+			<label kind="synchronisation" x="-11126" y="-11848">stop[tid]?</label>
+			<nail x="-11322" y="-11832"/>
+		</transition>
+		<transition>
+			<source ref="id22"/>
+			<target ref="id25"/>
+			<label kind="guard" x="-11721" y="-11415">curTime &gt;= minPeriod()</label>
+			<label kind="assignment" x="-11721" y="-11398">pc = pcStart(), x = 0, curTime = 0</label>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id22"/>
+			<label kind="guard" x="-11169" y="-11288">op[pc].cmd == END</label>
+			<label kind="synchronisation" x="-11169" y="-11271">release[pid()][tid]!</label>
+			<nail x="-10694" y="-11271"/>
+		</transition>
+		<transition>
+			<source ref="id24"/>
+			<target ref="id31"/>
+			<label kind="guard" x="-11126" y="-11755">exeTime &gt;= op[pc].bcet</label>
+			<label kind="assignment" x="-11126" y="-11738">exeTime = 0, pc++</label>
+			<nail x="-10829" y="-11789"/>
+			<nail x="-11127" y="-11789"/>
+			<nail x="-11127" y="-11679"/>
+			<nail x="-10829" y="-11679"/>
+		</transition>
+		<transition>
+			<source ref="id31"/>
+			<target ref="id24"/>
+			<label kind="guard" x="-10854" y="-11746">op[pc].cmd == COMPUTE</label>
+		</transition>
+		<transition>
+			<source ref="id27"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="-11126" y="-11653">sched[tid]?</label>
+		</transition>
+		<transition>
+			<source ref="id29"/>
+			<target ref="id27"/>
+			<label kind="guard" x="-11628" y="-11670">x &gt;= 0</label>
+			<label kind="synchronisation" x="-11628" y="-11653">ready[tid]!</label>
+			<label kind="assignment" x="-11628" y="-11636">x = 0,
+exeTime = 0</label>
+		</transition>
+		<transition>
+			<source ref="id25"/>
+			<target ref="id29"/>
+			<label kind="guard" x="-11662" y="-11781">x == offset()</label>
+			<label kind="assignment" x="-11663" y="-11764">x = 0</label>
+			<nail x="-11662" y="-11883"/>
+		</transition>
+		<transition>
+			<source ref="id23"/>
+			<target ref="id25"/>
+			<label kind="synchronisation" x="-11263" y="-11950">enter_partition[pid()]?</label>
+			<label kind="assignment" x="-11263" y="-11933">x = 0, curTime = 0</label>
+			<nail x="-10693" y="-11934"/>
+			<nail x="-11662" y="-11933"/>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id23"/>
+			<label kind="guard" x="-10897" y="-12061">in_partition[pid()] == false</label>
+		</transition>
+		<transition>
+			<source ref="id26"/>
+			<target ref="id25"/>
+			<label kind="guard" x="-11483" y="-12001">in_partition[pid()] == true</label>
+			<label kind="assignment" x="-11483" y="-11984">x = 0, curTime = 0</label>
+			<nail x="-10915" y="-11984"/>
+			<nail x="-11721" y="-11985"/>
+		</transition>
+		<transition>
+			<source ref="id28"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-11229" y="-12061">x == pprd() - initialOffset() % pprd()</label>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id28"/>
+			<label kind="guard" x="-11509" y="-12061">initialOffset() % pprd() != 0</label>
+			<label kind="assignment" x="-11508" y="-12044">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id32"/>
+			<target ref="id26"/>
+			<label kind="guard" x="-11508" y="-12095">initialOffset() % pprd() == 0</label>
+			<nail x="-11526" y="-12095"/>
+			<nail x="-10915" y="-12095"/>
+		</transition>
+		<transition>
+			<source ref="id30"/>
+			<target ref="id32"/>
+			<label kind="guard" x="-11695" y="-12061">x == initialOffset()</label>
+			<label kind="assignment" x="-11695" y="-12044">pc = pcStart(),
+cprio[tid] = defPrio()</label>
+		</transition>
+	</template>
+	<template>
+		<name>PMsgReceiver</name>
+		<parameter>rid_t rid</parameter>
+		<declaration>clock x, curTime;
+
+time_t initialOffset() { return msg[msgid(rid)].initial_offset; }
+time_t minPeriod() { return msg[msgid(rid)].min_period; }
+time_t maxPeriod() { return msg[msgid(rid)].max_period; }
+time_t offset() { return msg[msgid(rid)].offset; }
+time_t jitter() { return msg[msgid(rid)].jitter; }
+vlid_t getMsgVlid(rid_t rid) { return msg[msgid(rid)].vl; }
+
+void setMsgErr() { _setMsgErr(msgid(rid)); }
+</declaration>
+		<location id="id33" x="-289" y="-340">
+			<name x="-299" y="-374">OverSpeed</name>
+		</location>
+		<location id="id34" x="162" y="-153">
+			<name x="119" y="-187">WaitNextPeriod</name>
+			<label kind="invariant" x="76" y="-136">curTime &lt;= maxPeriod()</label>
+		</location>
+		<location id="id35" x="-289" y="-153">
+			<name x="-315" y="-187">WaitOffset</name>
+			<label kind="invariant" x="-315" y="-144">x &lt;= offset()</label>
+		</location>
+		<location id="id36" x="-68" y="-17">
+			<name x="-78" y="-51">UnderSpeed</name>
+		</location>
+		<location id="id37" x="-67" y="-153">
+			<name x="-93" y="-187">WaitJitter</name>
+		</location>
+		<location id="id38" x="-501" y="-153">
+			<name x="-518" y="-187">WaitInitialOffset</name>
+			<label kind="invariant" x="-518" y="-136">x &lt;= initialOffset()</label>
+		</location>
+		<init ref="id38"/>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-110" y="-357">pmsg[msgid(rid)]?</label>
+			<label kind="assignment" x="-110" y="-340">setMsgErr()</label>
+			<nail x="162" y="-340"/>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-467" y="-357">pmsg[msgid(rid)]?</label>
+			<label kind="assignment" x="-467" y="-340">setMsgErr()</label>
+			<nail x="-501" y="-340"/>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id33"/>
+			<label kind="synchronisation" x="-289" y="-263">pmsg[msgid(rid)]?</label>
+			<label kind="assignment" x="-289" y="-246">setMsgErr()</label>
+		</transition>
+		<transition>
+			<source ref="id34"/>
+			<target ref="id35"/>
+			<label kind="guard" x="-144" y="17">curTime &gt;= minPeriod()</label>
+			<label kind="assignment" x="-143" y="34">x = 0, curTime = 0</label>
+			<nail x="163" y="34"/>
+			<nail x="-288" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id36"/>
+			<label kind="guard" x="-144" y="-110">x &gt; jitter()</label>
+			<label kind="assignment" x="-144" y="-93">setMsgErr()</label>
+		</transition>
+		<transition>
+			<source ref="id37"/>
+			<target ref="id34"/>
+			<label kind="synchronisation" x="-25" y="-170">pmsg[msgid(rid)]?</label>
+			<label kind="assignment" x="-25" y="-153">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id35"/>
+			<target ref="id37"/>
+			<label kind="guard" x="-230" y="-170">x == offset()</label>
+			<label kind="assignment" x="-230" y="-153">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id38"/>
+			<target ref="id35"/>
+			<label kind="guard" x="-467" y="-170">x == initialOffset()</label>
+			<label kind="assignment" x="-467" y="-153">x = 0, curTime = 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>PMsgSender</name>
+		<parameter>rid_t rid</parameter>
+		<declaration>clock x, curTime;
+
+time_t initialOffset() { return msg[msgid(rid)].initial_offset; }
+time_t minPeriod() { return msg[msgid(rid)].min_period; }
+time_t maxPeriod() { return msg[msgid(rid)].max_period; }
+time_t offset() { return msg[msgid(rid)].offset; }
+time_t jitter() { return msg[msgid(rid)].jitter; }</declaration>
+		<location id="id39" x="170" y="229">
+			<name x="160" y="195">WaitNextPeriod</name>
+			<label kind="invariant" x="102" y="246">curTime &lt;= maxPeriod()</label>
+		</location>
+		<location id="id40" x="357" y="76">
+			<name x="331" y="34">WaitJitter</name>
+			<label kind="invariant" x="314" y="85">x &lt;= jitter()</label>
+		</location>
+		<location id="id41" x="170" y="76">
+			<name x="160" y="42">WaitOffset</name>
+			<label kind="invariant" x="161" y="93">x &lt;= offset()</label>
+		</location>
+		<location id="id42" x="0" y="76">
+			<name x="-10" y="42">WaitInitialOffset</name>
+			<label kind="invariant" x="-8" y="93">x &lt;= initialOffset()</label>
+		</location>
+		<location id="id43" x="518" y="76">
+			<name x="508" y="42">Ready</name>
+		</location>
+		<location id="id44" x="518" y="229">
+			<name x="527" y="187">Running</name>
+			<committed/>
+		</location>
+		<init ref="id42"/>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id39"/>
+			<label kind="synchronisation" x="306" y="204">release_msg[msgid(rid)]!</label>
+		</transition>
+		<transition>
+			<source ref="id44"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="578" y="136">stop_msg[msgid(rid)]?</label>
+			<nail x="620" y="229"/>
+			<nail x="620" y="76"/>
+		</transition>
+		<transition>
+			<source ref="id43"/>
+			<target ref="id44"/>
+			<label kind="synchronisation" x="442" y="110">sched_msg[msgid(rid)]?</label>
+		</transition>
+		<transition>
+			<source ref="id40"/>
+			<target ref="id43"/>
+			<label kind="synchronisation" x="382" y="51">pmsg[msgid(rid)]!</label>
+			<label kind="assignment" x="416" y="76">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id39"/>
+			<target ref="id41"/>
+			<label kind="guard" x="170" y="144">curTime &gt;= minPeriod()</label>
+			<label kind="assignment" x="178" y="161">x = 0, curTime = 0</label>
+			<nail x="170" y="170"/>
+		</transition>
+		<transition>
+			<source ref="id41"/>
+			<target ref="id40"/>
+			<label kind="guard" x="221" y="59">x == offset()</label>
+			<label kind="assignment" x="221" y="76">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id42"/>
+			<target ref="id41"/>
+			<label kind="guard" x="17" y="59">x == initialOffset()</label>
+			<label kind="assignment" x="17" y="76">x = 0, curTime = 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>ASMLayer</name>
+		<declaration>msgid_t rcvmsg;
+msgprio_t curPrio;
+msgid_t running;
+clock x;
+
+//msgprio_t getMsgPrio(msgid_t msgid) { return _getMsgPrio(msgid); }
+bool isEmpty(msgprio_t msgprio) { return !msgprioq[msgprio].len; }
+msgid_t front(msgprio_t msgprio) { return msgprioq[msgprio].list[0]; }
+//vlid_t getVlid(msgid_t msgid) { return msg[msgid].vl; }
+msgid_t first() { return msgprioq[0].list[0]; }
+void resetRunning() { running = 0; }
+time_t sendDelay(msgid_t msgid){ return msg[msgid].length / bandwidth; }
+
+
+
+void enque(msgid_t msgid){
+    msgid_t temp;
+    if(msgprioq[0].len &lt; MaxMsgs)
+        msgprioq[0].list[msgprioq[0].len++] = msgid;
+    else
+        msgErr = true;
+    
+    if(msgprioq[0].len &gt; 1){
+        int i = msgprioq[0].len - 1;
+        while(i &gt; 0 &amp;&amp; msg[msgprioq[0].list[i]].msgprio &lt; msg[msgprioq[0].list[i - 1]].msgprio){
+            temp = msgprioq[0].list[i - 1];
+            msgprioq[0].list[i - 1] = msgprioq[0].list[i];
+            msgprioq[0].list[i] = temp;
+            i--;
+        }
+    }   
+}
+
+void deque(){
+    int[1, MaxMsgs] i;
+
+    for(i = 1; i &lt; msgprioq[0].len; i++){
+        msgprioq[0].list[i - 1] = msgprioq[0].list[i];
+    }
+
+    msgprioq[0].list[msgprioq[0].len - 1] = 0;
+    msgprioq[0].len--;
+}</declaration>
+		<location id="id45" x="-195" y="-229">
+			<name x="-205" y="-263">Waiting</name>
+		</location>
+		<location id="id46" x="103" y="-229">
+			<name x="76" y="-272">Schedule</name>
+			<committed/>
+		</location>
+		<location id="id47" x="476" y="-229">
+			<name x="466" y="-263">Preempt</name>
+			<committed/>
+		</location>
+		<location id="id48" x="280" y="-229">
+			<name x="255" y="-272">Occupied</name>
+		</location>
+		<location id="id49" x="280" y="-76">
+			<name x="289" y="-110">Release</name>
+			<committed/>
+		</location>
+		<location id="id50" x="102" y="-76">
+			<name x="76" y="-119">SendDelay</name>
+			<label kind="invariant" x="42" y="-51">x &lt;= sendDelay(rcvmsg)</label>
+		</location>
+		<init ref="id45"/>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id45"/>
+			<label kind="guard" x="-178" y="-119">isEmpty(0) &amp;&amp; x &gt;= sendDelay(rcvmsg)</label>
+			<label kind="synchronisation" x="-136" y="-102">netCard[rcvmsg]!</label>
+			<nail x="-195" y="-76"/>
+		</transition>
+		<transition>
+			<source ref="id50"/>
+			<target ref="id46"/>
+			<label kind="guard" x="-76" y="-195">!isEmpty(0) &amp;&amp; x &gt;= sendDelay(rcvmsg)</label>
+			<label kind="synchronisation" x="42" y="-161">netCard[rcvmsg]!</label>
+		</transition>
+		<transition>
+			<source ref="id49"/>
+			<target ref="id50"/>
+			<label kind="assignment" x="178" y="-68">x = 0</label>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id49"/>
+			<label kind="select" x="195" y="-204">m : msgid_t</label>
+			<label kind="synchronisation" x="187" y="-187">release_msg[m]?</label>
+			<label kind="assignment" x="187" y="-170">rcvmsg = m,
+deque(),
+resetRunning()</label>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id48"/>
+			<label kind="guard" x="340" y="-136">running == first()</label>
+			<nail x="476" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id47"/>
+			<target ref="id46"/>
+			<label kind="guard" x="144" y="-391">running != first()</label>
+			<label kind="synchronisation" x="144" y="-374">stop_msg[running]!</label>
+			<label kind="assignment" x="153" y="-348">resetRunning()</label>
+			<nail x="476" y="-348"/>
+			<nail x="102" y="-348"/>
+		</transition>
+		<transition>
+			<source ref="id48"/>
+			<target ref="id47"/>
+			<label kind="select" x="331" y="-272">m : msgid_t</label>
+			<label kind="synchronisation" x="340" y="-255">pmsg[m]?</label>
+			<label kind="assignment" x="340" y="-229">enque(m)</label>
+		</transition>
+		<transition>
+			<source ref="id46"/>
+			<target ref="id48"/>
+			<label kind="synchronisation" x="136" y="-255">sched_msg[first()]!</label>
+			<label kind="assignment" x="144" y="-229">running = first()</label>
+		</transition>
+		<transition>
+			<source ref="id45"/>
+			<target ref="id46"/>
+			<label kind="select" x="-68" y="-314">m:msgid_t</label>
+			<label kind="guard" x="-110" y="-289">!portDisabled(txPort(m))</label>
+			<label kind="synchronisation" x="-59" y="-272">pmsg[m]?</label>
+			<label kind="assignment" x="-59" y="-255">enque(m)</label>
+			<label kind="comments" x="-170" y="-357">txPort???????????????????????</label>
+		</transition>
+	</template>
+	<template>
+		<name>NetCard</name>
+		<declaration>clock x;
+vlid_t cur = NVL;
+msgprio_t curPrio;
+msgid_t curMsg;
+
+pmode_t portMode(portid_t p) { return _portMode(p); }
+msgprio_t getMsgPrio(msgid_t msgid) { return _getMsgPrio(msgid); }
+bool isEmpty(msgprio_t msgprio) { return !msgprioq[msgprio].len; }
+msgid_t front(msgprio_t msgprio) { return msgprioq[msgprio].list[0]; }
+
+void enque(msgid_t msgid){
+    _enque4(msgid);
+}
+
+void deque(msgid_t msgid){
+    _deque4(msgid);
+}
+
+void udpSend(msgid_t msgid)
+{
+    portid_t p = vlink[msg[msgid].vl].src;
+
+    if(portMode(p) == QUEUING){
+        if(portbuf[p] &lt; pcapacity(p))
+            portbuf[p]++;
+        else
+            _setMsgErr(msgid);
+    }
+    if(portMode(p) == SAMPLING)
+        portbuf[p] = 1;
+}</declaration>
+		<location id="id51" x="-425" y="-59">
+			<name x="-442" y="-101">Waiting</name>
+		</location>
+		<location id="id52" x="17" y="-59">
+			<name x="-8" y="-102">Sending</name>
+			<committed/>
+		</location>
+		<location id="id53" x="-212" y="-59">
+			<name x="-229" y="-93">Judge</name>
+			<committed/>
+		</location>
+		<location id="id54" x="187" y="-59">
+			<committed/>
+		</location>
+		<init ref="id51"/>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id51"/>
+			<label kind="guard" x="-357" y="68">isEmpty(URGENT) &amp;&amp;
+isEmpty(EVENT) &amp;&amp; 
+isEmpty(DATA)</label>
+			<label kind="assignment" x="-407" y="136">curMsg = 0</label>
+			<nail x="187" y="136"/>
+			<nail x="-425" y="136"/>
+		</transition>
+		<transition>
+			<source ref="id54"/>
+			<target ref="id53"/>
+			<label kind="guard" x="0" y="-255">!isEmpty(URGENT) ||
+!isEmpty(EVENT) ||
+!isEmpty(DATA)</label>
+			<label kind="assignment" x="42" y="-195">curMsg = 0</label>
+			<nail x="187" y="-212"/>
+			<nail x="-212" y="-212"/>
+		</transition>
+		<transition>
+			<source ref="id52"/>
+			<target ref="id54"/>
+			<label kind="synchronisation" x="51" y="-85">vl[msg[curMsg].vl]!</label>
+			<label kind="assignment" x="42" y="-51">udpSend(curMsg),
+deque(curMsg)</label>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id52"/>
+			<label kind="guard" x="-178" y="-17">isEmpty(URGENT) &amp;&amp;
+isEmpty(EVENT) &amp;&amp; 
+!isEmpty(DATA)</label>
+			<label kind="assignment" x="-195" y="51">curMsg = front(DATA)</label>
+			<nail x="17" y="42"/>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id52"/>
+			<label kind="guard" x="-170" y="-102">isEmpty(URGENT) &amp;&amp;
+!isEmpty(EVENT)</label>
+			<label kind="assignment" x="-187" y="-59">curMsg = front(EVENT)</label>
+		</transition>
+		<transition>
+			<source ref="id53"/>
+			<target ref="id52"/>
+			<label kind="guard" x="-136" y="-178">!isEmpty(URGENT)</label>
+			<label kind="assignment" x="-153" y="-161">curMsg = front(URGENT)</label>
+			<nail x="17" y="-161"/>
+		</transition>
+		<transition>
+			<source ref="id51"/>
+			<target ref="id53"/>
+			<label kind="select" x="-357" y="-118">m : msgid_t</label>
+			<label kind="synchronisation" x="-357" y="-93">netCard[m]?</label>
+			<label kind="assignment" x="-391" y="-50">curPrio = getMsgPrio(m),
+enque(m)</label>
+		</transition>
+	</template>
+	<template>
+		<name>Fiber</name>
+		<parameter>vlid_t vlid</parameter>
+		<declaration>
+
+//bool isFirst() { return !vl_first[vlid]; }
+//bool first() { return vl_first[vlid] = true; }
+void enque() { _enque3(vlink[vlid].es, vlid); }
+bool isEmpty() { return !portbuf[vlink[vlid].src]; }
+bool fetch() { return portbuf[vlink[vlid].src]--; }</declaration>
+		<location id="id55" x="-612" y="-42">
+			<name x="-622" y="-76">Idle</name>
+		</location>
+		<location id="id56" x="-467" y="-42">
+			<committed/>
+		</location>
+		<location id="id57" x="-314" y="-42">
+			<name x="-324" y="-76">Sending</name>
+			<committed/>
+		</location>
+		<init ref="id55"/>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id56"/>
+			<label kind="guard" x="-450" y="51">!isEmpty()</label>
+			<label kind="assignment" x="-442" y="68">fetch()</label>
+			<nail x="-314" y="51"/>
+			<nail x="-467" y="51"/>
+		</transition>
+		<transition>
+			<source ref="id57"/>
+			<target ref="id55"/>
+			<label kind="guard" x="-476" y="-178">isEmpty()</label>
+			<nail x="-314" y="-144"/>
+			<nail x="-612" y="-144"/>
+		</transition>
+		<transition>
+			<source ref="id56"/>
+			<target ref="id57"/>
+			<label kind="assignment" x="-442" y="-42">enque()</label>
+		</transition>
+		<transition>
+			<source ref="id55"/>
+			<target ref="id56"/>
+			<label kind="synchronisation" x="-578" y="-68">vl[vlid]?</label>
+			<label kind="assignment" x="-578" y="-42">fetch()</label>
+		</transition>
+	</template>
+	<template>
+		<name>SwitchPort</name>
+		<parameter>portid_t port</parameter>
+		<declaration>clock x;
+vlid_t cur = NVL;
+
+pmode_t portMode(portid_t p) { return _portMode(p); }
+void enque(portid_t p, vlid_t v) { _enque2(swpid(p), v); }
+void deque() { _deque2(swpid(port)); }
+vlid_t front() { return swq[swpid(port)].list[0]; }
+bool isEmpty() { return !swq[swpid(port)].len;}
+
+void allEnque(vlid_t v)
+{
+    int[0, MaxFTSize] i;
+    portid_t dstPort = NUL;
+
+    for(i = 0; i &lt; vlink[v].ft_size; i++)
+        if(vlink[v].ft[i].src == port &amp;&amp; !portDisabled(vlink[v].ft[i].dst)){
+            dstPort = vlink[v].ft[i].dst;
+            if(isTerminal(dstPort)){
+                // Forwarded to an ES node directly
+                if(portMode(dstPort) == QUEUING){
+                    if(portbuf[dstPort] &lt; pcapacity(dstPort))
+                        portbuf[dstPort]++;
+                    else
+                        _setPortErr(dstPort);
+                }
+                if(portMode(dstPort) == SAMPLING){
+                    portbuf[dstPort] = 1;
+                    port_clock[dstPort] = 0;
+                }
+            }else if(isSwitch(dstPort)){
+                // Forwarded to a switch
+                enque(dstPort, v);
+            }
+        }
+}</declaration>
+		<location id="id58" x="272" y="-8">
+			<name x="262" y="-42">Forwarding</name>
+			<label kind="invariant" x="195" y="9">x &lt;= vlink[cur].TransferDelay</label>
+		</location>
+		<location id="id59" x="0" y="-8">
+			<name x="-10" y="-42">Waiting</name>
+		</location>
+		<init ref="id59"/>
+		<transition>
+			<source ref="id58"/>
+			<target ref="id59"/>
+			<label kind="guard" x="59" y="59">x &gt;= vlink[cur].TransferDelay</label>
+			<label kind="assignment" x="68" y="85">allEnque(cur), deque(), cur = NVL</label>
+			<nail x="272" y="85"/>
+			<nail x="0" y="85"/>
+		</transition>
+		<transition>
+			<source ref="id59"/>
+			<target ref="id58"/>
+			<label kind="guard" x="76" y="-25">!isEmpty()</label>
+			<label kind="synchronisation" x="76" y="-8">frame!</label>
+			<label kind="assignment" x="76" y="9">x = 0, cur = front()</label>
+		</transition>
+	</template>
+	<template>
+		<name>REndSystem</name>
+		<parameter>esid_t eid</parameter>
+		<declaration>clock x;
+vlid_t cur = NVL;
+
+void enque(portid_t p, vlid_t v) { _enque2(swpid(p), v); }
+void deque() { _deque3(eid); }
+vlid_t front() { return esq[eid].list[0]; }
+bool isEmpty() { return !esq[eid].len;}
+
+void vlSend(vlid_t v)
+{
+    int[0, MaxFTSize] i;
+    portid_t dstPort = NUL;
+
+    //portbuf[vlink[v].src]--;
+
+    for(i = 0; i &lt; vlink[v].ft_size; i++)
+        if(vlink[v].ft[i].src == espid(eid)){
+            dstPort = vlink[v].ft[i].dst;
+            if(!isSwitch(dstPort))
+                // Connected to an ES node directly, not allowed, and do nothing.
+                ;
+            else
+                // Connected to a switch
+                if(!portDisabled(dstPort))
+                    enque(dstPort, v);
+        }
+}</declaration>
+		<location id="id60" x="1" y="-59">
+			<name x="-9" y="-93">Sending</name>
+			<committed/>
+		</location>
+		<location id="id61" x="-221" y="-59">
+			<name x="-255" y="-102">Waiting</name>
+		</location>
+		<init ref="id61"/>
+		<transition>
+			<source ref="id60"/>
+			<target ref="id61"/>
+			<label kind="assignment" x="-203" y="34">vlSend(cur), deque(), cur = NVL</label>
+			<nail x="1" y="34"/>
+			<nail x="-221" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id61"/>
+			<target ref="id60"/>
+			<label kind="guard" x="-178" y="-85">!isEmpty()</label>
+			<label kind="synchronisation" x="-195" y="-59">frame!</label>
+			<label kind="assignment" x="-195" y="-42">x = 0, cur = front()</label>
+		</transition>
+	</template>
+	<system>
+// Tasks of partition 1
+task11 = PeriodicTask(0); task12 = PeriodicTask(1); task13 = PeriodicTask(2); task14 = PeriodicTask(3); 
+// Tasks of partition 2
+task21 = PeriodicTask(5); task22 = PeriodicTask(6); task23 = PeriodicTask(7);
+// Tasks of partition 3
+task31 = PeriodicTask(9); task32 = PeriodicTask(10); task33 = PeriodicTask(11); 
+// Tasks of partition 4
+task41 = PeriodicTask(13); task42 = PeriodicTask(14); task43 = PeriodicTask(15); task44 = PeriodicTask(16); task45 = PeriodicTask(17);
+// Tasks of partition 5
+task51 = PeriodicTask(18); task52 = PeriodicTask(19); task53 = PeriodicTask(20); 
+
+// Messages
+msg1_rcv = PMsgReceiver(MSG1); msg1_snd = PMsgSender(MSG1);
+msg2_rcv = PMsgReceiver(MSG2); msg2_snd = PMsgSender(MSG2);
+msg3_rcv = PMsgReceiver(MSG3); msg3_snd = PMsgSender(MSG3);
+msg4_rcv = PMsgReceiver(MSG4); msg4_snd = PMsgSender(MSG4);
+
+// ASM layer
+asm = ASMLayer();
+
+// Network Card
+nt = NetCard();
+
+// Fiber Channel
+fb1 = Fiber(VL1);
+fb2 = Fiber(VL2);
+fb3 = Fiber(VL3);
+fb4 = Fiber(VL4);
+
+/* Processes */
+system
+// Global analysis
+/*ps1, ps2, ps3, ps4, ps5,
+ls1, ls2, ls3, ls4, ls5,
+task11, task12, task13, task14,
+task21, task22, task23, 
+task31, task32, task33, 
+task41, task42, task43, task44, task45,
+task51, task52, task53,
+asm, nt, fb1, fb2, fb3, fb4, es1, es2, es3, swp1, swp2, swp3, swp4;*/
+// Compositional analysis
+// Partition 1
+/*ps1, ls1,
+task11, task12, task13, task14,
+msg1_rcv;*/
+// Partition 2
+/*ps2, ls2,
+task21,task22,task23, 
+msg2_rcv;*/
+// Partition 3
+/*ps3, ls3,
+task31, task32, task33,
+msg1_snd, msg2_snd,msg3_snd, asm, nt, fb1, fb2, fb3, es1, es3, swp1, swp3;*/
+// Partition 4
+/*ps4, ls4,
+task41, task42, task43, task44, task45,
+msg1_snd, msg2_snd, msg3_rcv, msg4_snd, asm, nt, fb1, fb2, fb4, es1, es2, swp2, swp4;*/
+// Partition 5
+//ps5, ls5,
+//task51, task52, task53,
+//msg1_snd, msg2_snd, msg4_rcv, asm, nt, fb1, fb2, fb3, es1, es3, swp1, swp3;
+
+/* Gantt Chart*/
+gantt{
+// Partition 1
+    /*ps: ps1.InPartition -&gt; 1, ps1.OutOfPartition -&gt; 0; 
+    ts: ls1.Occupied -&gt; 2, ls1.Idle -&gt; 1, ls1.NoTask -&gt; 0, ls1.WaitPartition -&gt; 0;
+    task11: task11.Ready -&gt; 1,
+            task11.Running -&gt; 2;
+    task12: task12.Ready -&gt; 1,
+            task12.Running -&gt; 2;
+    task13: task13.Ready -&gt; 1,
+            task13.Running -&gt; 2;
+    task14: task14.Ready -&gt; 1,
+            task14.Running -&gt; 2;
+    msg1_rcv: msg1_rcv.WaitJitter -&gt; 1;*/
+
+// Partition 2
+    /*ps: ps2.InPartition -&gt; 1, ps2.OutOfPartition -&gt; 0;
+    ts: ls2.Occupied -&gt; 2, ls2.Idle -&gt; 1, ls2.NoTask -&gt; 0, ls2.WaitPartition -&gt; 0;
+    task21: task21.Ready -&gt; 1,
+            task21.Running -&gt; 2;
+    task22: task22.Ready -&gt; 1,
+            task22.Running -&gt; 2;
+    task23: task23.Ready -&gt; 1,
+            task23.Running -&gt; 2;
+    msg2_rcv: msg2_rcv.WaitJitter -&gt; 1;*/
+
+// Partition 3
+    /*ps: ps3.InPartition -&gt; 1, ps3.OutOfPartition -&gt; 0;
+    ts: ls3.Occupied -&gt; 2, ls3.Idle -&gt; 1, ls3.NoTask -&gt; 0, ls3.WaitPartition -&gt; 0;
+    task31: task31.Ready -&gt; 1,
+            task31.Running -&gt; 2;
+    task32: task32.Ready -&gt; 1,
+            task32.Running -&gt; 2;
+    task33: task33.Ready -&gt; 1,
+            task33.Running -&gt; 2;
+    msg1_snd: msg1_snd.WaitJitter -&gt; 1;
+    msg2_snd: msg2_snd.WaitJitter -&gt; 1;
+    msg3_snd: msg3_snd.WaitJitter -&gt; 1;
+    vltx1: vl1.TechDelay -&gt; 1;
+    vltx2: vl2.TechDelay -&gt; 1;
+    vltx3: vl3.TechDelay -&gt; 1;
+    es1: es1.Sending -&gt; 1;
+    es3: es3.Sending -&gt; 1;
+    swp1: swp1.Forwarding -&gt; 1;
+    swp3: swp3.Forwarding -&gt; 1;*/
+
+// Partition 4
+    /*ps: ps4.InPartition -&gt; 1, ps4.OutOfPartition -&gt; 0;
+    ts: ls4.Occupied -&gt; 2, ls4.Idle -&gt; 1, ls4.NoTask -&gt; 0, ls4.WaitPartition -&gt; 0;
+    task41: task41.Ready -&gt; 1,
+            task41.Running -&gt; 2;
+    task42: task42.Ready -&gt; 1,
+            task42.Running -&gt; 2;
+    task43: task43.Ready -&gt; 1,
+            task43.Running -&gt; 2;
+    task44: task44.Ready -&gt; 1,
+            task44.Running -&gt; 2;
+    task45: task45.Ready -&gt; 1,
+            task45.Running -&gt; 2;
+    msg1_snd: msg1_snd.WaitJitter -&gt; 1;
+    msg2_snd: msg2_snd.WaitJitter -&gt; 1;
+    msg3_rcv: msg3_rcv.WaitJitter -&gt; 1;
+    msg4_snd: msg4_snd.WaitJitter -&gt; 1;
+    vltx1: vl1.TechDelay -&gt; 1;
+    vltx2: vl2.TechDelay -&gt; 1;
+    vltx4: vl4.TechDelay -&gt; 1;
+    es1: es1.Sending -&gt; 1;
+    es2: es2.Sending -&gt; 1;
+    swp2: swp2.Forwarding -&gt; 1;
+    swp4: swp4.Forwarding -&gt; 1;*/
+
+// Partition 5
+    /*ps: ps5.InPartition -&gt; 1, ps5.OutOfPartition -&gt; 0;
+    ts: ls5.Occupied -&gt; 2, ls5.Idle -&gt; 1, ls5.NoTask -&gt; 0, ls5.WaitPartition -&gt; 0;
+    msg1_snd: msg1_snd.WaitJitter -&gt; 1;
+    msg2_snd: msg2_snd.WaitJitter -&gt; 1;
+    msg3_snd: msg3_snd.WaitJitter -&gt; 1;
+    msg4_rcv: msg4_rcv.WaitJitter -&gt; 1;
+    vltx1: vl1.TechDelay -&gt; 1;
+    vltx2: vl2.TechDelay -&gt; 1;
+    vltx3: vl3.TechDelay -&gt; 1;
+    es1: es1.Sending -&gt; 1;
+    es3: es3.Sending -&gt; 1;
+    swp1: swp1.Forwarding -&gt; 1;
+    swp3: swp3.Forwarding -&gt; 1;
+    task51: task51.Ready -&gt; 1,
+            task51.Running -&gt; 2;
+    task52: task52.Ready -&gt; 1,
+            task52.Running -&gt; 2;
+    task53: task53.Ready -&gt; 1,
+            task53.Running -&gt; 2;
+*/
+}</system>
+	<queries>
+		<query>
+			<formula>A[] (port_disabled[9] and port_disabled[10] and port_disabled[13]) imply not error</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not error
+			</formula>
+			<comment>Classic Model Checking
+			</comment>
+		</query>
+		<query>
+			<formula>A[] (port_disabled[7] and port_disabled[12]) imply not error</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (port_disabled[3] and port_disabled[4] and port_disabled[5] and port_disabled[11] and port_disabled[13]) imply not error</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task31.MissDeadline1 </formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] (not task31.MsgErr and not task42.MsgErr and not task51.MsgErr) imply task12.Sending</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task31.MissDeadline1 and not task31.MissDeadline2 and not task32.MissDeadline1 and not task32.MissDeadline2 and not task33.MissDeadline1 and not task33.MissDeadline2</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task14.MissDeadline1 and not task14.MsgErr and not task14.MissDeadline2</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] task12.Sending imply not task31.MsgErr</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task41.MissDeadline1</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task12.MsgErr and not task22.MsgErr </formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A[] not task11.MissDeadline1 and not task11.MsgErr and not task11.MissDeadline2</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

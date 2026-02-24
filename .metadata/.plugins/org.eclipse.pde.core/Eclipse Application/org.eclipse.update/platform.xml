@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config date="1768729785288" transient="false" version="3.0">
+<site enabled="true" policy="USER-EXCLUDE" updateable="true" url="platform:/base/">
+<feature id="org.eclipse.gmf.runtime.thirdparty" url="features/org.eclipse.gmf.runtime.thirdparty_1.13.0.202004160913/" version="1.13.0.202004160913">
+</feature>
+<feature id="org.eclipse.help" plugin-identifier="org.eclipse.help.base" url="features/org.eclipse.help_2.3.500.v20210303-1800/" version="2.3.500.v20210303-1800">
+</feature>
+<feature id="org.eclipse.ease.lang.unittest.feature" url="features/org.eclipse.ease.lang.unittest.feature_0.7.0.I201906281229/" version="0.7.0.I201906281229">
+</feature>
+<feature id="openjfx.standard.feature" url="features/openjfx.standard.feature_16.0.0.202104071212/" version="16.0.0.202104071212">
+</feature>
+<feature id="org.eclipse.sirius.runtime.ide.ui" plugin-identifier="org.eclipse.sirius.common.ui" url="features/org.eclipse.sirius.runtime.ide.ui_6.4.2.202103091337/" version="6.4.2.202103091337">
+</feature>
+<feature id="org.osate.examples.feature" url="features/org.osate.examples.feature_1.0.1.v20220206-1739/" version="1.0.1.v20220206-1739">
+</feature>
+<feature id="org.eclipse.equinox.p2.core.feature" url="features/org.eclipse.equinox.p2.core.feature_1.6.900.v20210227-0235/" version="1.6.900.v20210227-0235">
+</feature>
+<feature id="org.osate.ge.ba.feature" url="features/org.osate.ge.ba.feature_2.0.1.v20211221-1532/" version="2.0.1.v20211221-1532">
+</feature>
+<feature id="org.eclipse.gmf" url="features/org.eclipse.gmf_1.13.0.202004160913/" version="1.13.0.202004160913">
+</feature>
+<feature id="org.eclipse.elk.feature" plugin-identifier="org.eclipse.elk.core" url="features/org.eclipse.elk.feature_0.7.1/" version="0.7.1">
+</feature>
+<feature id="org.eclipse.egit" url="features/org.eclipse.egit_5.11.0.202103091610-r/" version="5.11.0.202103091610-r">
+</feature>
+<feature id="org.eclipse.mylyn_feature" plugin-identifier="org.eclipse.mylyn.tasks.core" url="features/org.eclipse.mylyn_feature_3.25.2.v20200814-0512/" version="3.25.2.v20200814-0512">
+</feature>
+<feature id="org.eclipse.ecf.core.ssl.feature" url="features/org.eclipse.ecf.core.ssl.feature_1.1.500.v20200812-2314/" version="1.1.500.v20200812-2314">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.ssl.feature" url="features/org.eclipse.ecf.filetransfer.ssl.feature_1.1.400.v20200812-2314/" version="1.1.400.v20200812-2314">
+</feature>
+<feature id="org.eclipse.gef" url="features/org.eclipse.gef_3.11.0.201606061308/" version="3.11.0.201606061308">
+</feature>
+<feature id="org.eclipse.mylyn.commons.identity" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.commons.identity_1.17.2.v20200813-0821/" version="1.17.2.v20200813-0821">
+</feature>
+<feature id="org.osate.utils.feature" plugin-identifier="org.osate.utils" url="features/org.osate.utils.feature_2.0.1.v20210925-2005/" version="2.0.1.v20210925-2005">
+</feature>
+<feature id="org.eclipse.draw2d" url="features/org.eclipse.draw2d_3.10.100.201606061308/" version="3.10.100.201606061308">
+</feature>
+<feature id="org.osate.ba.feature" plugin-identifier="org.osate.ba" url="features/org.osate.ba.feature_5.2.0.v20220120-2009/" version="5.2.0.v20220120-2009">
+</feature>
+<feature id="org.eclipse.emf.edit" url="features/org.eclipse.emf.edit_2.16.0.v20190920-0401/" version="2.16.0.v20190920-0401">
+</feature>
+<feature id="org.eclipse.emf.transaction" url="features/org.eclipse.emf.transaction_1.12.0.201805140824/" version="1.12.0.201805140824">
+</feature>
+<feature id="org.eclipse.ease.lang.scriptarchive.feature" plugin-identifier="org.eclipse.ease" url="features/org.eclipse.ease.lang.scriptarchive.feature_0.7.0.I201906281229/" version="0.7.0.I201906281229">
+</feature>
+<feature id="org.eclipse.mylyn.commons" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.commons_3.25.2.v20200813-0821/" version="3.25.2.v20200813-0821">
+</feature>
+<feature id="org.eclipse.ease.lang.python.feature" plugin-identifier="org.eclipse.ease" url="features/org.eclipse.ease.lang.python.feature_0.7.0.I201906281229/" version="0.7.0.I201906281229">
+</feature>
+<feature id="org.eclipse.jgit.http.apache" url="features/org.eclipse.jgit.http.apache_5.11.0.202103091610-r/" version="5.11.0.202103091610-r">
+</feature>
+<feature id="org.eclipse.justj.openjdk.hotspot.jre.full.stripped" url="features/org.eclipse.justj.openjdk.hotspot.jre.full.stripped_11.0.13.v20211116-1829/" version="11.0.13.v20211116-1829">
+</feature>
+<feature id="org.eclipse.mylyn.commons.notifications" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.commons.notifications_1.17.2.v20200813-0821/" version="1.17.2.v20200813-0821">
+</feature>
+<feature id="org.eclipse.rcp" url="features/org.eclipse.rcp_4.19.0.v20210303-1800/" version="4.19.0.v20210303-1800">
+</feature>
+<feature id="org.eclipse.xsemantics.runtime.feature" url="features/org.eclipse.xsemantics.runtime.feature_1.20.0.v20210401-0731/" version="1.20.0.v20210401-0731">
+</feature>
+<feature id="org.eclipse.equinox.p2.discovery.feature" url="features/org.eclipse.equinox.p2.discovery.feature_1.2.800.v20200916-1234/" version="1.2.800.v20200916-1234">
+</feature>
+<feature id="org.eclipse.equinox.p2.rcp.feature" url="features/org.eclipse.equinox.p2.rcp.feature_1.4.1100.v20210227-0235/" version="1.4.1100.v20210227-0235">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.feature" url="features/org.eclipse.ecf.filetransfer.feature_3.14.1702.v20201025-2315/" version="3.14.1702.v20201025-2315">
+</feature>
+<feature id="org.eclipse.emf.workspace" url="features/org.eclipse.emf.workspace_1.12.0.201805140824/" version="1.12.0.201805140824">
+</feature>
+<feature id="openjfx.swt.feature" url="features/openjfx.swt.feature_16.0.0.202104071212/" version="16.0.0.202104071212">
+</feature>
+<feature id="org.py4j.feature" url="features/org.py4j.feature_0.10.9.3-bnd-B70oWw/" version="0.10.9.3-bnd-B70oWw">
+</feature>
+<feature id="org.eclipse.jgit.gpg.bc" url="features/org.eclipse.jgit.gpg.bc_5.11.0.202103091610-r/" version="5.11.0.202103091610-r">
+</feature>
+<feature id="org.osate.ge.feature" plugin-identifier="org.osate.ge" url="features/org.osate.ge.feature_5.2.0.v20220201-1822/" version="5.2.0.v20220201-1822">
+</feature>
+<feature id="org.eclipse.pde" url="features/org.eclipse.pde_3.14.700.v20210303-1800/" version="3.14.700.v20210303-1800">
+</feature>
+<feature id="org.eclipse.ease.feature" plugin-identifier="org.eclipse.ease" url="features/org.eclipse.ease.feature_0.7.0.I201907120558/" version="0.7.0.I201907120558">
+</feature>
+<feature id="org.osate.xtext.aadl2.errormodel.feature" plugin-identifier="org.osate.branding" url="features/org.osate.xtext.aadl2.errormodel.feature_9.0.2.v20220203-1935/" version="9.0.2.v20220203-1935">
+</feature>
+<feature id="org.eclipse.jgit.ssh.apache" url="features/org.eclipse.jgit.ssh.apache_5.11.0.202103091610-r/" version="5.11.0.202103091610-r">
+</feature>
+<feature id="org.osate.dependencies.birt" url="features/org.osate.dependencies.birt_4.9.0.v20200203-1545/" version="4.9.0.v20200203-1545">
+</feature>
+<feature id="org.eclipse.jdt" url="features/org.eclipse.jdt_3.18.700.v20210303-1800/" version="3.18.700.v20210303-1800">
+</feature>
+<feature id="org.eclipse.mylyn.commons.repositories" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.commons.repositories_1.17.2.v20200813-0821/" version="1.17.2.v20200813-0821">
+</feature>
+<feature id="org.eclipse.emf.common" url="features/org.eclipse.emf.common_2.22.0.v20210114-1734/" version="2.22.0.v20210114-1734">
+</feature>
+<feature id="org.eclipse.sirius.runtime" plugin-identifier="org.eclipse.sirius" url="features/org.eclipse.sirius.runtime_6.4.2.202103091337/" version="6.4.2.202103091337">
+</feature>
+<feature id="openjfx.swing.feature" url="features/openjfx.swing.feature_16.0.0.202104071212/" version="16.0.0.202104071212">
+</feature>
+<feature id="org.eclipse.mylyn.monitor" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.monitor_3.25.2.v20200813-0821/" version="3.25.2.v20200813-0821">
+</feature>
+<feature id="org.eclipse.pde.source" url="features/org.eclipse.pde.source_3.14.700.v20210303-1800/" version="3.14.700.v20210303-1800">
+</feature>
+<feature id="org.eclipse.equinox.executable" url="features/org.eclipse.equinox.executable_3.8.1100.v20210209-1541/" version="3.8.1100.v20210209-1541">
+</feature>
+<feature id="org.eclipse.ease.lang.python.py4j.feature" url="features/org.eclipse.ease.lang.python.py4j.feature_0.7.0.I201907020902/" version="0.7.0.I201907020902">
+</feature>
+<feature id="org.eclipse.emf.ecore" url="features/org.eclipse.emf.ecore_2.23.0.v20200630-0516/" version="2.23.0.v20200630-0516">
+</feature>
+<feature id="org.eclipse.equinox.p2.user.ui" url="features/org.eclipse.equinox.p2.user.ui_2.4.1100.v20210227-0235/" version="2.4.1100.v20210227-0235">
+</feature>
+<feature id="org.eclipse.equinox.p2.extras.feature" url="features/org.eclipse.equinox.p2.extras.feature_1.4.1100.v20210227-0235/" version="1.4.1100.v20210227-0235">
+</feature>
+<feature id="org.eclipse.ease.ui.feature" plugin-identifier="org.eclipse.ease" url="features/org.eclipse.ease.ui.feature_0.7.0.I201907161104/" version="0.7.0.I201907161104">
+</feature>
+<feature id="org.eclipse.fx.runtime.min.feature" url="features/org.eclipse.fx.runtime.min.feature_3.7.0.202010120720/" version="3.7.0.202010120720">
+</feature>
+<feature id="org.eclipse.ecf.core.feature" url="features/org.eclipse.ecf.core.feature_1.5.701.v20201027-0550/" version="1.5.701.v20201027-0550">
+</feature>
+<feature id="org.eclipse.ecf.filetransfer.httpclient45.feature" url="features/org.eclipse.ecf.filetransfer.httpclient45.feature_1.0.702.v20201025-2303/" version="1.0.702.v20201025-2303">
+</feature>
+<feature id="org.eclipse.elk.algorithms.feature" plugin-identifier="org.eclipse.elk.core" url="features/org.eclipse.elk.algorithms.feature_0.7.1/" version="0.7.1">
+</feature>
+<feature id="org.eclipse.gmf.runtime.notation" url="features/org.eclipse.gmf.runtime.notation_1.13.0.202004160913/" version="1.13.0.202004160913">
+</feature>
+<feature id="org.osate.alisa.workbench.sdk" url="features/org.osate.alisa.workbench.sdk_7.1.1.v20220203-1935/" version="7.1.1.v20220203-1935">
+</feature>
+<feature id="org.eclipse.jgit" url="features/org.eclipse.jgit_5.11.0.202103091610-r/" version="5.11.0.202103091610-r">
+</feature>
+<feature id="org.eclipse.mylyn.context_feature" plugin-identifier="org.eclipse.mylyn.context.core" url="features/org.eclipse.mylyn.context_feature_3.25.2.v20200828-1617/" version="3.25.2.v20200828-1617">
+</feature>
+<feature id="org.eclipse.platform" url="features/org.eclipse.platform_4.19.0.v20210303-1800/" version="4.19.0.v20210303-1800">
+</feature>
+<feature id="org.eclipse.mylyn.discovery" plugin-identifier="org.eclipse.mylyn.commons.core" url="features/org.eclipse.mylyn.discovery_3.25.2.v20200813-0821/" version="3.25.2.v20200813-0821">
+</feature>
+<feature application="org.eclipse.ui.ide.workbench" id="org.osate.core.feature" plugin-identifier="org.osate.branding" url="features/org.osate.core.feature_9.1.0.v20220203-1935/" version="9.1.0.v20220203-1935">
+</feature>
+<feature application="org.eclipse.ui.ide.workbench" id="org.osate.plugins.feature" plugin-identifier="org.osate.branding" url="features/org.osate.plugins.feature_6.1.2.v20220120-2009/" version="6.1.2.v20220120-2009">
+</feature>
+<feature id="org.eclipse.ease.modules.feature" url="features/org.eclipse.ease.modules.feature_0.7.0.I201907160756/" version="0.7.0.I201907160756">
+</feature>
+<feature id="org.eclipse.emf.ecore.edit" url="features/org.eclipse.emf.ecore.edit_2.14.0.v20190822-1451/" version="2.14.0.v20190822-1451">
+</feature>
+<feature id="org.eclipse.emf.validation" url="features/org.eclipse.emf.validation_1.12.2.202008210805/" version="1.12.2.202008210805">
+</feature>
+<feature id="org.eclipse.e4.rcp" url="features/org.eclipse.e4.rcp_4.19.0.v20210302-1107/" version="4.19.0.v20210302-1107">
+</feature>
+<feature id="org.osate.ge.errormodel.feature" url="features/org.osate.ge.errormodel.feature_5.0.0.v20211129-1541/" version="5.0.0.v20211129-1541">
+</feature>
+</site>
+</config>

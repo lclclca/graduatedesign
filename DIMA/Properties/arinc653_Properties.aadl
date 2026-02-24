@@ -1,0 +1,3 @@
+property set arinc653_Properties is
+	MaxMessageSize : Size applies to (data);
+end arinc653_Properties;

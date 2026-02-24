@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;AadlmpmViaSdlAction.java&apos; to &apos;MyPlugin/src/nuaa.popup.actions&apos;&#x0D;&#x0A;- Original project: &apos;aadlmpm&apos;&#x0D;&#x0A;- Destination element: &apos;MyPlugin/src/nuaa.popup.actions&apos;&#x0D;&#x0A;- Original element: &apos;aadlmpm.popup.actions.AadlmpmViaSdlAction.java&apos;" description="Copy compilation unit" destination="=MyPlugin/src&lt;nuaa.popup.actions" element1="/src&lt;aadlmpm.popup.actions{AadlmpmViaSdlAction.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1656140380420" units="1" version="1.0"/>
+</session>

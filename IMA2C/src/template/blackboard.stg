@@ -1,0 +1,19 @@
+blackboard(blackboard) ::= <<<blackboard:{blackboardInfo|
+<if(blackboardInfo.direction)>
+GET_BLACKBOARD_ID("<blackboardInfo.portName>", &(<blackboardInfo.id>), &(ret));
+CHECK_CODE("GET_BLACKBOARD_ID(<blackboardInfo.portName>)", ret);
+
+READ_BLACKBOARD (<blackboardInfo.id>, <blackboardInfo.timeOut>ll, <blackboardInfo.messageAddr>, &(<blackboardInfo.length>), &(ret));
+CHECK_CODE("READ_BLACKBOARD (<blackboardInfo.id>)",ret);
+<else>
+GET_BLACKBOARD_ID("<blackboardInfo.portName>", &(<blackboardInfo.id>), &(ret));
+CHECK_CODE("GET_BLACKBOARD_ID(<blackboardInfo.portName>)", ret);
+
+DISPLAY_BLACKBOARD (<blackboardInfo.id>, <blackboardInfo.messageAddr>, sizeof(<blackboardInfo.dataType>), &(ret));
+CHECK_CODE("DISPLAY_BLACKBOARD (<blackboardInfo.id>)", ret);
+<endif>}; separator="\n">
+>>
+
+
+
+

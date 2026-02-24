@@ -1,0 +1,31 @@
+outport(thread) ::= <<
+<if(thread.queueInfo)><thread.queueInfo:{queueInfo|<if(!queueInfo.direction)>GET_QUEUING_PORT_ID("<queueInfo.portName>", &(<queueInfo.id>), &(ret));
+CHECK_CODE("GET_QUEUING_PORT_ID(<queueInfo.portName>)", ret);
+
+SEND_QUEUING_MESSAGE(<queueInfo.id>, <queueInfo.messageAddr>, sizeof(<queueInfo.dataType>), <queueInfo.timeOut>ll, &(ret));
+CHECK_CODE("SEND_QUEUING_MESSAGE(<queueInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.sampleInfo)><thread.sampleInfo:{sampleInfo|<if(!sampleInfo.direction)>GET_SAMPLING_PORT_ID("<sampleInfo.portName>", &(<sampleInfo.id>), &(ret));
+CHECK_CODE("GET_SAMPLING_PORT_ID(<sampleInfo.portName>)", ret);
+
+WRITE_SAMPLING_MESSAGE(<sampleInfo.id>, <sampleInfo.messageAddr>, sizeof (<sampleInfo.dataType>), &(ret));
+CHECK_CODE("WRITE_SAMPLING_MESSAGE(<sampleInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.eventInfo)><\n><thread.eventInfo:{eventInfo|<if(!eventInfo.direction)>GET_EVENT_ID("<eventInfo.portName>", &<eventInfo.id>, &(ret));
+CHECK_CODE("GET_EVENT_ID(<eventInfo.portName>)", ret);
+
+SET_EVENT(<eventInfo.id>, &(ret));
+CHECK_CODE("SET_EVENT(<eventInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.bufferInfo)><\n><thread.bufferInfo:{bufferInfo|<if(!bufferInfo.direction)>GET_BUFFER_ID("<bufferInfo.portName>", &(<bufferInfo.id>), &(ret));
+CHECK_CODE("GET_BUFFER_ID(<bufferInfo.portName>)", ret);
+
+SEND_BUFFER (<bufferInfo.id>, <bufferInfo.messageAddr>, sizeof(<bufferInfo.dataType>), <bufferInfo.timeOut>ll, &(ret));
+CHECK_CODE("SEND_BUFFER(<bufferInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.blackboardInfo)><\n><thread.blackboardInfo:{blackboardInfo|<if(!blackboardInfo.direction)>GET_BLACKBOARD_ID("<blackboardInfo.portName>", &(<blackboardInfo.id>), &(ret));
+CHECK_CODE("GET_BLACKBOARD_ID(<blackboardInfo.portName>)", ret);
+
+DISPLAY_BLACKBOARD (<blackboardInfo.id>, <blackboardInfo.messageAddr>, sizeof(<blackboardInfo.dataType>), &(ret));
+CHECK_CODE("DISPLAY_BLACKBOARD (<blackboardInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.semaphoreInfo)><\n><thread.semaphoreInfo:{semaphoreInfo|<if(!semaphoreInfo.direction)>GET_SEMAPHORE_ID("<semaphoreInfo.portName>", &(<semaphoreInfo.id>), &(ret));
+CHECK_CODE("GET_SEMAPHORE_ID(<semaphoreInfo.portName>)", ret);
+
+SIGNAL_SEMAPHORE (<semaphoreInfo.id>, &(ret));
+CHECK_CODE("SIGNAL_SEMAPHORE(<semaphoreInfo.id>)", ret);<endif>}; separator="\n"><endif> >>

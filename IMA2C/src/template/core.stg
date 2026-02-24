@@ -1,0 +1,15 @@
+import "core-partition.stg"
+import "core-memory.stg"
+import "core-schedule.stg"
+import "core-connection.stg"
+import "core-header.stg"
+import "core-end.stg"
+
+core(header,partition,memory,schedule,connection,end) ::= <<
+<header>
+	<partition>
+	<memory>
+	<schedule>
+	<connection>
+<end>
+>>

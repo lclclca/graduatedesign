@@ -1,0 +1,41 @@
+inport(thread) ::= <<
+<if(thread.queueInfo)><\n><thread.queueInfo:{queueInfo|<if(queueInfo.direction)>GET_QUEUING_PORT_ID("<queueInfo.portName>", &(<queueInfo.id>), &(ret));
+CHECK_CODE("GET_QUEUING_PORT_ID(<queueInfo.portName>)", ret);
+  
+RECEIVE_QUEUING_MESSAGE(<queueInfo.id>, <queueInfo.timeOut>ll, <queueInfo.messageAddr>, &(<queueInfo.length>), &(ret));
+CHECK_CODE("RECEIVE_QUEUING_MESSAGE(<queueInfo.id>)", ret);<endif>}; separator="\n"><endif>
+<if(thread.sampleInfo)><\n><thread.sampleInfo:{sampleInfo|<if(sampleInfo.direction)>GET_SAMPLING_PORT_ID("<sampleInfo.portName>", &(<sampleInfo.id>), &(ret));
+CHECK_CODE("GET_SAMPLING_PORT_ID(<sampleInfo.portName>)", ret);
+  
+READ_SAMPLING_MESSAGE(<sampleInfo.id>, <sampleInfo.messageAddr>, &(<sampleInfo.length>), &(<sampleInfo.validityType>), &(ret));
+CHECK_VALIDCODE("READ_SAMPLING_MESSAGE(<sampleInfo.id>)", <sampleInfo.validityType>, ret);
+CHECK_CODE("READ_SAMPLING_MESSAGE(<sampleInfo.id>)", ret);<endif>}; separator="\n"><endif>
+
+<if(thread.eventInfo)><\n><thread.eventInfo:{eventInfo|<if(eventInfo.direction)>GET_EVENT_ID("<eventInfo.portName>", &<eventInfo.id>, &(ret));
+CHECK_CODE("GET_EVENT_ID(<eventInfo.portName>)", ret);
+
+WAIT_EVENT (<eventInfo.id> ,<eventInfo.timeOut>ll ,&(ret));
+if(ret == NO_ERROR)
+{
+   <eventInfo.computeEntrypoint.keys:{key|<eventInfo.computeEntrypoint.(key).methodName>();}; separator="\n">
+\}
+else
+{
+   printf("Wait event failure,retCode is :%d\n",ret);
+   break;
+\}<endif>}; separator="\n"><endif>
+<if(thread.bufferInfo)><\n><thread.bufferInfo:{bufferInfo|<if(bufferInfo.direction)>GET_BUFFER_ID("<bufferInfo.portName>", &(<bufferInfo.id>), &(ret));
+CHECK_CODE("GET_BUFFER_ID(<bufferInfo.portName>)", ret);
+
+RECEIVE_BUFFER(<bufferInfo.id>, <bufferInfo.timeOut>ll, <bufferInfo.messageAddr>, &(<bufferInfo.length>), &(ret));
+CHECK_CODE("RECEIVE_BUFFER(<bufferInfo.id>)",ret);<endif>}; separator="\n"><endif>
+<if(thread.blackboardInfo)><\n><thread.blackboardInfo:{blackboardInfo|<if(blackboardInfo.direction)>GET_BLACKBOARD_ID("<blackboardInfo.portName>", &(<blackboardInfo.id>), &(ret));
+CHECK_CODE("GET_EVENT_ID(<blackboardInfo.portName>)", ret);
+
+READ_BLACKBOARD(<blackboardInfo.id>, <blackboardInfo.timeOut>ll, <blackboardInfo.messageAddr>, &(<blackboardInfo.length>), &(ret));
+CHECK_CODE("READ_BLACKBOARD (<blackboardInfo.id>)",ret);<endif>}; separator="\n"><endif>
+<if(thread.semaphoreInfo)><\n><thread.semaphoreInfo:{semaphoreInfo|<if(semaphoreInfo.direction)>GET_SEMAPHORE_ID("<semaphoreInfo.portName>", &(<semaphoreInfo.id>), &(ret));
+CHECK_CODE("GET_SEMAPHORE_ID(<semaphoreInfo.portName>)", ret);
+
+WAIT_SEMAPHORE(<semaphoreInfo.id>, <semaphoreInfo.timeOut>ll, &(ret));
+CHECK_CODE("WAIT_SEMAPHORE(<semaphoreInfo.id>)", ret);<endif>}; separator="\n"><endif> >>

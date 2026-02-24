@@ -1,0 +1,325 @@
+package Active_aircraft_airspeed_control_system_6
+public
+	
+	system Active_aircraft_airspeed_control_system_6
+	end Active_aircraft_airspeed_control_system_6;
+	
+	system implementation Active_aircraft_airspeed_control_system_6.impl
+		subcomponents
+			Active_aircraft_airspeed_control_module: system Active_aircraft_airspeed_control_module.impl;
+			Nose_Airspeed_sensor: device Nose_Airspeed_sensor.impl;
+			Fuselage_airspeed_sensor: device Fuselage_airspeed_sensor.impl;
+			Tail_airspeed_sensor: device Tail_airspeed_sensor.impl;
+			Display: device Display.impl;
+			Airspeed_control_command_sensor: device Airspeed_control_command_sensor.impl;
+			Throttle: device Throttle.impl;
+			Elevator: device Elevator.impl;
+			Spoiler: device Spoiler.impl;
+			Flap: device Flap.impl;
+			ARINC629_1: bus ARINC629_1.impl;
+			ARINC629_2: bus ARINC629_2.impl;
+			ARINC629_3: bus ARINC629_3.impl;
+			ARINC629_4: bus ARINC629_4.impl;
+			ARINC629_5: bus ARINC629_5.impl;
+			ARINC629_6: bus ARINC629_6.impl;
+			ARINC629_7: bus ARINC629_7.impl;
+			ARINC629_8: bus ARINC629_8.impl;
+			ARINC629_9: bus ARINC629_9.impl;
+	end Active_aircraft_airspeed_control_system_6.impl;
+	
+	system Active_aircraft_airspeed_control_module
+	end Active_aircraft_airspeed_control_module;
+	
+	system implementation Active_aircraft_airspeed_control_module.impl
+		subcomponents
+			Airspeed_calculation_partition: process Airspeed_calculation_partition.impl;
+			Airspeed_response_partition: process Airspeed_response_partition.impl;
+			Active_aircraft_airspeed_control_processor: processor Active_aircraft_airspeed_control_processor.impl;
+			Active_aircraft_airspeed_control_memory: memory Active_aircraft_airspeed_control_memory.impl;
+	end Active_aircraft_airspeed_control_module.impl;
+	
+	process Airspeed_calculation_partition	
+	end Airspeed_calculation_partition;
+	
+	process implementation Airspeed_calculation_partition.impl
+		subcomponents
+			Airspeed_calculation_task: thread Airspeed_calculation_task.impl;
+	end Airspeed_calculation_partition.impl;
+	
+	thread Airspeed_calculation_task
+	end Airspeed_calculation_task;
+	
+	thread implementation Airspeed_calculation_task.impl
+	end Airspeed_calculation_task.impl;
+	
+	process Airspeed_response_partition		
+	end Airspeed_response_partition;
+	
+	process implementation Airspeed_response_partition.impl
+		subcomponents
+			Command_decomposition_task: thread Command_decomposition_task.impl;
+			Throttle_response_task: thread Throttle_response_task.impl;
+			Elevator_response_task: thread Elevator_response_task.impl;
+			Spoiler_response_task: thread Spoiler_response_task.impl;
+			Flap_response_task: thread Flap_response_task.impl;
+	end Airspeed_response_partition.impl;
+	
+	thread Command_decomposition_task
+	end Command_decomposition_task;
+	
+	thread implementation Command_decomposition_task.impl
+	end Command_decomposition_task.impl;
+	
+	thread Throttle_response_task
+	end Throttle_response_task;
+	
+	thread implementation Throttle_response_task.impl
+	end Throttle_response_task.impl;
+	
+	thread Elevator_response_task
+	end Elevator_response_task;
+	
+	thread implementation Elevator_response_task.impl
+	end Elevator_response_task.impl;
+	
+	thread Spoiler_response_task
+	end Spoiler_response_task;
+	
+	thread implementation Spoiler_response_task.impl
+	end Spoiler_response_task.impl;
+	
+	thread Flap_response_task
+	end Flap_response_task;
+	
+	thread implementation Flap_response_task.impl
+	end Flap_response_task.impl;
+	
+	processor Active_aircraft_airspeed_control_processor
+	end Active_aircraft_airspeed_control_processor;
+	
+	processor implementation Active_aircraft_airspeed_control_processor.impl
+		subcomponents
+			Airspeed_calculation_partition_runtime: virtual processor Airspeed_calculation_partition_runtime.impl;
+			Airspeed_response_partition_runtime: virtual processor Airspeed_response_partition_runtime.impl;
+	end Active_aircraft_airspeed_control_processor.impl;
+	
+	virtual processor Airspeed_calculation_partition_runtime
+	end Airspeed_calculation_partition_runtime;
+	
+	virtual processor implementation Airspeed_calculation_partition_runtime.impl
+	end Airspeed_calculation_partition_runtime.impl;
+	
+	virtual processor Airspeed_response_partition_runtime
+	end Airspeed_response_partition_runtime;
+	
+	virtual processor implementation Airspeed_response_partition_runtime.impl
+	end Airspeed_response_partition_runtime.impl;
+	
+	memory Active_aircraft_airspeed_control_memory
+	end Active_aircraft_airspeed_control_memory;
+	
+	memory implementation Active_aircraft_airspeed_control_memory.impl
+		subcomponents
+			Airspeed_calculation_partition_memory: memory Airspeed_calculation_partition_memory.impl;
+			Airspeed_response_partition_memory: memory Airspeed_response_partition_memory.impl;
+	end Active_aircraft_airspeed_control_memory.impl;
+	
+	memory Airspeed_calculation_partition_memory
+	end Airspeed_calculation_partition_memory;
+	
+	memory implementation Airspeed_calculation_partition_memory.impl
+	end Airspeed_calculation_partition_memory.impl;
+	
+	memory Airspeed_response_partition_memory
+	end Airspeed_response_partition_memory;
+	
+	memory implementation Airspeed_response_partition_memory.impl
+	end Airspeed_response_partition_memory.impl;
+	
+	device Nose_airspeed_sensor
+	end Nose_airspeed_sensor;
+	
+	device implementation Nose_airspeed_sensor.impl
+	end Nose_airspeed_sensor.impl;
+	
+	device Fuselage_airspeed_sensor
+	end Fuselage_airspeed_sensor;
+	
+	device implementation Fuselage_airspeed_sensor.impl
+	end Fuselage_airspeed_sensor.impl;
+	
+	device Tail_airspeed_sensor
+	end Tail_airspeed_sensor;
+	
+	device implementation Tail_airspeed_sensor.impl
+	end Tail_airspeed_sensor.impl;
+	
+	device Display
+	end Display;
+	
+	device implementation Display.impl
+	end Display.impl;
+	
+	device Airspeed_control_command_sensor
+	end Airspeed_control_command_sensor;
+	
+	device implementation Airspeed_control_command_sensor.impl
+	end Airspeed_control_command_sensor.impl;
+	
+	device Throttle
+	end Throttle;
+	
+	device implementation Throttle.impl
+	end Throttle.impl;
+	
+	device Elevator
+	end Elevator;
+	
+	device implementation Elevator.impl
+	end Elevator.impl;
+	
+	device Spoiler
+	end Spoiler;
+	
+	device implementation Spoiler.impl
+	end Spoiler.impl;
+	
+	device Flap
+	end Flap;
+	
+	device implementation Flap.impl
+	end Flap.impl;
+	
+	bus ARINC629_1
+	end ARINC629_1;
+	
+	bus implementation ARINC629_1.impl
+	end ARINC629_1.impl;
+	
+	bus ARINC629_2
+	end ARINC629_2;
+	
+	bus implementation ARINC629_2.impl
+	end ARINC629_2.impl;	
+	
+	bus ARINC629_3
+	end ARINC629_3;
+	
+	bus implementation ARINC629_3.impl
+	end ARINC629_3.impl;
+	
+	bus ARINC629_4
+	end ARINC629_4;
+	
+	bus implementation ARINC629_4.impl
+	end ARINC629_4.impl;	
+	
+	bus ARINC629_5
+	end ARINC629_5;
+	
+	bus implementation ARINC629_5.impl
+	end ARINC629_5.impl;
+	
+	bus ARINC629_6
+	end ARINC629_6;
+	
+	bus implementation ARINC629_6.impl
+	end ARINC629_6.impl;	
+	
+	bus ARINC629_7
+	end ARINC629_7;
+	
+	bus implementation ARINC629_7.impl
+	end ARINC629_7.impl;
+	
+	bus ARINC629_8
+	end ARINC629_8;
+	
+	bus implementation ARINC629_8.impl
+	end ARINC629_8.impl;
+	
+	bus ARINC629_9
+	end ARINC629_9;
+	
+	bus implementation ARINC629_9.impl
+	end ARINC629_9.impl;
+	
+	data Nose_airspeed		
+	end Nose_airspeed;
+	
+	data implementation Nose_airspeed.impl
+	end Nose_airspeed.impl;
+	
+	data Fuselage_airspeed		
+	end Fuselage_airspeed;
+	
+	data implementation Fuselage_airspeed.impl
+	end Fuselage_airspeed.impl;
+	
+	data Tail_airspeed		
+	end Tail_airspeed;
+	
+	data implementation Tail_airspeed.impl
+	end Tail_airspeed.impl;
+	
+	data Comprehensive_airspeed
+	end Comprehensive_airspeed;
+	
+	data implementation Comprehensive_airspeed.impl
+	end Comprehensive_airspeed.impl;
+	
+	data Airspeed_control_command
+	end Airspeed_control_command;
+	
+	data implementation Airspeed_control_command.impl
+	end Airspeed_control_command.impl;
+	
+	data Throttle_control_command
+	end Throttle_control_command;
+	
+	data implementation Throttle_control_command.impl
+	end Throttle_control_command.impl;
+	
+	data Elevator_control_command
+	end Elevator_control_command;
+	
+	data implementation Elevator_control_command.impl
+	end Elevator_control_command.impl;
+	
+	data Spoiler_control_command
+	end Spoiler_control_command;
+	
+	data implementation Spoiler_control_command.impl
+	end Spoiler_control_command.impl;
+	
+	data Flap_control_command
+	end Flap_control_command;
+	
+	data implementation Flap_control_command.impl
+	end Flap_control_command.impl;
+	
+	data Throttle_response_command		
+	end Throttle_response_command;
+	
+	data implementation Throttle_response_command.impl
+	end Throttle_response_command.impl;
+	
+	data Elevator_response_command		
+	end Elevator_response_command;
+	
+	data implementation Elevator_response_command.impl
+	end Elevator_response_command.impl;
+	
+	data Spoiler_response_command
+	end Spoiler_response_command;
+	
+	data implementation Spoiler_response_command.impl
+	end Spoiler_response_command.impl;
+	
+	data Flap_response_command
+	end Flap_response_command;
+	
+	data implementation Flap_response_command.impl
+	end Flap_response_command.impl;
+	
+end Active_aircraft_airspeed_control_system_6;

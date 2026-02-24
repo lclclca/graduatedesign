@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="0b247b50-0afa-433b-acd2-55d628795daa" manual="true">
+    <element uuid="ad4e654c-498d-4ab4-89aa-5e71466428d5" manual="true">
+      <element uuid="bb5489ac-1598-450b-a2b5-dbe4eeb4613a" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection1</seg>
+      </bo>
+    </element>
+    <element uuid="34c35453-d608-4484-9f4c-09b0b6722cfc" manual="true">
+      <element uuid="75f06d1c-b846-4145-b8c1-6046ef053bae" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection2</seg>
+      </bo>
+    </element>
+    <element uuid="6a8b5ba7-a7a0-4a8f-b321-a44f30bbb5d0" manual="true">
+      <element uuid="ea7747f3-357d-4e51-a90f-d34c3c198f01" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection3</seg>
+      </bo>
+    </element>
+    <element uuid="779fb4fe-0b45-4097-b3f5-f4606dfe919c" manual="true">
+      <element uuid="d9cad2cc-e917-4014-8354-eb24160a07e6" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection4</seg>
+      </bo>
+    </element>
+    <element uuid="aa9afd10-d449-4732-b2d0-a775885ef780" manual="true">
+      <element uuid="7f866465-c87e-4ae9-ab2f-f2f35686e7b2" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection5</seg>
+      </bo>
+    </element>
+    <element uuid="26f2787d-242f-4860-b211-79173f268951" manual="true">
+      <element uuid="1b758b5e-fe2b-4924-b01d-494c37c56fc1" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>c397cc7a-f097-4265-a479-41ee2991b58a</seg>
+        </bo>
+      </element>
+      <element uuid="a803580d-639a-45a0-824d-864c48d90442" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection6</seg>
+      </bo>
+    </element>
+    <element uuid="763894de-3a67-436e-a940-c858d551cb95" manual="true">
+      <element uuid="86727a0e-79dd-487d-a418-47fef62cb4cc" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>c397cc7a-f097-4265-a479-41ee2991b58a</seg>
+        </bo>
+      </element>
+      <element uuid="4fe80626-3c32-4bbc-abf0-64b7668fb933" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection7</seg>
+      </bo>
+      <bendpoints>
+        <point x="319.0" y="303.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="cc6a183b-e9c1-4f98-aad8-1a4a13541215" manual="true">
+      <element uuid="31c05e5d-9cd4-40a5-8705-105b1b82dd7f" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>4b158854-e830-4f8d-9139-e4e05be15496</seg>
+        </bo>
+      </element>
+      <element uuid="8db3161c-8ed7-4b9d-8056-4b8cc98057a5" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection8</seg>
+      </bo>
+    </element>
+    <element uuid="49453953-409a-4baf-a134-c38015862759" manual="true">
+      <element uuid="4a0044ab-737c-4069-b080-4ee62dccacb5" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>4b158854-e830-4f8d-9139-e4e05be15496</seg>
+        </bo>
+      </element>
+      <element uuid="cd6f44de-ee1b-483a-bfdb-3c6728ebbcdf" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>DIMAsystem_impl_new_connection9</seg>
+      </bo>
+    </element>
+    <element uuid="cfe85d3b-f3bd-41fb-822a-506e2a09e8fe" manual="true">
+      <bo>
+        <seg>realization</seg>
+      </bo>
+    </element>
+    <element uuid="69190e1b-2702-4404-8705-d0d0aa83726a" manual="true">
+      <element uuid="f7239bd5-01b7-42bb-915b-80b61e31c672" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>FC</seg>
+        </bo>
+        <position y="10.0"/>
+      </element>
+      <element uuid="335e7602-e814-4160-bccc-c173f22adf79" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>v1_out</seg>
+        </bo>
+        <position y="60.0"/>
+      </element>
+      <element uuid="893dbd41-364e-49c4-b6da-3de45600aaf5" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+        </bo>
+      </element>
+      <element uuid="2090cd60-51e3-4ad0-9348-7b57a4e022bf" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>es1</seg>
+      </bo>
+      <position x="50.0" y="210.0"/>
+      <size width="182.75128936767578" height="110.0"/>
+    </element>
+    <element uuid="6533b671-c42c-4b9f-bbf1-187e92c95351" manual="true">
+      <element uuid="22bc5772-afa8-4f71-a9a5-e520ebc66802" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>FC</seg>
+        </bo>
+        <position y="110.0"/>
+      </element>
+      <element uuid="cd41f855-6b5d-4963-8a71-455349d549cc" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>v1_in</seg>
+        </bo>
+        <position y="160.0"/>
+      </element>
+      <element uuid="c8557c66-7efe-4bd0-92db-070729cd8db5" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>v3_in</seg>
+        </bo>
+        <position y="10.0"/>
+      </element>
+      <element uuid="6107e473-f1b9-4b7f-87fd-8b240fec5456" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>v4_out</seg>
+        </bo>
+        <position y="60.0"/>
+      </element>
+      <element uuid="dad0fefe-31ba-419a-ab05-6fbebf22edc6" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+        </bo>
+      </element>
+      <element uuid="28635e03-daac-440a-84be-de9b9b3dd318" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>es2</seg>
+      </bo>
+      <position x="820.0" y="50.0"/>
+      <size width="182.75128936767578" height="210.0"/>
+    </element>
+    <element uuid="6074b102-8123-47e4-ae40-9219e36d462d" manual="true">
+      <element uuid="277ba5d9-ecdc-488e-86a9-6a4c2fd039c4" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>FC</seg>
+        </bo>
+        <position y="110.0"/>
+      </element>
+      <element uuid="a5d44374-e511-4901-a425-9b5f87a8d561" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>V1_in</seg>
+        </bo>
+        <position y="160.0"/>
+      </element>
+      <element uuid="867304f9-e4b5-4b41-ba88-996f204764e1" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>V3_out</seg>
+        </bo>
+        <position y="60.0"/>
+      </element>
+      <element uuid="ee4a187b-c018-4df4-9115-c75e1b4774af" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>V4_in</seg>
+        </bo>
+        <position y="10.0"/>
+      </element>
+      <element uuid="311f8acc-4a01-4710-8077-627af6df9d9b" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+        </bo>
+      </element>
+      <element uuid="e8990a34-3a7a-458a-963c-049d36537b98" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>es3</seg>
+      </bo>
+      <position x="580.0" y="300.0"/>
+      <size width="187.20441436767578" height="210.0"/>
+    </element>
+    <element uuid="c397cc7a-f097-4265-a479-41ee2991b58a" manual="true" background="#ccffcc">
+      <element uuid="55696baf-ce6f-440c-a93f-764ae8b5b57e" manual="true" dockArea="right">
+        <bo>
+          <seg>feature</seg>
+          <seg>SW</seg>
+        </bo>
+        <position x="106.52213668823242" y="10.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>Switch1</seg>
+      </bo>
+      <position x="170.0" y="550.0"/>
+      <size width="140.0" height="120.0"/>
+    </element>
+    <element uuid="4b158854-e830-4f8d-9139-e4e05be15496" manual="true" background="#ccffcc">
+      <element uuid="c620aca3-49ea-4bcf-9c54-2eaf4526cdbd" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>SW</seg>
+        </bo>
+        <position y="50.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>Switch2</seg>
+      </bo>
+      <position x="1180.0" y="370.0"/>
+      <size width="140.0" height="120.0"/>
+    </element>
+    <bo>
+      <seg>classifier</seg>
+      <seg>DIMAsystem.impl</seg>
+    </bo>
+    <position x="-440.0" y="-30.0"/>
+    <size width="1980.0" height="1000.0"/>
+  </element>
+  <config type="structure" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties>
+      <property>deployment_properties::actual_memory_binding</property>
+      <property>deployment_properties::actual_processor_binding</property>
+      <property>deployment_properties::actual_connection_binding</property>
+    </enabledAadlProperties>
+    <context>
+      <seg>classifier</seg>
+      <seg>DIMA::DIMAsystem.impl</seg>
+    </context>
+  </config>
+</diagram:Diagram>

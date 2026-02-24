@@ -1,0 +1,42 @@
+package subprograms
+public
+	with Base_Types;
+	--subprogram 后续考虑与thread的连接,在thread里调用subprogram序列
+	subprogram sensor_temperature_spg
+		properties
+			Source_Text => ("send.h", "send.c");
+			source_language => (C);
+			source_name => "user_send";
+	end sensor_temperature_spg;
+
+	subprogram sensor_receiveinput_spg
+		properties
+			Source_Text => ("receive.h", "receive.c");
+			source_language => (C);
+			source_name => "user_receive";
+	end sensor_receiveinput_spg;
+
+	subprogram commandboard_receiveinput_spg
+		properties
+			Source_Text => ("receive.h", "receive.c");
+			source_language => (C);
+			source_name => "user_receive";
+	end commandboard_receiveinput_spg;
+
+	subprogram commandboard_printinfos_spg
+		properties
+			Source_Text => ("send.h", "send.c");
+			source_language => (C);
+			source_name => "user_send";
+	end commandboard_printinfos_spg;
+	
+	subprogram calculate_spg
+		features
+			data_in: in parameter Base_Types::Integer;
+			data_out: out parameter Base_Types::Integer;
+		properties
+			Source_Text => ("calculate.h", "calculate.c");
+			source_language => (C);
+			source_name => "calculate";
+	end calculate_spg;
+end subprograms;

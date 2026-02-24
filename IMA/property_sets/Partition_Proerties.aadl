@@ -1,0 +1,35 @@
+property set Partition_Proerties is
+
+--- The <b>Dispatch_Protocol</b> property specifies the dispatch behavior for a thread.<p>
+--- A method used to construct a actual system from a specification is permitted to support only a subset of the
+--- standard scheduling protocols.  A method used to construct a actual system is permitted to support additional
+--- non-standard scheduling protocols.
+	Dispatch_Protocol: Supported_Dispatch_Protocols applies to (thread, process);
+	
+-- This property specifies the very first arrival time of the thread. By arrival time, we mean the 
+-- first dispatching time of the thread.
+	Dispatch_Absolute_Time: inherit Time applies to (thread, process);
+	
+--- The <b>Execution_Time</> property specifies the amount of execution time allocated to a process by the  
+--- processor it is bound to. 
+	Execution_Time: Time applies to (thread, process);
+	
+---	The <b>Deadline</b> property specifies the maximum amount of time allowed between a thread dispatch and the time
+--- that thread begins waiting for another dispatch. 
+	Deadline: inherit Time => Period applies to (thread, thread group, process, system, device, virtual processor);
+	
+--- The <b>Period</b> property specifies the time interval between successive dispatches of a thread whose scheduling
+---  protocol is periodic, or the minimum interval between successive dispatches of a thread whose scheduling protocol
+--- is sporadic.<p>  
+--- The property type is <b>Time</b>.  The standard units are ns (nanoseconds), us (microseconds), ms (milliseconds),
+--- sec (seconds), min (minutes) and hr (hours).  The numeric value must be a single positive number.<p>  
+--- A <b>Period</b> property association is only allowed if the thread scheduling protocol is either periodic or
+--- sporadic, timed or hybrid.	
+	Period: inherit Time applies to (thread, thread group, process, system, device, virtual processor, virtual bus, bus);
+	
+--- The <b>Supported_Dispatch_Protocols</b> property enumeration type specifies the set of thread dispatch protocols
+--- that are supported.<p> 
+	Supported_Dispatch_Protocols: type enumeration (Periodic, Sporadic, Aperiodic, Timed, Hybrid, Background);
+	
+	
+end Partition_Proerties;

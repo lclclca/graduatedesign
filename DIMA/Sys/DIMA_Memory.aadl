@@ -1,0 +1,84 @@
+package DIMA_Memory
+public
+	with ARINC653;
+	
+	-- Memory
+	memory partition1_memory
+		properties
+			Base_Address => 0;
+			ARINC653::Memory_Kind => (Memory_Code);
+	end partition1_memory;
+
+	memory partition2_memory
+		properties
+			Base_Address => 100;
+			ARINC653::Memory_Kind => (Memory_Code);
+	end partition2_memory;
+
+	memory main_memory
+	end main_memory;
+	
+
+	memory implementation main_memory.impl
+		subcomponents
+			part1mem: memory partition1_memory;
+			part2mem: memory partition2_memory;
+	end main_memory.impl;
+	
+	
+	memory memchunk1
+	end memchunk1;
+
+	memory implementation memchunk1.impl
+		properties
+			Base_Address => 0;
+			Memory_Size => 1024 Bytes;
+			Memory_Protocol => read_write;
+			ARINC653::Memory_Kind => (Memory_Code);
+	end memchunk1.impl;
+	
+	memory memchunk2
+	end memchunk2;
+
+	memory implementation memchunk2.impl
+		properties
+			Base_Address => 1024;
+			Memory_Size => 1024 Bytes;
+			Memory_Protocol => read_write;
+			ARINC653::Memory_Kind => (Memory_Code);
+	end memchunk2.impl;
+	
+	memory memchunk3
+	end memchunk3;
+
+	memory implementation memchunk3.impl
+		properties
+			Base_Address => 2048;
+			Memory_Size => 1024 Bytes;
+			Memory_Protocol => read_write;
+			ARINC653::Memory_Kind => (Memory_Code);
+	end memchunk3.impl;
+
+	memory mainmemory
+	end mainmemory;
+	
+	memory implementation mainmemory.module1
+		subcomponents
+			mem1: memory memchunk1.impl;
+			mem2: memory memchunk2.impl;
+	end mainmemory.module1;
+	
+	
+	memory implementation mainmemory.module2
+		subcomponents
+			mem1: memory memchunk1.impl;
+			mem2: memory memchunk1.impl;
+			--mem3: memory memchunk1.impl;
+	end mainmemory.module2;
+	
+	memory implementation mainmemory.module3
+		subcomponents
+			mem1: memory memchunk1.impl;
+			mem2: memory memchunk1.impl;
+	end mainmemory.module3;
+end DIMA_Memory;

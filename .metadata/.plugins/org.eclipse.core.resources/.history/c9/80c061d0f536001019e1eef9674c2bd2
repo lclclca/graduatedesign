@@ -1,0 +1,273 @@
+package Active_aircraft_airspeed_control_system_4
+public
+	
+	system Active_aircraft_airspeed_control_system_4
+	end Active_aircraft_airspeed_control_system_4;
+	
+	system implementation Active_aircraft_airspeed_control_system_4.impl
+		subcomponents
+			Active_aircraft_airspeed_control_module: system Active_aircraft_airspeed_control_module.impl;
+			Airspeed_sensor_1: device Airspeed_sensor_1.impl;
+			Airspeed_sensor_2: device Airspeed_sensor_2.impl;
+			Airspeed_sensor_3: device Airspeed_sensor_3.impl;
+			Airspeed_sensor_4: device Airspeed_sensor_4.impl;
+			Display: device Display.impl;
+			Airspeed_control_command_sensor: device Airspeed_control_command_sensor.impl;
+			Throttle: device Throttle.impl;
+			Elevator: device Elevator.impl;
+			Flap: device Flap.impl;
+			MILSTD1553B_1: bus MILSTD1553B_1.impl;
+			MILSTD1553B_2: bus MILSTD1553B_2.impl;
+			MILSTD1553B_3: bus MILSTD1553B_3.impl;
+			MILSTD1553B_4: bus MILSTD1553B_4.impl;
+			MILSTD1553B_5: bus MILSTD1553B_5.impl;
+			MILSTD1553B_6: bus MILSTD1553B_6.impl;
+			MILSTD1553B_7: bus MILSTD1553B_7.impl;
+			MILSTD1553B_8: bus MILSTD1553B_8.impl;
+			MILSTD1553B_9: bus MILSTD1553B_9.impl;
+	end Active_aircraft_airspeed_control_system_4.impl;
+	
+	system Active_aircraft_airspeed_control_module
+	end Active_aircraft_airspeed_control_module;
+	
+	system implementation Active_aircraft_airspeed_control_module.impl
+		subcomponents
+			Airspeed_calculation_partition: process Airspeed_calculation_partition.impl;
+			Airspeed_response_partition: process Airspeed_response_partition.impl;
+			Active_aircraft_airspeed_control_processor: processor Active_aircraft_airspeed_control_processor.impl;
+			Active_aircraft_airspeed_control_memory: memory Active_aircraft_airspeed_control_memory.impl;
+	end Active_aircraft_airspeed_control_module.impl;
+	
+	process Airspeed_calculation_partition	
+	end Airspeed_calculation_partition;
+	
+	process implementation Airspeed_calculation_partition.impl
+		subcomponents
+			Airspeed_calculation_task: thread Airspeed_calculation_task.impl;
+	end Airspeed_calculation_partition.impl;
+	
+	thread Airspeed_calculation_task		
+	end Airspeed_calculation_task;
+	
+	thread implementation Airspeed_calculation_task.impl
+	end Airspeed_calculation_task.impl;
+	
+	process Airspeed_response_partition		
+	end Airspeed_response_partition;
+	
+	process implementation Airspeed_response_partition.impl
+		subcomponents
+			Airspeed_response_task: thread Airspeed_response_task.impl;
+	end Airspeed_response_partition.impl;
+	
+	thread Airspeed_response_task		
+	end Airspeed_response_task;
+	
+	thread implementation Airspeed_response_task.impl
+	end Airspeed_response_task.impl;
+	
+	processor Active_aircraft_airspeed_control_processor
+	end Active_aircraft_airspeed_control_processor;
+	
+	processor implementation Active_aircraft_airspeed_control_processor.impl
+		subcomponents
+			Airspeed_calculation_partition_runtime: virtual processor Airspeed_calculation_partition_runtime.impl;
+			Airspeed_response_partition_runtime: virtual processor Airspeed_response_partition_runtime.impl;
+	end Active_aircraft_airspeed_control_processor.impl;
+	
+	virtual processor Airspeed_calculation_partition_runtime
+	end Airspeed_calculation_partition_runtime;
+	
+	virtual processor implementation Airspeed_calculation_partition_runtime.impl
+	end Airspeed_calculation_partition_runtime.impl;
+	
+	virtual processor Airspeed_response_partition_runtime
+	end Airspeed_response_partition_runtime;
+	
+	virtual processor implementation Airspeed_response_partition_runtime.impl
+	end Airspeed_response_partition_runtime.impl;
+	
+	memory Active_aircraft_airspeed_control_memory
+	end Active_aircraft_airspeed_control_memory;
+	
+	memory implementation Active_aircraft_airspeed_control_memory.impl
+		subcomponents
+			Airspeed_calculation_partition_memory: memory Airspeed_calculation_partition_memory.impl;
+			Airspeed_response_partition_memory: memory Airspeed_response_partition_memory.impl;
+	end Active_aircraft_airspeed_control_memory.impl;
+	
+	memory Airspeed_calculation_partition_memory
+	end Airspeed_calculation_partition_memory;
+	
+	memory implementation Airspeed_calculation_partition_memory.impl
+	end Airspeed_calculation_partition_memory.impl;
+	
+	memory Airspeed_response_partition_memory
+	end Airspeed_response_partition_memory;
+	
+	memory implementation Airspeed_response_partition_memory.impl
+	end Airspeed_response_partition_memory.impl;
+	
+	device Airspeed_sensor_1
+	end Airspeed_sensor_1;
+	
+	device implementation Airspeed_sensor_1.impl
+	end Airspeed_sensor_1.impl;
+	
+	device Airspeed_sensor_2
+	end Airspeed_sensor_2;
+	
+	device implementation Airspeed_sensor_2.impl
+	end Airspeed_sensor_2.impl;
+	
+	device Airspeed_sensor_3
+	end Airspeed_sensor_3;
+	
+	device implementation Airspeed_sensor_3.impl
+	end Airspeed_sensor_3.impl;
+	
+	device Airspeed_sensor_4
+	end Airspeed_sensor_4;
+	
+	device implementation Airspeed_sensor_4.impl
+	end Airspeed_sensor_4.impl;
+	
+	device Display
+	end Display;
+	
+	device implementation Display.impl
+	end Display.impl;
+	
+	device Airspeed_control_command_sensor
+	end Airspeed_control_command_sensor;
+	
+	device implementation Airspeed_control_command_sensor.impl
+	end Airspeed_control_command_sensor.impl;
+	
+	device Throttle
+	end Throttle;
+	
+	device implementation Throttle.impl
+	end Throttle.impl;
+	
+	device Elevator
+	end Elevator;
+	
+	device implementation Elevator.impl
+	end Elevator.impl;
+	
+	device Flap
+	end Flap;
+	
+	device implementation Flap.impl
+	end Flap.impl;
+	
+	bus MILSTD1553B_1
+	end MILSTD1553B_1;
+	
+	bus implementation MILSTD1553B_1.impl
+	end MILSTD1553B_1.impl;
+	
+	bus MILSTD1553B_2
+	end MILSTD1553B_2;
+	
+	bus implementation MILSTD1553B_2.impl
+	end MILSTD1553B_2.impl;	
+	
+	bus MILSTD1553B_3
+	end MILSTD1553B_3;
+	
+	bus implementation MILSTD1553B_3.impl
+	end MILSTD1553B_3.impl;
+	
+	bus MILSTD1553B_4
+	end MILSTD1553B_4;
+	
+	bus implementation MILSTD1553B_4.impl
+	end MILSTD1553B_4.impl;	
+	
+	bus MILSTD1553B_5
+	end MILSTD1553B_5;
+	
+	bus implementation MILSTD1553B_5.impl
+	end MILSTD1553B_5.impl;
+	
+	bus MILSTD1553B_6
+	end MILSTD1553B_6;
+	
+	bus implementation MILSTD1553B_6.impl
+	end MILSTD1553B_6.impl;	
+	
+	bus MILSTD1553B_7
+	end MILSTD1553B_7;
+	
+	bus implementation MILSTD1553B_7.impl
+	end MILSTD1553B_7.impl;
+	
+	bus MILSTD1553B_8
+	end MILSTD1553B_8;
+	
+	bus implementation MILSTD1553B_8.impl
+	end MILSTD1553B_8.impl;
+	
+	bus MILSTD1553B_9
+	end MILSTD1553B_9;
+	
+	bus implementation MILSTD1553B_9.impl
+	end MILSTD1553B_9.impl;
+	
+	data Airspeed_1		
+	end Airspeed_1;
+	
+	data implementation Airspeed_1.impl
+	end Airspeed_1.impl;
+	
+	data Airspeed_2		
+	end Airspeed_2;
+	
+	data implementation Airspeed_2.impl
+	end Airspeed_2.impl;
+	
+	data Airspeed_3		
+	end Airspeed_3;
+	
+	data implementation Airspeed_3.impl
+	end Airspeed_3.impl;
+	
+	data Airspeed_4		
+	end Airspeed_4;
+	
+	data implementation Airspeed_4.impl
+	end Airspeed_4.impl;
+	
+	data Comprehensive_airspeed
+	end Comprehensive_airspeed;
+	
+	data implementation Comprehensive_airspeed.impl
+	end Comprehensive_airspeed.impl;
+	
+	data Airspeed_control_command
+	end Airspeed_control_command;
+	
+	data implementation Airspeed_control_command.impl
+	end Airspeed_control_command.impl;
+	
+	data Throttle_response_command		
+	end Throttle_response_command;
+	
+	data implementation Throttle_response_command.impl
+	end Throttle_response_command.impl;
+	
+	data Elevator_response_command		
+	end Elevator_response_command;
+	
+	data implementation Elevator_response_command.impl
+	end Elevator_response_command.impl;
+	
+	data Flap_response_command
+	end Flap_response_command;
+	
+	data implementation Flap_response_command.impl
+	end Flap_response_command.impl;
+	
+end Active_aircraft_airspeed_control_system_4;

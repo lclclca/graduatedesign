@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="6edabc05-65a2-46e3-997c-324d2c083fe6" manual="true">
+    <element uuid="c83f5764-a4d1-4270-bd3f-b3deb7f72aab" manual="true">
+      <element uuid="45bc0d1d-404a-447e-bb13-4740761738cd" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>busaccess_module1</seg>
+      </bo>
+    </element>
+    <element uuid="b1973b71-50fa-4b8c-8b3f-e3a21756eff6" manual="true">
+      <element uuid="e8ad1c6c-79fb-448f-b9fd-cb783d158bcd" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>busaccess_module2</seg>
+      </bo>
+    </element>
+    <element uuid="e08b76b4-6c91-485f-ad5a-241fe5cd4beb" manual="true">
+      <element uuid="eed03723-1cb4-497c-b9f8-aac100bb4dc2" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>busaccess_module3</seg>
+      </bo>
+    </element>
+    <element uuid="59d836a7-bb09-41ce-8631-5231c2d163bb" manual="true">
+      <element uuid="525de4d3-7ae1-4bea-bf78-41eff17af8ef" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>2eaea6f5-0928-4d3a-bf92-46d10900e8dc</seg>
+        </bo>
+      </element>
+      <element uuid="89c8c865-7538-4d4e-b6e5-fe34dc5a3802" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>conn1</seg>
+      </bo>
+      <bendpoints>
+        <point x="664.0" y="422.0"/>
+        <point x="663.0" y="292.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="9d2d5934-9b68-4c19-af36-4bb3f20fae60" manual="true">
+      <element uuid="2de6ea9d-3699-44fc-943a-e78b30077df4" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>Deployment_Properties::Actual_Connection_Binding</seg>
+          <seg>2eaea6f5-0928-4d3a-bf92-46d10900e8dc</seg>
+        </bo>
+      </element>
+      <element uuid="081c778d-4df2-4664-aa4f-ec6be6f2b871" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>conn2</seg>
+      </bo>
+      <bendpoints>
+        <point x="647.0" y="422.0"/>
+        <point x="648.0" y="489.0"/>
+        <point x="460.0" y="489.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="b14cd7eb-5412-4679-bd3f-23176c305ae9" manual="true">
+      <element uuid="55a05b56-c727-4cf8-8075-7d4032fbb20b" manual="true">
+        <element uuid="71d90429-d3bc-47f5-853a-1405f521f838" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c0</seg>
+        </bo>
+      </element>
+      <element uuid="ef59c687-db53-48e7-bf38-6c4c7fc7c286" manual="true">
+        <element uuid="ebd235f4-52d5-47c8-9f5e-75b432c8f9c4" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c1</seg>
+        </bo>
+      </element>
+      <element uuid="3ecdc31a-921f-473b-ae58-d29bde7e6cb9" manual="true" dockArea="right">
+        <bo>
+          <seg>feature</seg>
+          <seg>sensorout</seg>
+        </bo>
+        <position x="489.44531631469727" y="280.00000000000006"/>
+      </element>
+      <element uuid="43c2fa1b-57ce-4feb-bc2e-3d82800dd36c" manual="true" dockArea="bottom">
+        <bo>
+          <seg>feature</seg>
+          <seg>thebus</seg>
+        </bo>
+        <position x="230.0" y="346.0"/>
+      </element>
+      <element uuid="78061b31-a5f1-4560-99e2-fdb302ff8902" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>cpu1</seg>
+        </bo>
+        <position x="20.0" y="120.0"/>
+        <size width="130.0" height="40.0"/>
+      </element>
+      <element uuid="fe5ed209-e74c-4b99-a7d9-ba7bc03ed318" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>mainmemory</seg>
+        </bo>
+        <position x="10.0" y="200.0"/>
+        <size width="134.0" height="40.0"/>
+      </element>
+      <element uuid="c6035558-1461-4ec6-a42b-f3fb8fac0271" manual="true" background="#ffffff">
+        <element uuid="40dc4c2d-bc55-4a41-808f-98751195db93" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>thebus</seg>
+          </bo>
+          <position x="87.96744918823242" y="30.0"/>
+        </element>
+        <element uuid="af747868-4a4f-4ae3-841d-de616a53bb10" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>78061b31-a5f1-4560-99e2-fdb302ff8902</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>netif</seg>
+        </bo>
+        <position x="90.0" y="250.0"/>
+        <size width="140.0" height="80.0"/>
+      </element>
+      <element uuid="857d4380-00ee-4eb7-acbe-ffc7ea07c72c" manual="true" background="#ffe5cc">
+        <element uuid="f8638424-7697-47eb-9ddb-278ec4c9ae28" manual="true">
+          <element uuid="4c1436ad-3f27-44d0-b713-c439cb8c8da8" manual="true">
+            <bo>
+              <seg>tag</seg>
+              <seg>unidirectional</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>c0</seg>
+          </bo>
+        </element>
+        <element uuid="39eaabf2-3d27-41d2-8606-ad0ecbb617f7" manual="true" dockArea="right">
+          <bo>
+            <seg>feature</seg>
+            <seg>sensorout</seg>
+          </bo>
+          <position x="209.44531631469727" y="60.0"/>
+        </element>
+        <element uuid="40b7c919-77ea-4f95-8f46-6e6e0f0eeb1d" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>78061b31-a5f1-4560-99e2-fdb302ff8902</seg>
+          </bo>
+        </element>
+        <element uuid="18276ea1-e663-47a0-a5aa-b552434e7a45" manual="true" background="#ffffcc">
+          <element uuid="7cef2582-28fd-4ccb-a919-7d6a752da64f" manual="true" dockArea="right">
+            <bo>
+              <seg>feature</seg>
+              <seg>sensorout</seg>
+            </bo>
+            <position x="89.44531631469727" y="20.0"/>
+          </element>
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>thread11</seg>
+          </bo>
+          <position x="30.0" y="40.0"/>
+          <size width="160.0" height="80.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>process1</seg>
+        </bo>
+        <position x="210.0" y="40.0"/>
+        <size width="280.0" height="140.0"/>
+      </element>
+      <element uuid="78ab1cb8-4feb-4a64-a5b2-c8a3ea18df8a" manual="true" background="#ffe5cc">
+        <element uuid="95170193-66e5-484a-895e-29778998e3ba" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>78061b31-a5f1-4560-99e2-fdb302ff8902</seg>
+          </bo>
+        </element>
+        <element uuid="ff11980b-2b6f-4c6a-97e6-07da88c624f0" manual="true" background="#ffffcc">
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>thread12</seg>
+          </bo>
+          <position x="40.0" y="30.0"/>
+          <size width="130.0" height="50.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>process2</seg>
+        </bo>
+        <position x="280.0" y="210.0"/>
+        <size width="220.0" height="90.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>module1</seg>
+      </bo>
+      <position x="40.0" y="60.0"/>
+      <size width="560.0" height="370.0"/>
+    </element>
+    <element uuid="b6057d62-f6d5-48a6-9b2f-f61c65cd326a" manual="true">
+      <element uuid="cfe0bae1-779d-4945-92ce-6ab677dcdad4" manual="true">
+        <element uuid="931cea94-edc3-44a6-a1f3-5ae09dfd0f40" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c0</seg>
+        </bo>
+      </element>
+      <element uuid="b7ba66a3-e92d-4cee-997e-f849454e0ccd" manual="true">
+        <element uuid="cfb43aa3-353c-47ca-b0b2-f0e8a425b39e" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c1</seg>
+        </bo>
+      </element>
+      <element uuid="fcc4a7b8-14dd-49d7-84cc-1f06181bc0de" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>sensorin</seg>
+        </bo>
+        <position y="150.00000000000006"/>
+      </element>
+      <element uuid="25150ca1-5ec1-4714-9408-8cba04ad75bf" manual="true" dockArea="bottom">
+        <bo>
+          <seg>feature</seg>
+          <seg>thebus</seg>
+        </bo>
+        <position x="140.0" y="346.0"/>
+      </element>
+      <element uuid="30e43863-aa96-4c39-945a-2c5540d60f15" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>cpu2</seg>
+        </bo>
+        <position x="40.0" y="280.0"/>
+        <size width="130.0" height="36.0"/>
+      </element>
+      <element uuid="01458fa9-7619-4be9-95e0-2cce4d3c72d6" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>mainmemory</seg>
+        </bo>
+        <position x="40.0" y="210.0"/>
+        <size width="134.0" height="36.0"/>
+      </element>
+      <element uuid="34ebdf91-16cb-4235-b21c-edbeeee1dc86" manual="true" background="#ffffff">
+        <element uuid="1bbfaeb5-4ba8-4b0c-8735-e5e4013aab3f" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>thebus</seg>
+          </bo>
+          <position y="30.0"/>
+        </element>
+        <element uuid="aa2c0442-92cd-4157-8772-afca54422657" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>30e43863-aa96-4c39-945a-2c5540d60f15</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>netif</seg>
+        </bo>
+        <position x="310.0" y="250.0"/>
+        <size width="156.0" height="80.0"/>
+      </element>
+      <element uuid="81f51416-1f64-41cd-9d93-ac5925157638" manual="true" background="#ffe5cc">
+        <element uuid="a3453e1b-db14-4c89-981a-f35dda32b04a" manual="true">
+          <element uuid="7a95413c-0055-49e4-bc53-14163ec3498c" manual="true">
+            <bo>
+              <seg>tag</seg>
+              <seg>unidirectional</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>c0</seg>
+          </bo>
+        </element>
+        <element uuid="780d758b-b5f8-4220-80fc-7c81f2f8ffd2" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>sensorin</seg>
+          </bo>
+          <position y="60.0"/>
+        </element>
+        <element uuid="64afbc23-650f-4a6f-9d2b-e8430902da9a" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>30e43863-aa96-4c39-945a-2c5540d60f15</seg>
+          </bo>
+        </element>
+        <element uuid="de57cd99-82ae-4079-8374-135cc70d5561" manual="true" background="#ffffcc">
+          <element uuid="0b9c428b-64c1-4a3f-87ce-1a0392e215ad" manual="true" dockArea="left">
+            <bo>
+              <seg>feature</seg>
+              <seg>sensorin</seg>
+            </bo>
+            <position y="20.0"/>
+          </element>
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>thread21</seg>
+          </bo>
+          <position x="80.0" y="40.0"/>
+          <size width="160.0" height="80.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>process3</seg>
+        </bo>
+        <position x="160.0" y="40.0"/>
+        <size width="280.0" height="140.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>module2</seg>
+      </bo>
+      <position x="680.0" y="60.0"/>
+      <size width="500.0" height="370.0"/>
+    </element>
+    <element uuid="2d2519c6-a491-478e-86a3-185edeaa4e9d" manual="true">
+      <element uuid="e6a3afdc-69a1-4e24-b33b-fd2d05a07640" manual="true">
+        <element uuid="c4530ba4-f010-48eb-b348-2e6833407e2c" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c0</seg>
+        </bo>
+        <bendpoints>
+          <point x="460.0" y="702.0"/>
+        </bendpoints>
+      </element>
+      <element uuid="de0170b3-b2e6-4ca2-9643-7c2513d08d68" manual="true">
+        <element uuid="1c846668-76ba-4b4a-91b4-a826b1ba7931" manual="true">
+          <bo>
+            <seg>tag</seg>
+            <seg>unidirectional</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>connection</seg>
+          <seg>c1</seg>
+        </bo>
+      </element>
+      <element uuid="02dbc73f-d34e-47c8-b52e-5801c33f8b93" manual="true" dockArea="top">
+        <bo>
+          <seg>feature</seg>
+          <seg>sensorin</seg>
+        </bo>
+        <position x="60.0"/>
+      </element>
+      <element uuid="dc960685-04c8-490f-a487-d6acf2a7009e" manual="true" dockArea="top">
+        <bo>
+          <seg>feature</seg>
+          <seg>thebus</seg>
+        </bo>
+        <position x="350.0"/>
+      </element>
+      <element uuid="eff07a17-75d9-4d63-af08-be587f1f1c69" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>cpu3</seg>
+        </bo>
+        <position x="440.0" y="210.0"/>
+        <size width="130.0" height="36.0"/>
+      </element>
+      <element uuid="baad66aa-74d3-41aa-8e74-2219ee4dbccc" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>mainmemory</seg>
+        </bo>
+        <position x="20.0" y="189.99999999999994"/>
+        <size width="134.2395782470703" height="36.0"/>
+      </element>
+      <element uuid="edb4ec6d-0825-4890-9dff-021dc72c19da" manual="true">
+        <element uuid="89a7301d-3396-4452-b0de-f09431e79fdd" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>thebus</seg>
+          </bo>
+          <position y="10.000000000000114"/>
+        </element>
+        <element uuid="16f9f531-9f8e-4473-b21d-afc06d98e1d4" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>eff07a17-75d9-4d63-af08-be587f1f1c69</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>netif</seg>
+        </bo>
+        <position x="470.0" y="80.0"/>
+        <size width="130.0" height="70.0"/>
+      </element>
+      <element uuid="2ed706b3-d6e8-4faf-a0c8-e2bc5737d8f5" manual="true" background="#ffe5cc">
+        <element uuid="c4fc452b-689e-43b1-99bc-bf71ec017953" manual="true">
+          <element uuid="96e21ad8-4e92-4333-b166-a785f3181c3e" manual="true">
+            <bo>
+              <seg>tag</seg>
+              <seg>unidirectional</seg>
+            </bo>
+          </element>
+          <bo>
+            <seg>connection</seg>
+            <seg>c0</seg>
+          </bo>
+        </element>
+        <element uuid="fda8a635-f205-477e-b66d-4f251b77061d" manual="true" dockArea="left">
+          <bo>
+            <seg>feature</seg>
+            <seg>sensorin</seg>
+          </bo>
+          <position y="50.0"/>
+        </element>
+        <element uuid="ca149ea2-94f2-4435-a951-e5cc1f6821d5" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>eff07a17-75d9-4d63-af08-be587f1f1c69</seg>
+          </bo>
+        </element>
+        <element uuid="4ae966d0-3433-4958-a50c-4b287cd86289" manual="true" background="#ffffcc">
+          <element uuid="8d7a4b6c-a1c8-44fc-9fd3-0dd93d6e26b6" manual="true" dockArea="left">
+            <bo>
+              <seg>feature</seg>
+              <seg>sensorin</seg>
+            </bo>
+            <position y="20.0"/>
+          </element>
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>thread31</seg>
+          </bo>
+          <position x="60.0" y="30.0"/>
+          <size width="160.0" height="70.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>process4</seg>
+        </bo>
+        <position x="170.0" y="50.0"/>
+        <size width="236.0846290588379" height="120.0"/>
+      </element>
+      <element uuid="1e8b17fb-ca2e-49f8-979f-0d2938d5c0bb" manual="true" background="#ffe5cc">
+        <element uuid="922b5b8e-1fac-4bb6-8347-892b54596c12" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>eff07a17-75d9-4d63-af08-be587f1f1c69</seg>
+          </bo>
+        </element>
+        <element uuid="65b3bc35-31e0-46ff-9bc3-b6903bd44e4b" manual="true" background="#ffffcc">
+          <bo>
+            <seg>subcomponent</seg>
+            <seg>thread32</seg>
+          </bo>
+          <position x="30.0" y="30.0"/>
+          <size width="120.0" height="40.0"/>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>process5</seg>
+        </bo>
+        <position x="180.0" y="190.0"/>
+        <size width="180.0" height="80.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>module3</seg>
+      </bo>
+      <position x="310.0" y="520.0"/>
+      <size width="620.0" height="290.0"/>
+    </element>
+    <element uuid="2eaea6f5-0928-4d3a-bf92-46d10900e8dc" manual="true" background="#ccccff">
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>rtbus</seg>
+      </bo>
+      <position x="570.0" y="460.0"/>
+      <size width="150.0" height="40.0"/>
+    </element>
+    <bo>
+      <seg>classifier</seg>
+      <seg>arinc653system.impl</seg>
+    </bo>
+    <position x="20.0" y="50.0"/>
+    <size width="1220.0" height="900.0"/>
+  </element>
+  <config type="structure" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties>
+      <property>deployment_properties::actual_processor_binding</property>
+      <property>deployment_properties::actual_connection_binding</property>
+    </enabledAadlProperties>
+    <context>
+      <seg>classifier</seg>
+      <seg>arincexample2::arinc653system.impl</seg>
+    </context>
+  </config>
+</diagram:Diagram>

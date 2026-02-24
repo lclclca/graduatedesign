@@ -1,0 +1,18 @@
+property set CH_Properties is
+
+	Data_Concurrency_State: aadlinteger applies to ( data);
+	
+	Dispatch_Absolute_Time : inherit Time
+		applies to (thread, thread group, process);
+		
+	Critical_Section : list of aadlstring
+		applies to (system, process, thread, data);
+		
+	Resource_Size : Size 
+		applies to (data);
+		
+	times: type aadlreal units Time_Units;
+	
+	Execution_Time : inherit CH_properties::times applies to (thread, thread group, process);
+	
+end CH_Properties;

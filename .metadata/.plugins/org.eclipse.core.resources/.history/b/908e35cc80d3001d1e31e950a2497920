@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="ASCII"?>
+<diagram:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:diagram="http://osate.org/diagram" formatVersion="7">
+  <element uuid="e9fbde1b-3bbc-4f00-b138-030e8d7119ff" manual="true">
+    <element uuid="d93e1111-9e13-4e76-8ab0-28b290391afb" manual="true">
+      <element uuid="6f2e4b89-e861-4bc4-9aa3-ef3d724beffe" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>queueingconnection</seg>
+      </bo>
+      <bendpoints>
+        <point x="434.5182189941406" y="159.3333282470703"/>
+      </bendpoints>
+    </element>
+    <element uuid="6b637315-8ea1-4c4d-9938-8038b648cec5" manual="true">
+      <element uuid="d0f3cb17-d897-4c10-afc0-d65bb57acb48" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>unidirectional</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>connection</seg>
+        <seg>samplingconnection</seg>
+      </bo>
+      <bendpoints>
+        <point x="444.5182189941406" y="237.66668701171875"/>
+        <point x="444.5182189941406" y="206.0"/>
+        <point x="438.5182189941406" y="206.0"/>
+      </bendpoints>
+    </element>
+    <element uuid="cfb10f26-1e3c-4342-b037-5420d0b8363b" manual="true">
+      <bo>
+        <seg>realization</seg>
+      </bo>
+    </element>
+    <element uuid="c7a3fc6d-6017-4a63-a32a-58ac1eb8ff5c" manual="true">
+      <element uuid="236dfd5f-282e-488f-b4d4-30a43a1e3ba8" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>ARINC653::Module_Major_Frame</seg>
+        </bo>
+      </element>
+      <element uuid="3c71f95f-d616-488a-b4ed-870d4bf3e0c8" manual="true">
+        <bo>
+          <seg>pvg</seg>
+          <seg>ARINC653::Module_Schedule</seg>
+        </bo>
+      </element>
+      <element uuid="d579abd0-746c-45d2-ae68-79466ef46b51" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>part1</seg>
+        </bo>
+        <position x="28.0" y="36.0"/>
+        <size width="87.57942581176758" height="35.0"/>
+      </element>
+      <element uuid="87fb9bc1-ab6c-47bb-92b1-e5810d374f6c" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>part2</seg>
+        </bo>
+        <position x="498.0" y="36.0"/>
+        <size width="87.57942581176758" height="35.0"/>
+      </element>
+      <element uuid="625c0ee7-2ce2-4495-aa20-59975cfa3154" manual="true">
+        <bo>
+          <seg>tag</seg>
+          <seg>sc_type</seg>
+        </bo>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>cpu</seg>
+      </bo>
+      <position x="12.0" y="274.0"/>
+      <size width="650.135311126709" height="106.0"/>
+    </element>
+    <element uuid="ef842bdc-2050-40d2-9bd1-3eca57f2b7a1" manual="true">
+      <element uuid="e5145dfe-4f86-4d61-a8b5-bf347115e895" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>part1mem</seg>
+        </bo>
+        <position x="12.0" y="93.0"/>
+        <size width="117.20832824707031" height="35.0"/>
+      </element>
+      <element uuid="f86e3ecc-a2ec-4ff2-a1c1-c0d8fa1fd244" manual="true">
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>part2mem</seg>
+        </bo>
+        <position x="12.0" y="38.0"/>
+        <size width="117.20832824707031" height="35.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>mem</seg>
+      </bo>
+      <position x="12.0" y="59.0"/>
+      <size width="141.2083282470703" height="140.0"/>
+    </element>
+    <element uuid="1b679f6e-ea47-45ee-b7dc-1c7550af34b9" manual="true">
+      <element uuid="695c6091-e997-40da-96e4-26c2b03c03f8" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>queueingin</seg>
+        </bo>
+        <position y="38.33333333333333"/>
+      </element>
+      <element uuid="4e6b6ae6-366b-45e1-b89b-f8ec1e4e343b" manual="true" dockArea="left">
+        <bo>
+          <seg>feature</seg>
+          <seg>samplingout</seg>
+        </bo>
+        <position y="116.66666666666666"/>
+      </element>
+      <element uuid="ffee31a1-2ec9-486c-9c76-f90537541fec" manual="true">
+        <element uuid="d4f29931-1882-4b30-92ad-23ce1beafb1b" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+            <seg>e5145dfe-4f86-4d61-a8b5-bf347115e895</seg>
+          </bo>
+        </element>
+        <element uuid="34e0b461-c8a9-4850-8479-5b0178558da6" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>d579abd0-746c-45d2-ae68-79466ef46b51</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>order</seg>
+        </bo>
+        <position x="95.89452362060547" y="38.0"/>
+        <size width="88.31510162353516" height="35.0"/>
+      </element>
+      <element uuid="590fb498-c4bb-4a7b-947b-e4ec2572521f" manual="true">
+        <element uuid="c1169385-ae90-4ca1-8552-833a8cc1f698" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+            <seg>f86e3ecc-a2ec-4ff2-a1c1-c0d8fa1fd244</seg>
+          </bo>
+        </element>
+        <element uuid="c9509ccd-095e-4c91-94dc-69e266c21f54" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>87fb9bc1-ab6c-47bb-92b1-e5810d374f6c</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>pictrue</seg>
+        </bo>
+        <position x="95.89452362060547" y="93.0"/>
+        <size width="97.20832824707031" height="35.0"/>
+      </element>
+      <element uuid="775aab67-f9a9-4c7f-8b1a-c3c482cbee88" manual="true">
+        <element uuid="a8e996dc-5d34-49c8-bb04-6c0177274b80" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+            <seg>f86e3ecc-a2ec-4ff2-a1c1-c0d8fa1fd244</seg>
+          </bo>
+        </element>
+        <element uuid="5055b916-0190-4f58-852b-19419a6c32b3" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>d579abd0-746c-45d2-ae68-79466ef46b51</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>temperature</seg>
+        </bo>
+        <position x="95.89452362060547" y="148.0"/>
+        <size width="129.07682037353516" height="35.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>partition1_pr</seg>
+      </bo>
+      <position x="324.5182189941406" y="59.0"/>
+      <size width="320.86585998535156" height="195.0"/>
+    </element>
+    <element uuid="d25929e2-63a6-46dc-8766-d46917340f3c" manual="true">
+      <element uuid="6358b1a2-09ab-4a40-a61b-74dc8489da85" manual="true">
+        <element uuid="75407891-e34c-4034-8f97-b77021449ea2" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+            <seg>f86e3ecc-a2ec-4ff2-a1c1-c0d8fa1fd244</seg>
+          </bo>
+        </element>
+        <element uuid="d193f70c-3b5d-495f-85af-2f3c54adb40a" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>87fb9bc1-ab6c-47bb-92b1-e5810d374f6c</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>printer</seg>
+        </bo>
+        <position x="12.0" y="38.0"/>
+        <size width="94.98176956176758" height="35.0"/>
+      </element>
+      <element uuid="96ef230e-c41f-4f37-a394-3faa185166db" manual="true">
+        <element uuid="5381f031-0deb-439c-827a-3c967d52cecb" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Memory_Binding</seg>
+            <seg>e5145dfe-4f86-4d61-a8b5-bf347115e895</seg>
+          </bo>
+        </element>
+        <element uuid="f7f7745a-853d-470e-8861-1f79ccf3a735" manual="true">
+          <bo>
+            <seg>pvg</seg>
+            <seg>Deployment_Properties::Actual_Processor_Binding</seg>
+            <seg>d579abd0-746c-45d2-ae68-79466ef46b51</seg>
+          </bo>
+        </element>
+        <bo>
+          <seg>subcomponent</seg>
+          <seg>receiver</seg>
+        </bo>
+        <position x="12.0" y="93.0"/>
+        <size width="104.61067581176758" height="35.0"/>
+      </element>
+      <bo>
+        <seg>subcomponent</seg>
+        <seg>partition2_pr</seg>
+      </bo>
+      <position x="173.2083282470703" y="82.66666666666666"/>
+      <size width="131.3098907470703" height="140.0"/>
+    </element>
+    <bo>
+      <seg>classifier</seg>
+      <seg>arincsystem.impl</seg>
+    </bo>
+    <position x="130.0" y="30.0"/>
+    <size width="674.1353149414062" height="410.0"/>
+  </element>
+  <config type="structure" connectionPrimaryLabelsVisible="false">
+    <enabledAadlProperties>
+      <property>arinc653::partition_name</property>
+      <property>deployment_properties::actual_memory_binding</property>
+      <property>arinc653::module_major_frame</property>
+      <property>deployment_properties::actual_processor_binding</property>
+      <property>arinc653::module_schedule</property>
+    </enabledAadlProperties>
+    <context>
+      <seg>classifier</seg>
+      <seg>arincexample1::arincsystem.impl</seg>
+    </context>
+  </config>
+</diagram:Diagram>

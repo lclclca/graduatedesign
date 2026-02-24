@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="ASCII"?>
+<instance:SystemInstance xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aadl2="http://aadl.info/AADL/2.0" xmlns:instance="http://aadl.info/AADL/2.0/instance" name="arincsystem_P_impl_Instance" category="system">
+  <componentInstance name="mem" category="memory">
+    <componentInstance name="part1mem" category="memory">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Memory_Properties.aadl#Memory_Properties.Base_Address"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.21/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:MemorySubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.26/@ownedMemorySubcomponent.0"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:MemoryType" href="../Partition_Sch.aadl#Partition_Sch.partition1_memory"/>
+    </componentInstance>
+    <componentInstance name="part2mem" category="memory">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Memory_Properties.aadl#Memory_Properties.Base_Address"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="50"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.22/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:MemorySubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.26/@ownedMemorySubcomponent.1"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:MemoryType" href="../Partition_Sch.aadl#Partition_Sch.partition2_memory"/>
+    </componentInstance>
+    <componentInstance name="part3mem" category="memory">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Memory_Properties.aadl#Memory_Properties.Base_Address"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="100"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.23/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:MemorySubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.26/@ownedMemorySubcomponent.2"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:MemoryType" href="../Partition_Sch.aadl#Partition_Sch.partition3_memory"/>
+    </componentInstance>
+    <componentInstance name="part4mem" category="memory">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Memory_Properties.aadl#Memory_Properties.Base_Address"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="150"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.24/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:MemorySubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.26/@ownedMemorySubcomponent.3"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:MemoryType" href="../Partition_Sch.aadl#Partition_Sch.partition4_memory"/>
+    </componentInstance>
+    <subcomponent xsi:type="aadl2:MemorySubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedMemorySubcomponent.0"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:MemoryImplementation" href="../Partition_Sch.aadl#Partition_Sch.main_memory.impl"/>
+  </componentInstance>
+  <componentInstance name="partition1_pr" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Processor_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.5/@componentInstance.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.4"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Protocol"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.3/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.4/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Absolute_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.4/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Execution_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.4/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Deadline"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="100">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.4/@ownedPropertyAssociation.3"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Period"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="100">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.4/@ownedPropertyAssociation.4"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="samplingout" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.4"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="samplingin">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.4"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Sampling_Refresh_Period"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedDataPort.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedDataPort.1"/>
+    </featureInstance>
+    <featureInstance name="queueingin" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.4"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Communication_Properties.aadl#Communication_Properties.Queue_Size"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="4"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedEventDataPort.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Timeout"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="5">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedEventDataPort.0/@ownedPropertyAssociation.1"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Queueing_Discipline"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#/0/@ownedPropertyType.7/@ownedLiteral.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedEventDataPort.0/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.contribution.sei/resources/properties/Data_Model.aadl#/0/@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="platform:/plugin/org.osate.contribution.sei/resources/packages/Base_Types.aadl#/0/@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.3/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedProcessSubcomponent.0"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:ProcessImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition1_process.impl"/>
+  </componentInstance>
+  <componentInstance name="partition2_pr" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Processor_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.5/@componentInstance.1"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.1"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.5"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Protocol"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.3/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Absolute_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Execution_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="15">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Deadline"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="100">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.3"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Period"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="100">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.6/@ownedPropertyAssociation.4"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="samplingout" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.1"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.5"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.5/@ownedDataPort.0"/>
+    </featureInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedProcessSubcomponent.1"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:ProcessImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition2_process.impl"/>
+  </componentInstance>
+  <componentInstance name="partition3_pr" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Processor_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.5/@componentInstance.2"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.2"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.6"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Protocol"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.3/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.8/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Absolute_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.8/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Execution_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="25">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.8/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Deadline"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="200">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.8/@ownedPropertyAssociation.3"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Period"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="200">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.8/@ownedPropertyAssociation.4"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="samplingin">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.2"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.6"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Sampling_Refresh_Period"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedDataPort.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="samplingout" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.2"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.6"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedDataPort.1"/>
+    </featureInstance>
+    <featureInstance name="queueingin" category="eventDataPort">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.2"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.6"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Communication_Properties.aadl#Communication_Properties.Queue_Size"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="4"/>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Timeout"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="5">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.0/@ownedPropertyAssociation.1"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Queueing_Discipline"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#/0/@ownedPropertyType.7/@ownedLiteral.0"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.0/@ownedPropertyAssociation.2"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="queueingout" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.2"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.6"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Timeout"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/Data_Model.aadl#Data_Model.Data_Representation"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.contribution.sei/resources/properties/Data_Model.aadl#/0/@ownedProperty.4/@ownedPropertyType/@ownedLiteral.6"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="platform:/plugin/org.osate.contribution.sei/resources/packages/Base_Types.aadl#/0/@ownedPublicSection/@ownedClassifier.1/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.7/@ownedEventDataPort.1"/>
+    </featureInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedProcessSubcomponent.2"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:ProcessImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition3_process.impl"/>
+  </componentInstance>
+  <componentInstance name="partition4_pr" category="process">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Processor_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.5/@componentInstance.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.3"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.7"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Protocol"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:NamedValue">
+          <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.3/@ownedLiteral.0"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.10/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Dispatch_Absolute_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="5">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.10/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="../../property_sets/Partition_Proerties.aadl#Partition_Proerties.Execution_Time"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.10/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Deadline"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="50">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.10/@ownedPropertyAssociation.3"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Timing_Properties.aadl#Timing_Properties.Period"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="50">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.10/@ownedPropertyAssociation.4"/>
+    </ownedPropertyAssociation>
+    <featureInstance name="samplingin">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.7"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Sampling_Refresh_Period"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.9/@ownedDataPort.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:DataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.9/@ownedDataPort.0"/>
+    </featureInstance>
+    <featureInstance name="queueingout" category="eventDataPort" direction="out">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Actual_Memory_Binding"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="instance:InstanceReferenceValue" referencedInstanceObject="//@componentInstance.0/@componentInstance.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPropertyAssociation.7"/>
+      </ownedPropertyAssociation>
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Timeout"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:IntegerLiteral" value="10">
+            <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.9/@ownedEventDataPort.0/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <feature xsi:type="aadl2:EventDataPort" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.9/@ownedEventDataPort.0"/>
+    </featureInstance>
+    <subcomponent xsi:type="aadl2:ProcessSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedProcessSubcomponent.3"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:ProcessImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition4_process.impl"/>
+  </componentInstance>
+  <componentInstance name="cpu" category="processor">
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Scheduling_Protocol"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:ListValue">
+          <ownedListElement xsi:type="aadl2:NamedValue">
+            <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.7/@ownedLiteral.1"/>
+          </ownedListElement>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.0"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Preemptive_Scheduler"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:BooleanLiteral"/>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.1"/>
+    </ownedPropertyAssociation>
+    <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+      <property href="platform:/plugin/org.osate.contribution.sei/resources/properties/ARINC653.aadl#ARINC653.Module_Major_Frame"/>
+      <ownedValue>
+        <ownedValue xsi:type="aadl2:IntegerLiteral" value="200">
+          <unit href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.16/@ownedLiteral.3"/>
+        </ownedValue>
+      </ownedValue>
+      <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.2"/>
+    </ownedPropertyAssociation>
+    <componentInstance name="part1" category="virtual processor">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Scheduling_Protocol"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.7/@ownedLiteral.1"/>
+            </ownedListElement>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:VirtualProcessorSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedVirtualProcessorSubcomponent.0"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:VirtualProcessorImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition1_rt.impl"/>
+    </componentInstance>
+    <componentInstance name="part2" category="virtual processor">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Scheduling_Protocol"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.7/@ownedLiteral.1"/>
+            </ownedListElement>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:VirtualProcessorSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedVirtualProcessorSubcomponent.1"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:VirtualProcessorImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition2_rt.impl"/>
+    </componentInstance>
+    <componentInstance name="part3" category="virtual processor">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Scheduling_Protocol"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.7/@ownedLiteral.1"/>
+            </ownedListElement>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:VirtualProcessorSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedVirtualProcessorSubcomponent.2"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:VirtualProcessorImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition3_rt.impl"/>
+    </componentInstance>
+    <componentInstance name="part4" category="virtual processor">
+      <ownedPropertyAssociation xsi:type="instance:PropertyAssociationInstance">
+        <property href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/Deployment_Properties.aadl#Deployment_Properties.Scheduling_Protocol"/>
+        <ownedValue>
+          <ownedValue xsi:type="aadl2:ListValue">
+            <ownedListElement xsi:type="aadl2:NamedValue">
+              <namedValue xsi:type="aadl2:EnumerationLiteral" href="platform:/plugin/org.osate.aadl2.contrib/resources/properties/Predeclared_Property_Sets/AADL_Project.aadl#/0/@ownedPropertyType.7/@ownedLiteral.1"/>
+            </ownedListElement>
+          </ownedValue>
+        </ownedValue>
+        <propertyAssociation href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedPropertyAssociation.0"/>
+      </ownedPropertyAssociation>
+      <subcomponent xsi:type="aadl2:VirtualProcessorSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.20/@ownedVirtualProcessorSubcomponent.3"/>
+      <index>0</index>
+      <classifier xsi:type="aadl2:VirtualProcessorImplementation" href="../Partition_Sch.aadl#Partition_Sch.partition4_rt.impl"/>
+    </componentInstance>
+    <subcomponent xsi:type="aadl2:ProcessorSubcomponent" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedProcessorSubcomponent.0"/>
+    <index>0</index>
+    <classifier xsi:type="aadl2:ProcessorImplementation" href="../Partition_Sch.aadl#Partition_Sch.powerpc.impl"/>
+  </componentInstance>
+  <connectionInstance name="partition1_pr.samplingout -> partition3_pr.samplingin" complete="true" kind="portConnection" destination="//@componentInstance.3/@featureInstance.0" source="//@componentInstance.1/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.1/@featureInstance.0" destination="//@componentInstance.3/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPortConnection.0"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="partition2_pr.samplingout -> partition1_pr.samplingin" complete="true" kind="portConnection" destination="//@componentInstance.1/@featureInstance.1" source="//@componentInstance.2/@featureInstance.0">
+    <connectionReference context="/" source="//@componentInstance.2/@featureInstance.0" destination="//@componentInstance.1/@featureInstance.1">
+      <connection xsi:type="aadl2:PortConnection" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPortConnection.1"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="partition3_pr.samplingout -> partition4_pr.samplingin" complete="true" kind="portConnection" destination="//@componentInstance.4/@featureInstance.0" source="//@componentInstance.3/@featureInstance.1">
+    <connectionReference context="/" source="//@componentInstance.3/@featureInstance.1" destination="//@componentInstance.4/@featureInstance.0">
+      <connection xsi:type="aadl2:PortConnection" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPortConnection.3"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="partition3_pr.queueingout -> partition1_pr.queueingin" complete="true" kind="portConnection" destination="//@componentInstance.1/@featureInstance.2" source="//@componentInstance.3/@featureInstance.3">
+    <connectionReference context="/" source="//@componentInstance.3/@featureInstance.3" destination="//@componentInstance.1/@featureInstance.2">
+      <connection xsi:type="aadl2:PortConnection" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPortConnection.2"/>
+    </connectionReference>
+  </connectionInstance>
+  <connectionInstance name="partition4_pr.queueingout -> partition3_pr.queueingin" complete="true" kind="portConnection" destination="//@componentInstance.3/@featureInstance.2" source="//@componentInstance.4/@featureInstance.1">
+    <connectionReference context="/" source="//@componentInstance.4/@featureInstance.1" destination="//@componentInstance.3/@featureInstance.2">
+      <connection xsi:type="aadl2:PortConnection" href="../Partition_Sch.aadl#/0/@ownedPublicSection/@ownedClassifier.28/@ownedPortConnection.4"/>
+    </connectionReference>
+  </connectionInstance>
+  <systemOperationMode name="No Modes"/>
+  <componentImplementation xsi:type="aadl2:SystemImplementation" href="../Partition_Sch.aadl#Partition_Sch.arincsystem_P.impl"/>
+</instance:SystemInstance>

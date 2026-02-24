@@ -1,0 +1,56 @@
+#define CHECK_CODE(msg, code) \
+    if(code == NO_ERROR) \
+    { \
+        printf("%s : SUCCESSFUL\n" ,msg); \
+    }\
+    else \
+    { \
+        printf("%s : FAILED %s\n" ,msg, codeToStr(code)); \
+    }
+
+#define CHECK_VALIDCODE(msg, validCode, ret) \
+    if((validCode != VALID) && (ret != NO_ERROR)) \
+    { \
+        printf("%s FAILED %s, %d\n", msg, codeToStr(ret), validCode); \
+    } \
+    else \
+    { \
+        printf("%s SUCCESSFUL %s, %d\n", msg, codeToStr(ret), validCode); \
+    }
+    
+	\<Ports>
+		\<QueuingPort Name="pr1queueingin" QueueLength="4" MessageSize="30"
+			Direction="DESTINATION" Protocol="NOT_APPLICABLE" />\<SamplingPort
+			Name="pr1samplingout" MessageSize="30" RefreshRate="100"
+			Direction="SOURCE" />
+	</Ports>
+
+	<Ports>
+		<SamplingPort Name="pr2samplingin" MessageSize="30" RefreshRate="100"
+			Direction="DESTINATION" /><QueuingPort Name="pr2queueingout" QueueLength="4"
+			MessageSize="30" Direction="SOURCE" Protocol="SENDER_BLOCK" />
+	</Ports>
+
+	<Connections>
+		<Channel Id="1">
+			<Source PartitionNameRef="partition1" PortNameRef="pr1samplingout" />
+			<Destination PartitionNameRef="partition2" PortNameRef="pr2samplingin" />
+		</Channel>
+		<Channel Id="2">
+			<Source PartitionNameRef="partition2" PortNameRef="pr2queueingout" />
+			<Destination PartitionNameRef="partition1" PortNameRef="pr1queueingin" />
+		</Channel>
+	</Connections>
+	
+	<PROCESSCONF description="partition1">
+		<PROCESS BasePriority="2" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc1" Period="25000000" StackSize="102400" WCET="100000000" description="process"/>
+		<PROCESS BasePriority="3" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc2" Period="50000000" StackSize="102400" WCET="100000000" description="process"/>
+		<PROCESS BasePriority="4" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc2" Period="50000000" StackSize="102400" WCET="100000000" description="process"/>
+		<PROCESS BasePriority="5" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc2" Period="50000000" StackSize="102400" WCET="100000000" description="process"/>
+	</PROCESSCONF>
+	
+	<PROCESSCONF description="partition2">
+		<PROCESS BasePriority="2" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc1" Period="50000000" StackSize="102400" WCET="100000000" description="process"/>
+		<PROCESS BasePriority="3" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc2" Period="50000000" StackSize="102400" WCET="100000000" description="process"/>
+		<PROCESS BasePriority="4" DeadLineType="SOFT_DEADLINE" EntryAddress="0" ExecTime="60000000" FloatDemand="false" Name="proc2" Period="100000000" StackSize="102400" WCET="100000000" description="process"/>
+	</PROCESSCONF>

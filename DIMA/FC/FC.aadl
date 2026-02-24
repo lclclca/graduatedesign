@@ -1,0 +1,76 @@
+package FC
+public
+	with FC_properties;
+	with Base_Types;
+	with ARINC653;
+
+	abstract Switch
+	end Switch;
+
+	bus anybus
+	end anybus;
+
+	bus implementation anybus.i
+	end anybus.i;
+
+	bus FibreChannel extends Switch
+		features
+			SW: requires bus access FibreChannel.i;
+	end FibreChannel;
+
+	bus implementation FibreChannel.i
+	end FibreChannel.i;
+
+	abstract End_System
+		features
+			FC: requires bus access FibreChannel.i;
+--			FCB: requires bus access FibreChannel;
+	end End_System;
+
+	device NetworkControl
+	end NetworkControl;
+
+	device NetworkTerminal
+		features
+			thebus: requires bus access FibreChannel.i;
+		properties
+			FC_properties::Net_Category => (netcard);
+	end NetworkTerminal;
+
+	device implementation NetworkTerminal.impl
+
+	end NetworkTerminal.impl;
+
+--	device FC_switch extends Switch
+--		features
+--			s_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+--			s_out: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+--			q_in: in event data port Base_Types::Integer {Queue_Size => 4;
+--				ARINC653::Timeout => 5ms;
+--				ARINC653::Queueing_Discipline => FIFO;};
+--			q_out: out event data port Base_Types::Integer {Queue_Size => 4;
+--				ARINC653::Timeout => 5ms;
+--				ARINC653::Queueing_Discipline => FIFO;};
+--	end FC_switch;
+--	device implementation FC_switch.impl
+--		subcomponents
+--			SW1: bus Network.impl;
+--			SW2: bus Network.impl;
+--		connections
+--			msg1_in: port s_in -> SW1.s_in;
+--			msg1: port SW1.s_out -> SW2.s_in;
+--			msg1_out: port SW2.s_out -> s_out;
+--			
+--			msg2_in: port s_in -> SW1.s_in;
+--			msg2: port SW1.s_out -> SW2.s_in;
+--			msg2_out: port SW2.s_out -> s_out;
+--			
+--			msg3_in: port q_in -> SW1.q_in;
+--			msg3: port SW1.q_out -> SW2.q_in;
+--			msg3_out: port SW2.q_out -> q_out;
+--			
+--			msg4_in: port q_in -> SW1.q_in;
+--			msg4: port SW1.q_out -> SW2.q_in;
+--			msg4_out: port SW2.q_out -> q_out;
+--	end FC_switch.impl;
+end FC;

@@ -1,0 +1,192 @@
+package Partition_Sch
+public
+	with ARINC653, Base_Types, Partition_Proerties;
+
+	data integer
+	end integer;
+
+	data Blackboard
+	end Blackboard;
+
+	data Buffer
+	end Buffer;
+
+	process partition1_process
+		features
+			samplingout: out data port integer;
+			samplingin: in data port integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			queueingin: in event data port Base_Types::integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end partition1_process;
+
+	process implementation partition1_process.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Dispatch_Absolute_Time => 10ms;
+			Partition_Proerties::Execution_Time => 10ms;
+			Deadline => 100ms;
+			Period => 100ms;
+	end partition1_process.impl;
+
+	process partition2_process
+		features
+			samplingout: out data port integer;
+	end partition2_process;
+
+	process implementation partition2_process.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Dispatch_Absolute_Time => 10ms;
+			Partition_Proerties::Execution_Time => 15ms;
+			Deadline => 100ms;
+			Period => 100ms;
+	end partition2_process.impl;
+
+	process partition3_process
+		features
+			samplingin: in data port integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			samplingout: out data port integer;
+			queueingin: in event data port integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			queueingout: out event data port Base_Types::integer {ARINC653::Timeout => 10ms;};
+	end partition3_process;
+
+	process implementation partition3_process.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Dispatch_Absolute_Time => 0ms;
+			Partition_Proerties::Execution_Time => 25ms;
+			Deadline => 200ms;
+			Period => 200ms;
+	end partition3_process.impl;
+
+	process partition4_process
+		features
+			samplingin: in data port integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+
+			queueingout: out event data port integer {ARINC653::Timeout => 10ms;};
+	end partition4_process;
+ 
+	process implementation partition4_process.impl
+		properties
+			Partition_Proerties::Dispatch_Protocol => Periodic;
+			Partition_Proerties::Dispatch_Absolute_Time => 5ms;
+			Partition_Proerties::Execution_Time => 10ms;
+			Deadline => 50ms;
+			Period => 50ms;
+	end partition4_process.impl;
+	
+	virtual processor partition1_rt
+	end partition1_rt;
+
+	virtual processor implementation partition1_rt.impl
+	end partition1_rt.impl;
+
+	virtual processor partition2_rt
+	end partition2_rt;
+
+	virtual processor implementation partition2_rt.impl
+	end partition2_rt.impl;
+
+	virtual processor partition3_rt
+	end partition3_rt;
+
+	virtual processor implementation partition3_rt.impl
+	end partition3_rt.impl;
+ 
+	virtual processor partition4_rt
+	end partition4_rt;
+
+	virtual processor implementation partition4_rt.impl
+	end partition4_rt.impl;
+	
+	processor powerpc
+		
+	end powerpc;
+
+	processor implementation powerpc.impl
+		subcomponents
+			part1: virtual processor partition1_rt.impl;
+			part2: virtual processor partition2_rt.impl;
+			part3: virtual processor partition3_rt.impl;
+			part4: virtual processor partition4_rt.impl;
+		properties
+			Scheduling_Protocol => (Round_Robin_Protocol);
+			Preemptive_Scheduler => false;
+			ARINC653::Module_Major_Frame => 200ms;
+		
+		
+	end powerpc.impl;
+
+	
+	-- Memory
+	memory partition1_memory
+		properties
+			Base_Address => 0;
+	end partition1_memory;
+
+	memory partition2_memory
+		properties
+			Base_Address => 50;
+	end partition2_memory;
+
+	memory partition3_memory
+		properties
+			Base_Address => 100;
+	end partition3_memory;
+
+	memory partition4_memory
+		properties
+			Base_Address => 150;
+	end partition4_memory;
+
+	memory main_memory
+	end main_memory;
+
+	memory implementation main_memory.impl
+		subcomponents
+			part1mem: memory partition1_memory;
+			part2mem: memory partition2_memory;
+			part3mem: memory partition3_memory;
+			part4mem: memory partition4_memory;
+	end main_memory.impl;
+	
+	
+	system arincsystem_P
+
+	end arincsystem_P;
+
+	system implementation arincsystem_P.impl
+		subcomponents
+			mem: memory main_memory.impl;
+			cpu: processor powerpc.impl;
+			partition1_pr: process partition1_process.impl;
+			partition2_pr: process partition2_process.impl;
+			partition3_pr: process partition3_process.impl;
+			partition4_pr: process partition4_process.impl;
+		connections
+			samplingconnection1: port partition1_pr.samplingout -> partition3_pr.samplingin;
+			samplingconnection3: port partition2_pr.samplingout -> partition1_pr.samplingin;
+			queueingconnection1: port partition3_pr.queueingout -> partition1_pr.queueingin;
+			samplingconnection2: port partition3_pr.samplingout -> partition4_pr.samplingin;
+			queueingconnection2: port partition4_pr.queueingout -> partition3_pr.queueingin;
+			
+		properties
+			--  bind partition process to their associated       
+			Actual_Processor_Binding => (reference (cpu.part1)) applies to partition1_pr;
+			Actual_Processor_Binding => (reference (cpu.part2)) applies to partition2_pr;
+			Actual_Processor_Binding => (reference (cpu.part3)) applies to partition3_pr;
+			Actual_Processor_Binding => (reference (cpu.part4)) applies to partition4_pr;
+
+			--  bind partition process to their address spaces       
+			--  (memory components)
+			Actual_Memory_Binding => (reference (mem.part1mem)) applies to partition1_pr;
+			Actual_Memory_Binding => (reference (mem.part2mem)) applies to partition2_pr;
+			Actual_Memory_Binding => (reference (mem.part3mem)) applies to partition3_pr;
+			Actual_Memory_Binding => (reference (mem.part4mem)) applies to partition4_pr;
+	end arincsystem_P.impl;
+	
+end Partition_Sch;

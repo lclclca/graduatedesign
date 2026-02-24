@@ -1,0 +1,12 @@
+package DIMA_datatype
+public
+	with Data_Model;
+	
+	data protected_data
+		properties
+			Concurrency_Control_Protocol => Protected_Access;
+			Data_Model::Data_Representation => Integer;
+			Data_Size => 4 bytes;
+	end protected_data;
+	
+end DIMA_datatype;

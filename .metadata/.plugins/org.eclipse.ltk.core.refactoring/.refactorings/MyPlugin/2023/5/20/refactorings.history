@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;nuaa.aadlparser.Thread&apos; to &apos;Threads&apos;&#x0D;&#x0A;- Original project: &apos;MyPlugin&apos;&#x0D;&#x0A;- Original element: &apos;nuaa.aadlparser.Thread&apos;&#x0D;&#x0A;- Renamed element: &apos;nuaa.aadlparser.Threads&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Thread&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;nuaa.aadlparser{Thread.java[Thread" matchStrategy="1" name="Threads" qualified="false" references="true" similarDeclarations="false" stamp="1684375731628" textual="false" version="1.0"/>
+</session>

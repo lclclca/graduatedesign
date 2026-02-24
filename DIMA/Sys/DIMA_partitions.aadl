@@ -1,0 +1,142 @@
+package DIMA_partitions
+public
+
+	with DIMA_threads;
+	with ARINC653;
+	with Base_Types;
+	with DIMA_datatype;
+
+	process P1
+		features
+			pr1samplingout: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ns;};
+			pr1queueingin: in event data port Base_Types::Integer {Queue_Size => 30;
+				ARINC653::Timeout => 5ns;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end P1;
+
+	process implementation P1.impl
+		subcomponents
+			task11: thread DIMA_threads::Tsk11.impl;
+			task12: thread DIMA_threads::Tsk12.impl;
+			task13: thread DIMA_threads::Tsk13.impl;
+			task14: thread DIMA_threads::Tsk14.impl;
+			sem: data DIMA_datatype::protected_data;
+		connections
+			-- 分区间通信
+			sampleconnect: port task11.task1sampling -> pr1samplingout;
+			queueconnect: port pr1queueingin -> task14.task4Queuing;
+			--分区内通信
+			task1to2BlackBoard1: port task11.task1_acc1_out -> task12.task2_acc1_in;
+			task1to2BlackBoard2: port task11.task1_acc2_out -> task12.task2_acc2_in;
+			task2to1Buffer: port task12.task2_sensor_out -> task11.task1_sensor_in;
+			task2to3BlackBoard: data access sem <-> task12.task2_printer;
+			task3to2BlackBoard: data access sem <-> task13.task3_receiver;
+
+			task3to4buffer: port task13.task3_buffer_send -> task14.task4_buffer_receive;
+			task4to3buffer: port task14.task4_buffer_send -> task13.task3_buffer_receive;
+			task3to4blackboard: port task13.task3_blackboard_write -> task14.task4_blackboard_read;
+			task4to3blackboard: port task14.task4_blackboard_write -> task13.task3_blackboard_read;
+			
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end P1.impl;
+
+	process P2
+		features
+			pr2samplingin: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ns;};
+			pr2queueingout: out event data port Base_Types::Integer {Queue_Size => 30;
+				ARINC653::Timeout => 5ns;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end P2;
+
+	process implementation P2.impl
+		subcomponents
+			task21: thread DIMA_threads::Tsk21.impl;
+			task22: thread DIMA_threads::Tsk22.impl;
+			task23: thread DIMA_threads::Tsk23.impl;
+		connections
+			-- 分区间通信
+			sampleconnect: port pr2samplingin -> task21.task21sampling;
+			queueconnect: port task23.task3Queuing -> pr2queueingout;
+			--分区内通信
+			task1to2BlackBoard: port task21.task1_acc3_out -> task22.task2_acc3_in;
+			task2to1Buffer: port task22.task2_order_out -> task21.task1_order_in;
+
+			task2to3buffer: port task22.task2_buffer_send -> task23.task3_buffer_receive;
+			task3to2buffer: port task23.task3_buffer_send -> task22.task2_buffer_receive;
+			task2to3blackboard: port task22.task2_blackboard_write -> task23.task3_blackboard_read;
+			task3to2blackboard: port task23.task3_blackboard_write -> task22.task2_blackboard_read;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end P2.impl;
+
+	process P3
+		features
+			order_in: in event data port Base_Types::Integer;
+			queueingin: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end P3;
+
+	process implementation P3.impl
+		subcomponents
+			task31: thread DIMA_threads::Tsk31.impl;
+			task32: thread DIMA_threads::Tsk32.impl;
+			task33: thread DIMA_threads::Tsk33.impl;
+		connections
+			msg1_in: port order_in -> task31.msg1_in;
+			msg2_in: port order_in -> task32.msg2_in;
+			msg3_in: port queueingin -> task33.msg3_in;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end P3.impl;
+
+	process P4
+		features
+			order_in: in event data port Base_Types::Integer;
+			queueingout: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			queueingin: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end P4;
+
+	process implementation P4.impl
+		subcomponents
+			task41: thread DIMA_threads::Tsk41.impl;
+			task42: thread DIMA_threads::Tsk42.impl;
+			task43: thread DIMA_threads::Tsk43.impl;
+			task44: thread DIMA_threads::Tsk44.impl;
+			task45: thread DIMA_threads::Tsk45.impl;
+		connections
+			msg1_in: port order_in -> task42.msg1_in;
+			msg3_out: port task42.msg3_out -> queueingout;
+			msg4_in: port queueingin -> task43.msg4_in;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end P4.impl;
+
+	process P5
+		features
+			queueingout: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			order_in: in event data port Base_Types::Integer;
+	end P5;
+
+	process implementation P5.impl
+		subcomponents
+			task51: thread DIMA_threads::Tsk51.impl;
+			task52: thread DIMA_threads::Tsk52.impl;
+			task53: thread DIMA_threads::Tsk53.impl;
+		connections
+			msg1_in: port order_in -> task51.msg1_in;
+			msg2_in: port order_in -> task52.msg2_in;
+			msg4_out: port task52.msg4_out -> queueingout;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end P5.impl;
+	
+end DIMA_partitions;

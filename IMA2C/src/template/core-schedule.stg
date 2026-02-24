@@ -1,0 +1,9 @@
+schedule(schedule) ::= <<
+    \<Module_Schedule MajorFrameSeconds="<first(schedule).majorFrameTime>"><schedule:{x|
+        \<Partition_Schedule PartitionIdentifier="<x.partitionId>" PartitionName="<x.partitionName>" PeriodSeconds="<x.periodSeconds>" PeriodDurationSeconds="<x.periodDurationSeconds>">
+            <x.windows:{y|\<Window_Schedule WindowIdentifier="<y.windowId>" WindowStartSeconds="<y.windowStartSeconds>" WindowDurationSeconds="<y.windowDurationSeconds>" PartitionPeriodStart="<y.partitionPeriodStart>"/>};separator="\n">
+        \</Partition_Schedule>}>
+    \</Module_Schedule>
+>>
+    
+

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ease.launchConfigurationType">
+    <stringAttribute key="File location" value="workspace://MyPlugin/src/nuaa/solver/Sch_Part.java"/>
+    <stringAttribute key="Script engine" value="org.eclipse.ease.jvm.compiled"/>
+</launchConfiguration>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="installedFeatures">
+		<item value="org.eclipse.draw2d:3.10.100.201606061308"/>
+		<item value="org.eclipse.ease.feature:0.7.0.I201907120558"/>
+		<item value="org.eclipse.ease.lang.python.feature:0.7.0.I201906281229"/>
+		<item value="org.eclipse.ease.lang.scriptarchive.feature:0.7.0.I201906281229"/>
+		<item value="org.eclipse.ease.ui.feature:0.7.0.I201907161104"/>
+		<item value="org.eclipse.egit:5.11.0.202103091610-r"/>
+		<item value="org.eclipse.elk.algorithms.feature:0.7.1"/>
+		<item value="org.eclipse.elk.feature:0.7.1"/>
+		<item value="org.eclipse.emf.common:2.22.0.v20210114-1734"/>
+		<item value="org.eclipse.emf.ecore.edit:2.14.0.v20190822-1451"/>
+		<item value="org.eclipse.emf.ecore:2.23.0.v20200630-0516"/>
+		<item value="org.eclipse.emf.edit:2.16.0.v20190920-0401"/>
+		<item value="org.eclipse.emf.transaction:1.12.0.201805140824"/>
+		<item value="org.eclipse.emf.validation:1.12.2.202008210805"/>
+		<item value="org.eclipse.emf.workspace:1.12.0.201805140824"/>
+		<item value="org.eclipse.gef:3.11.0.201606061308"/>
+		<item value="org.eclipse.gmf.runtime.notation:1.13.0.202004160913"/>
+		<item value="org.eclipse.gmf:1.13.0.202004160913"/>
+		<item value="org.eclipse.help:2.3.500.v20210303-1800"/>
+		<item value="org.eclipse.jdt:3.18.700.v20210303-1800"/>
+		<item value="org.eclipse.jgit.gpg.bc:5.11.0.202103091610-r"/>
+		<item value="org.eclipse.jgit.http.apache:5.11.0.202103091610-r"/>
+		<item value="org.eclipse.jgit.ssh.apache:5.11.0.202103091610-r"/>
+		<item value="org.eclipse.jgit:5.11.0.202103091610-r"/>
+		<item value="org.eclipse.justj.openjdk.hotspot.jre.full.stripped:11.0.13.v20211116-1829"/>
+		<item value="org.eclipse.mylyn.commons.identity:1.17.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn.commons.notifications:1.17.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn.commons.repositories:1.17.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn.commons:3.25.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn.context_feature:3.25.2.v20200828-1617"/>
+		<item value="org.eclipse.mylyn.discovery:3.25.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn.monitor:3.25.2.v20200813-0821"/>
+		<item value="org.eclipse.mylyn_feature:3.25.2.v20200814-0512"/>
+		<item value="org.eclipse.pde:3.14.700.v20210303-1800"/>
+		<item value="org.eclipse.platform:4.19.0.v20210303-1800"/>
+		<item value="org.eclipse.rcp:4.19.0.v20210303-1800"/>
+		<item value="org.eclipse.sirius.runtime.ide.ui:6.4.2.202103091337"/>
+		<item value="org.eclipse.sirius.runtime:6.4.2.202103091337"/>
+		<item value="org.osate.ba.feature:5.2.0.v20220120-2009"/>
+		<item value="org.osate.core.feature:9.1.0.v20220203-1935"/>
+		<item value="org.osate.ge.feature:5.2.0.v20220201-1822"/>
+		<item value="org.osate.plugins.feature:6.1.2.v20220120-2009"/>
+		<item value="org.osate.utils.feature:2.0.1.v20210925-2005"/>
+		<item value="org.osate.xtext.aadl2.errormodel.feature:9.0.2.v20220203-1935"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="D:\osate2.10.2\workspace\DIMA"/>
+			<item value="D:\osate2.10.2\workspace\IMA2C"/>
+			<item value="C:\CASE"/>
+			<item value="C:\DIMA"/>
+			<item value="D:\osate2.10.2\workspace\IMA"/>
+			<item value="G:\study\多核IMA（研究方向）\工具提交\aadl"/>
+			<item value="C:\arinc653-master"/>
+			<item value="G:\study\多核IMA（研究方向）\arinc653-master"/>
+			<item value="G:\study\多核IMA（研究方向）\653"/>
+			<item value="G:\study\AGREE2"/>
+			<item value="G:\study\多核多分区（研究方向）\653"/>
+			<item value="G:\study\osate2-2.3.4\workspace\aadlmpm"/>
+			<item value="D:\osate\workspace\hello"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value=""/>
+		</list>
+	</section>
+	<section name="SmartImportWizard">
+		<item key="SmartImportRootWizardPage.STORE_HIDE_ALREADY_OPEN" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_CLOSE_IMPORTED" value="false"/>
+		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
+		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\images"/>
+			<item value="G:\study\李书铭-资料\AADL_MPM_Tool\workspace4aadl-mpm\aadlmpm"/>
+		</list>
+	</section>
+	<section name="CleanDialogSettings">
+		<item key="TOGGLE_SELECTED" value="false"/>
+		<item key="DIALOG_WIDTH" value="581"/>
+		<item key="DIALOG_HEIGHT" value="434"/>
+		<item key="DIALOG_FONT_NAME" value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI"/>
+	</section>
+	<section name="NewWizardAction">
+	</section>
+</section>

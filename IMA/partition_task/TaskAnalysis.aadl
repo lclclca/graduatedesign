@@ -1,0 +1,443 @@
+package TaskAnalysis
+public
+
+	with ARINC653;
+	
+	data integer
+	end integer;
+
+	data ordercmd
+	end ordercmd;
+
+	data Blackboard
+	end Blackboard;
+	
+	data Buffer
+	end Buffer;
+	
+	data Semaphore
+	end Semaphore;
+	
+	thread T1
+		features
+			board: requires data access Blackboard {ARINC653::Queueing_Discipline => FIFO;};
+			send: out event data port integer;
+	end T1;
+
+	thread implementation T1.Impl
+		
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 20ms .. 20ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 5;
+			Deadline => 100ms;
+			Period => 100ms;
+		
+	end T1.Impl;
+
+	thread T2
+		features
+			board: requires data access Blackboard {ARINC653::Queueing_Discipline => FIFO;};
+			receive: in event data port integer;
+	end T2;
+
+	thread implementation T2.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 5ms .. 5ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 1;
+			Deadline => 100ms;
+			Period => 100ms;
+	end T2.Impl;
+
+	thread T3
+		features
+			board: requires data access Blackboard {ARINC653::Queueing_Discipline => FIFO;};
+			act: in data port integer;
+	end T3;
+
+	thread implementation T3.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 10ms .. 10ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 3;
+			Deadline => 100ms;
+			Period => 100ms;
+	end T3.Impl;
+
+	thread T4
+		features
+			buffer: requires data access Buffer {ARINC653::Queueing_Discipline => FIFO;};
+	end T4;
+
+	thread implementation T4.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 20ms .. 20ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 3;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T4.Impl;
+
+	thread T5
+		features
+			buffer: requires data access Buffer {ARINC653::Queueing_Discipline => FIFO;};
+			
+			tem: in data port integer;
+	end T5;
+
+	thread implementation T5.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 10ms .. 10ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 1;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T5.Impl;
+
+	thread T6
+		features
+			buffer: requires data access Buffer {ARINC653::Queueing_Discipline => FIFO;};
+	end T6;
+
+	thread implementation T6.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 15ms .. 15ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 2;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T6.Impl;
+
+	thread T7
+		features
+			semaphore: requires data access Semaphore {ARINC653::Queueing_Discipline => FIFO;};
+	end T7;
+
+	thread implementation T7.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 15ms .. 15ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 2;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T7.Impl;
+
+	thread T8
+		features
+			semaphore: requires data access Semaphore {ARINC653::Queueing_Discipline => FIFO;};
+	end T8;
+
+	thread implementation T8.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 10ms .. 10ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 1;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T8.Impl;
+
+	thread T9
+		features
+			semaphore: requires data access Semaphore {ARINC653::Queueing_Discipline => FIFO;};
+	end T9;
+
+	thread implementation T9.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 20ms .. 20ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 3;
+			Deadline => 200ms;
+			Period => 200ms;
+	end T9.Impl;
+
+	thread T10
+		features
+			send: out data port integer;
+	end T10;
+
+	thread implementation T10.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 5ms .. 5ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 1;
+			Deadline => 100ms;
+			Period => 100ms;
+	end T10.Impl;
+
+	thread T11
+		features
+			putout: out event data port integer;
+			receive: in event port;
+	end T11;
+
+	thread implementation T11.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 15ms .. 15ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 4;
+			Deadline => 100ms;
+			Period => 100ms;
+	end T11.Impl;
+
+	thread T12
+		features
+			putin: in event data port integer;
+	end T12;
+
+	thread implementation T12.Impl
+		properties
+			Dispatch_Protocol => Periodic;
+			Compute_Execution_Time => 10ms .. 10ms;
+			POSIX_Scheduling_Policy => SCHED_FIFO;
+			Priority => 3;
+			Deadline => 100ms;
+			Period => 100ms;
+	end T12.Impl;
+
+	virtual processor partition1_rt
+	end partition1_rt;
+
+	virtual processor implementation partition1_rt.impl
+	end partition1_rt.impl;
+
+	virtual processor partition2_rt
+	end partition2_rt;
+
+	virtual processor implementation partition2_rt.impl
+	end partition2_rt.impl;
+
+	virtual processor partition3_rt
+	end partition3_rt;
+
+	virtual processor implementation partition3_rt.impl
+	end partition3_rt.impl;
+
+	virtual processor partition4_rt
+	end partition4_rt;
+
+	virtual processor implementation partition4_rt.impl
+	end partition4_rt.impl;
+
+	process partition1
+		features
+			samplingout: out data port integer;
+
+			queueingin: in event data port integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+
+	end partition1;
+
+	process implementation partition1.impl
+		subcomponents
+			T1: thread T1.Impl;
+			T2: thread T2.Impl;
+			T3: thread T3.Impl;
+			Blackboard: data Blackboard;
+		
+		connections
+			BlaCon1: data access Blackboard -> T1.board;
+			BlaCon2: data access Blackboard -> T2.board;
+			BlaCon3: data access Blackboard -> T3.board;
+			
+			eventCon: port T1.send -> T2.receive;
+			
+			actCon: port queueingin -> t3.act;
+
+	end partition1.impl;
+
+	process partition2
+		features
+			samplingin: in data port integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+			
+			queueingout: out event data port integer {ARINC653::Timeout => 10ms;};
+	end partition2;
+
+	process implementation partition2.impl
+		subcomponents
+			T4: thread T4.Impl;
+			T5: thread T5.Impl;
+			T6: thread T6.Impl;
+			Buffer: data Buffer;
+			
+		connections
+			BufCon1: data access Buffer -> T4.buffer;
+			BufCon2: data access Buffer -> T5.buffer;
+			BufCon3: data access Buffer -> T6.buffer;
+			
+			temCon: port samplingin -> T5.tem;
+
+	end partition2.impl;
+
+	process partition3
+		features
+			samplingout: out data port integer;
+			
+			queueingin: in event data port integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			
+	end partition3;
+
+	process implementation partition3.impl
+		subcomponents
+			T7: thread T7.Impl;
+			T8: thread T8.Impl;
+			T9: thread T9.Impl;
+			Semaphore: data Semaphore;
+			
+		connections
+			SemCon1: data access Semaphore -> T7.semaphore;
+			SemCon2: data access Semaphore -> T8.semaphore;
+			SemCon3: data access Semaphore -> T9.semaphore;
+			
+	end partition3.impl;
+
+	process partition4
+		features
+			samplingin: in data port integer {ARINC653::Sampling_Refresh_Period => 10ms;};
+
+			queueingout: out event data port integer {ARINC653::Timeout => 10ms;};
+	end partition4;
+
+	process implementation partition4.impl
+		subcomponents
+			T10: thread T10.Impl;
+			T11: thread T11.Impl;
+			T12: thread T12.Impl;
+			
+		connections
+			con1: port T10.send -> queueingout;
+			con2: port samplingin -> T11.receive;
+			con3: port T11.putout -> T12.putin;
+
+	end partition4.impl;
+
+	-- Memory
+	memory partition1_memory
+		properties
+			Base_Address => 0;
+	end partition1_memory;
+
+	memory partition2_memory
+		properties
+			Base_Address => 100;
+	end partition2_memory;
+
+	memory partition3_memory
+		properties
+			Base_Address => 200;
+	end partition3_memory;
+
+	memory partition4_memory
+		properties
+			Base_Address => 300;
+	end partition4_memory;
+
+	memory main_memory
+	end main_memory;
+
+	memory implementation main_memory.impl
+		subcomponents
+			part1mem: memory partition1_memory;
+			part2mem: memory partition2_memory;
+			part3mem: memory partition3_memory;
+			part4mem: memory partition4_memory;
+	end main_memory.impl;
+
+	-- Main runtime
+	processor powerpc
+		properties
+			Scheduling_Protocol => (RMS);
+	end powerpc;
+
+	processor implementation powerpc.impl_core1
+		subcomponents
+			part1: virtual processor partition1_rt.impl;
+			part2: virtual processor partition2_rt.impl;
+		properties
+			ARINC653::Module_Major_Frame => 100ms;
+
+			ARINC653::Module_Schedule => ([Partition => reference (part1);
+					Duration => 50ms;
+					Periodic_Processing_Start => false;],
+				[Partition => reference (part2);
+					Duration => 50ms;
+					Periodic_Processing_Start => false;]
+			);
+	end powerpc.impl_core1;
+
+	processor implementation powerpc.impl_core2
+		subcomponents
+			part3: virtual processor partition3_rt.impl;
+			part4: virtual processor partition4_rt.impl;
+		properties
+			ARINC653::Module_Major_Frame => 100ms;
+
+			ARINC653::Module_Schedule => ([Partition => reference (part3);
+					Duration => 50ms;
+					Periodic_Processing_Start => false;],
+				[Partition => reference (part4);
+					Duration => 50ms;
+					Periodic_Processing_Start => false;]
+			);
+	end powerpc.impl_core2;
+
+	
+	system CPU
+	end CPU;
+
+	system implementation CPU.Two_Cores
+		subcomponents
+			core1: processor powerpc.impl_core1;
+			core2: processor powerpc.impl_core2;
+	end CPU.Two_Cores;
+	
+	
+	system arincsystem_T	
+	end arincsystem_T;
+
+	system implementation arincsystem_T.impl_multicore
+		subcomponents
+			mem: memory main_memory.impl;
+			cpus: system CPU.Two_Cores;
+
+			partition1_pr: process partition1.impl;
+			partition2_pr: process partition2.impl;
+			partition3_pr: process partition3.impl;
+			partition4_pr: process partition4.impl;
+
+		connections
+			samplingconnection1: port partition1_pr.samplingout -> partition2_pr.samplingin;
+			queueingconnection1: port partition2_pr.queueingout -> partition1_pr.queueingin;
+			samplingconnection2: port partition3_pr.samplingout -> partition4_pr.samplingin;
+			queueingconnection2: port partition4_pr.queueingout -> partition3_pr.queueingin;			
+		properties
+--			  bind runtimes to separate cores
+			Actual_Processor_Binding => (reference (cpus.core1.part1)) applies to partition1_pr;
+			Actual_Processor_Binding => (reference (cpus.core1.part2)) applies to partition2_pr;
+			Actual_Processor_Binding => (reference (cpus.core2.part3)) applies to partition3_pr;
+			Actual_Processor_Binding => (reference (cpus.core2.part4)) applies to partition4_pr;
+
+			--  bind partition process to their address spaces       
+			--  (memory components)
+			Actual_Memory_Binding => (reference (mem.part1mem)) applies to partition1_pr;
+			Actual_Memory_Binding => (reference (mem.part2mem)) applies to partition2_pr;
+			Actual_Memory_Binding => (reference (mem.part3mem)) applies to partition3_pr;
+			Actual_Memory_Binding => (reference (mem.part4mem)) applies to partition4_pr;
+	end arincsystem_T.impl_multicore;
+
+
+end TaskAnalysis;
