@@ -212,7 +212,7 @@ class AadlParser:
         td.impl = name
 
         # Properties section
-        props_m = re.search(r'\bproperties\b(.*?)(?=\bcalls\b|\bconnections\b|\bend\b)', body, re.S | re.I)
+        props_m = re.search(r'\bproperties\b(.*?)(?=\bcalls\b|\bconnections\b|\bend\b|$)', body, re.S | re.I)
         if props_m:
             self._apply_thread_props(td, props_m.group(1))
 
@@ -315,7 +315,7 @@ class AadlParser:
     def _parse_features(self, body: str) -> Dict[str, PortDef]:
         """Extract port features from a component body."""
         features: Dict[str, PortDef] = {}
-        feat_m = re.search(r'\bfeatures\b(.*?)(?=\bend\b|\bproperties\b|\bsubcomponents\b|\bconnections\b|\bcalls\b)', body, re.S | re.I)
+        feat_m = re.search(r'\bfeatures\b(.*?)(?=\bend\b|\bproperties\b|\bsubcomponents\b|\bconnections\b|\bcalls\b|$)', body, re.S | re.I)
         if not feat_m:
             return features
 
