@@ -399,6 +399,10 @@ class PartitionResources:
     blackboards: List[BlackboardRes] = field(default_factory=list)
     buffers: List[BufferRes] = field(default_factory=list)
     prefix: str = ''        # e.g. 'ps1'
+    # Per-task inter-partition port routing (from partition-level connections)
+    # Maps task-instance-name → set of partition-level port names
+    task_interpart_reads: Dict[str, set] = field(default_factory=dict)
+    task_interpart_writes: Dict[str, set] = field(default_factory=dict)
 
 
 def analyse_partition(pd: PartitionDef, threads: Dict[str, ThreadDef],
@@ -457,6 +461,26 @@ def analyse_partition(pd: PartitionDef, threads: Dict[str, ThreadDef],
 
     bb_set: set = set()   # avoid duplicates (bidirectional BB connections)
     buf_set: set = set()
+
+    # ── 3a. Build per-task inter-partition port routing maps ─────────────────
+    # Parse connections that route partition-level ports to/from tasks
+    for conn in pd.connections:
+        src_parts = conn.src.split('.')
+        dst_parts = conn.dst.split('.')
+
+        # Only process connections involving partition-level features
+        if len(src_parts) == 1 and len(dst_parts) == 2:
+            # partition_port → task.thread_port  (task reads from partition port)
+            part_port = src_parts[0]
+            task_inst = dst_parts[0]
+            if part_port in inter_features:
+                pr.task_interpart_reads.setdefault(task_inst, set()).add(part_port)
+        elif len(src_parts) == 2 and len(dst_parts) == 1:
+            # task.thread_port → partition_port  (task writes to partition port)
+            task_inst = src_parts[0]
+            part_port = dst_parts[0]
+            if part_port in inter_features:
+                pr.task_interpart_writes.setdefault(task_inst, set()).add(part_port)
 
     for conn in pd.connections:
         src_parts = conn.src.split('.')
@@ -882,10 +906,31 @@ def gen_activity_c(pr: PartitionResources) -> str:
         reads_bb   = [bb  for bb  in pr.blackboards if bb.reader_task == inst]
         writes_buf = [buf for buf in pr.buffers     if buf.writer_task == inst]
         reads_buf  = [buf for buf in pr.buffers     if buf.reader_task == inst]
-        writes_sam = [s   for s   in pr.sampling    if s.direction == 'SOURCE']
-        reads_sam  = [s   for s   in pr.sampling    if s.direction == 'DESTINATION']
-        writes_que = [q   for q   in pr.queuing     if q.direction == 'SOURCE']
-        reads_que  = [q   for q   in pr.queuing     if q.direction == 'DESTINATION']
+
+        # For inter-partition ports, use connection routing if available;
+        # otherwise fall back to direction-based assignment (all tasks share).
+        task_reads  = pr.task_interpart_reads.get(inst)   # set or None
+        task_writes = pr.task_interpart_writes.get(inst)  # set or None
+        has_routing = bool(pr.task_interpart_reads or pr.task_interpart_writes)
+
+        if has_routing:
+            reads_sam  = [s for s in pr.sampling
+                          if s.direction == 'DESTINATION'
+                          and (task_reads is None or s.port_name in task_reads)]
+            writes_sam = [s for s in pr.sampling
+                          if s.direction == 'SOURCE'
+                          and (task_writes is None or s.port_name in task_writes)]
+            reads_que  = [q for q in pr.queuing
+                          if q.direction == 'DESTINATION'
+                          and task_reads is not None and q.port_name in task_reads]
+            writes_que = [q for q in pr.queuing
+                          if q.direction == 'SOURCE'
+                          and task_writes is not None and q.port_name in task_writes]
+        else:
+            writes_sam = [s for s in pr.sampling if s.direction == 'SOURCE']
+            reads_sam  = [s for s in pr.sampling if s.direction == 'DESTINATION']
+            writes_que = [q for q in pr.queuing  if q.direction == 'SOURCE']
+            reads_que  = [q for q in pr.queuing  if q.direction == 'DESTINATION']
 
         # Collect extern declarations needed
         externs_needed = set()
