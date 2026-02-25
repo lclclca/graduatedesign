@@ -1,3 +1,25 @@
+/* ==============================================================
+ *  FILE:    activity.c
+ *  ROLE:    任务循环体实现（Task Job Implementations）
+ *
+ *  IMA 架构层次：线程层（Thread Layer）
+ *  IMA 分区：ps5 (P5)     模块：M2 (arinckernel.module2)
+ *  对应 AADL 文件：DIMA_threads.aadl
+ *    AADL thread Tsk51/Tsk52/Tsk53 各自对应一个周期性任务。
+ *
+ *  本文件是 ps5 分区的核心执行代码，实现各任务的 while(1) 主循环。
+ *  每个任务的执行流程为：
+ *    1. 调用 ARINC 653 APEX 服务收发消息（RECEIVE/SEND）
+ *    2. （可选）调用用户计算函数
+ *    3. 调用 PERIODIC_WAIT() 挂起，等待下一个调度周期
+ *
+ *  ps5 分区特点：
+ *    - task51：只读 order_in 队列端口
+ *    - task52：读 order_in → 处理 → 写 queueingout（消息转发节点）
+ *    - task53：无任何端口操作（纯计算占位任务）
+ *    - 无分区内通信（无黑板、无缓冲区）
+ * ==============================================================*/
+
 #include <os/pos/apex/apexLib.h>
 #include <stdio.h>
 #include <stdlib.h>

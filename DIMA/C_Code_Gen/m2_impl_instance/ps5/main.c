@@ -1,3 +1,27 @@
+/* ==============================================================
+ *  FILE:    main.c
+ *  ROLE:    分区入口与资源初始化（Partition Entry & Resource Init）
+ *
+ *  IMA 架构层次：分区层（Partition Layer）
+ *  IMA 分区：ps5 (P5)     模块：M2 (arinckernel.module2)
+ *  对应 AADL 文件：
+ *    - DIMA_partitions.aadl ：分区定义（端口、资源声明）
+ *    - DIMA_models.aadl     ：分区绑定到处理器模块
+ *    - DIMA_threads.aadl    ：线程（任务）属性（周期、优先级等）
+ *
+ *  appMain() 是 ARINC 653 操作系统启动后调用的分区入口函数。
+ *  它只执行一次，负责创建分区所需的全部资源，然后切换到 NORMAL 模式。
+ *
+ *  执行步骤：
+ *    1. CREATE_QUEUING_PORT / CREATE_SAMPLING_PORT — 创建分区间通信端口
+ *       对应 AADL: partition 的 feature（in/out data port / event data port）
+ *    2. CREATE_BLACKBOARD / CREATE_BUFFER          — 创建分区内通信资源
+ *       对应 AADL: thread 之间的 data access 连接
+ *    3. CREATE_PROCESS + START                     — 创建并启动各任务
+ *       对应 AADL: thread 及其 Period、Priority 属性
+ *    4. SET_PARTITION_MODE(NORMAL)                 — 切换到正常运行模式
+ *       此后 appMain 返回，RTOS 开始周期调度各任务
+ * ==============================================================*/
 #include <os/pos/apex/apexLib.h>
 #include <stdlib.h>
 #include <stdio.h>
