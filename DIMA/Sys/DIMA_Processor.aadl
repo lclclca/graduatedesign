@@ -151,12 +151,13 @@ end powerpc.impl;
 	
 	processor implementation arinckernel.module2
 		subcomponents
-			part1: virtual processor partition_runtime.impl;
-			part2: virtual processor partition_runtime.impl;
-			--part3: virtual processor partition_runtime;
+			part1: virtual processor partition_runtime.impl;  -- ps3 (P3)
+			part2: virtual processor partition_runtime.impl;  -- ps5 (P5)
 		properties
 			ARINC653::Module_Major_Frame => 25ms;
-			ARINC653::Module_Schedule => ([Partition => reference (part1);
+			-- 25ms 大帧内：ps3 先执行 5ms，ps5 执行 10ms，ps3 再执行 10ms
+			ARINC653::Module_Schedule => (
+				[Partition => reference (part1);
 					Duration => 5ms;
 					Periodic_Processing_Start => true;],
 				[Partition => reference (part2);
@@ -166,13 +167,76 @@ end powerpc.impl;
 					Duration => 10ms;
 					Periodic_Processing_Start => true;]
 			);
+			-- 健康监控：模块级错误定义
+			ARINC653::HM_Error_ID_Levels => (
+				[ErrorIdentifier => 1;
+					Description => "Module Config Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Config;],
+				[ErrorIdentifier => 2;
+					Description => "Module Initialization Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Init;],
+				[ErrorIdentifier => 3;
+					Description => "Module Scheduling Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Scheduling;]
+			);
+			-- 健康监控：模块级错误处置
+			ARINC653::HM_Error_ID_Actions => (
+				[ErrorIdentifier => 1;
+					Description => "Ignore the error";
+					Action => "ignore";],
+				[ErrorIdentifier => 2;
+					Description => "Reset the Module";
+					Action => "reset";],
+				[ErrorIdentifier => 3;
+					Description => "Reset the Module";
+					Action => "reset";]
+			);
 	end arinckernel.module2;
-	
-		processor implementation arinckernel.module3
+
+	processor implementation arinckernel.module3
 		subcomponents
-			part1: virtual processor partition_runtime.impl;
-			part2: virtual processor partition_runtime.impl;
+			part1: virtual processor partition_runtime.impl;  -- ps4 (P4)
+			part2: virtual processor partition_runtime3.impl; -- 系统分区（网络设备）
 		properties
 			ARINC653::Module_Major_Frame => 25ms;
+			-- 25ms 大帧内：ps4 执行 15ms，系统分区 10ms
+			ARINC653::Module_Schedule => (
+				[Partition => reference (part1);
+					Duration => 15ms;
+					Periodic_Processing_Start => true;],
+				[Partition => reference (part2);
+					Duration => 10ms;
+					Periodic_Processing_Start => true;]
+			);
+			-- 健康监控：模块级错误定义
+			ARINC653::HM_Error_ID_Levels => (
+				[ErrorIdentifier => 1;
+					Description => "Module Config Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Config;],
+				[ErrorIdentifier => 2;
+					Description => "Module Initialization Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Init;],
+				[ErrorIdentifier => 3;
+					Description => "Module Scheduling Error";
+					ErrorLevel => Module_Level;
+					ErrorCode => Module_Scheduling;]
+			);
+			-- 健康监控：模块级错误处置
+			ARINC653::HM_Error_ID_Actions => (
+				[ErrorIdentifier => 1;
+					Description => "Ignore the error";
+					Action => "ignore";],
+				[ErrorIdentifier => 2;
+					Description => "Reset the Module";
+					Action => "reset";],
+				[ErrorIdentifier => 3;
+					Description => "Reset the Module";
+					Action => "reset";]
+			);
 	end arinckernel.module3;
 end DIMA_Processor;

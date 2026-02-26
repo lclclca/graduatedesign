@@ -251,3 +251,35 @@ void appMain(void)
     /*  appMain returns; partition now runs in NORMAL mode under the RTOS. */
     return;
 }
+
+/* ==============================================================
+ *  健康监控回调函数（Health Monitoring Callbacks）
+ *
+ *  ARINC 653 HM 机制：当操作系统检测到错误（内存越界、时间超限等），
+ *  会调用对应的回调函数，由应用决定如何处置（记录日志、重启分区等）。
+ *
+ *  module.xml 中的绑定：
+ *    Module_HM_Table    ModuleCallback="module_HM_callback"
+ *    Partition_HM_Table PartitionCallback="partition_HM_callback"
+ * ==============================================================*/
+
+/* 模块级 HM 回调：模块初始化阶段或系统功能执行阶段发生错误时调用 */
+void module_HM_callback(ERROR_STATUS_TYPE *error_status)
+{
+    /* 打印模块级错误信息 */
+    printf("[HM MODULE ps1 (P1)] ErrorID=%d  FailedProcess=%d  State=%d\n",
+           (int)error_status->ERROR_IDENTIFIER,
+           (int)error_status->FAILED_PROCESS_ID,
+           (int)error_status->SYSTEM_STATE);
+    /* TODO: 根据 ErrorID 决定具体处置策略（记录日志、触发 SHUTDOWN 等）*/
+}
+
+/* 分区级 HM 回调：分区初始化或运行阶段发生错误时调用 */
+void partition_HM_callback(ERROR_STATUS_TYPE *error_status)
+{
+    /* 打印分区级错误信息 */
+    printf("[HM PARTITION ps1 (P1)] ErrorID=%d  FailedProcess=%d\n",
+           (int)error_status->ERROR_IDENTIFIER,
+           (int)error_status->FAILED_PROCESS_ID);
+    /* TODO: 根据 ErrorID 决定处置策略（IDLE / COLD_START / WARM_START 等）*/
+}
