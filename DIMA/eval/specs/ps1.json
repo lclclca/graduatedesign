@@ -1,0 +1,36 @@
+{
+  "partition": "ps1",
+  "module": "M1",
+  "aadl_process": "DIMA_partitions::P1.impl",
+  "required_files": [
+    "activity.c", "activity.h",
+    "deployment.c", "deployment.h",
+    "globals.c", "globals.h",
+    "gtypes.c", "gtypes.h",
+    "main.c",
+    "subprograms.c", "subprograms.h"
+  ],
+  "tasks": [
+    {"name": "task11", "period_ms": 25,  "priority": 2},
+    {"name": "task12", "period_ms": 50,  "priority": 3},
+    {"name": "task13", "period_ms": 50,  "priority": 4},
+    {"name": "task14", "period_ms": 50,  "priority": 5}
+  ],
+  "sampling_ports": [
+    {"name": "pr1samplingout", "direction": "SOURCE",      "api_write": "WRITE_SAMPLING_MESSAGE"}
+  ],
+  "queuing_ports": [
+    {"name": "pr1queueingin",  "direction": "DESTINATION", "max_nb": 30, "api_read": "RECEIVE_QUEUING_MESSAGE"}
+  ],
+  "blackboards": ["bb_acc1", "bb_acc2", "bb_sem", "bb_t3t4", "bb_t4t3"],
+  "buffers":     ["buf_sensor", "buf_t3tot4", "buf_t4tot3"],
+  "subprograms": [
+    "commandboard_receiveinput_spg",
+    "commandboard_printinfos_spg",
+    "calculate_spg"
+  ],
+  "deployment": {
+    "nb_threads": 4, "nb_samplings": 1, "nb_queueings": 1,
+    "nb_blackboards": 5, "nb_buffers": 3, "stacks_size": 32768
+  }
+}
