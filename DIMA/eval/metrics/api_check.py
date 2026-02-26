@@ -28,6 +28,17 @@ def _read(path: str) -> str:
         return ""
 
 
+def _strip_comments_and_strings(code: str) -> str:
+    """Remove C comments and string literals so API names inside them aren't counted."""
+    # Remove block comments
+    code = re.sub(r'/\*.*?\*/', ' ', code, flags=re.DOTALL)
+    # Remove line comments
+    code = re.sub(r'//[^\n]*', ' ', code)
+    # Remove string literals (replace content with empty quotes)
+    code = re.sub(r'"[^"\\]*(?:\\.[^"\\]*)*"', '""', code)
+    return code
+
+
 def _count(pattern: str, text: str) -> int:
     return len(re.findall(pattern, text))
 
@@ -39,8 +50,8 @@ def check(gen_dir: str, spec: dict) -> Dict:
     """
     import os
     details = []
-    main_c  = _read(os.path.join(gen_dir, "main.c"))
-    act_c   = _read(os.path.join(gen_dir, "activity.c"))
+    main_c  = _strip_comments_and_strings(_read(os.path.join(gen_dir, "main.c")))
+    act_c   = _strip_comments_and_strings(_read(os.path.join(gen_dir, "activity.c")))
     task_names = [t["name"] for t in spec["tasks"]]
 
     nb_tasks    = len(task_names)
