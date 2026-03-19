@@ -384,6 +384,7 @@ void* task14_job(void)
 ## 要求
 
 - 11 个文件：deployment.h/.c、gtypes.h/.c、globals.h/.c、subprograms.h/.c、activity.h/.c、main.c
+- **任务函数命名（严格）**：每个任务函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。如上例 ps1 中 `"name": "task11"` → `task11_job`。activity.h 声明、activity.c 实现、`tattr.ENTRY_POINT`、`strcpy(tattr.NAME, ...)` 字符串，均必须使用完全相同的名称。
 - 命名规范：全局变量前缀使用 `{{PARTITION_NAME}}_`（如 `ps2_bb_acc3_id`）
 - 所有头文件有 `#ifndef`/`#define`/`#endif` 保护
 - 任务周期单位为纳秒（ms × 1,000,000）

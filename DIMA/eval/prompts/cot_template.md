@@ -112,6 +112,7 @@ SET_PARTITION_MODE(NORMAL, &ret);
 **步骤 3：分析每个任务的通信行为**
 - 对每个任务：它读哪些资源？写哪些资源？调用哪些子程序？
 - 推断 activity.c 中的 READ/WRITE 操作序列
+- **命名确认**：列出每个任务的函数名（必须为 `tasks[].name` + `_job`，如 `task31_job`）
 
 **步骤 4：生成 11 个文件的完整代码**
 
@@ -119,6 +120,7 @@ SET_PARTITION_MODE(NORMAL, &ret);
 
 ## 代码规范
 
+- **任务函数命名（严格）**：每个任务函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。例如 `"name": "task31"` → 函数签名为 `void *task31_job(void *arg)`。activity.h 声明、activity.c 实现、`tattr.ENTRY_POINT` 赋值、`strcpy(tattr.NAME, ...)` 字符串，均必须使用完全相同的名称。
 - 全局变量前缀：`{{PARTITION_NAME}}_`
 - 端口 ID 在 `main.c` 中声明为全局变量，在 `activity.c` 中用 `extern` 引用
 - **不要**在 `while(1)` 循环内调用 `CREATE_*` 或 `GET_*_PORT_ID`

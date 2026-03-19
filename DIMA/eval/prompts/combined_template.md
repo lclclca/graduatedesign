@@ -248,6 +248,7 @@ SET_PARTITION_MODE(NORMAL, &ret);
 
 ## 代码规范
 
+- **任务函数命名（严格）**：每个任务函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。如上例 ps1 中 `"name": "task11"` → `task11_job`。activity.h 声明、activity.c 实现、`tattr.ENTRY_POINT`、`strcpy(tattr.NAME, ...)` 字符串，均必须使用完全相同的名称。
 - 全局变量前缀：`{{PARTITION_NAME}}_`
 - 端口 ID 在 `main.c` 全局声明，`activity.c` 中用 `extern` 引用
 - **不要**在 `while(1)` 内调用 `CREATE_*` 或 `GET_*_PORT_ID`

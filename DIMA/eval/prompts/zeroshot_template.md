@@ -41,6 +41,7 @@
 
 ## 代码规范
 
+- **任务函数命名（严格）**：每个任务函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。例如 `"name": "task31"` → 函数签名为 `void *task31_job(void *arg)`。activity.h 中的声明、activity.c 中的实现、CREATE_PROCESS 的 `tattr.ENTRY_POINT` 赋值，以及 `strcpy(tattr.NAME, ...)` 的字符串，均必须使用完全相同的名称。
 - 所有头文件必须有 `#ifndef`/`#define`/`#endif` 头文件保护
 - `activity.c` 和 `main.c` 必须包含 `#include <os/pos/apex/apexLib.h>`
 - 任务周期单位为**纳秒**（ms × 1,000,000）
