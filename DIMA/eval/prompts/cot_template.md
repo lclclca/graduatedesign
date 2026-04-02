@@ -57,12 +57,13 @@ CREATE_BUFFER("名称", sizeof(integer), 最大消息数, FIFO, &id变量, &ret)
 
 ```c
 PROCESS_ATTRIBUTE_TYPE tattr;
-strcpy(tattr.NAME, "taskXX");
-tattr.ENTRY_POINT   = taskXX_job;
-tattr.BASE_PRIORITY = 优先级;
-tattr.PERIOD        = 周期_ms * 1000000ll;  /* 转换为纳秒 */
+/* 任务名：严格使用 tasks[].name 的值，如 "task31" */
+strcpy(tattr.NAME, "task31");
+tattr.ENTRY_POINT   = task31_job;   /* <name>_job 格式 */
+tattr.BASE_PRIORITY = 2;            /* tasks[].priority 的值 */
+tattr.PERIOD        = 25000000ll;   /* tasks[].period_ms × 1000000，直接写计算结果 */
 tattr.STACK_SIZE    = 8192;
-tattr.TIME_CAPACITY = 周期_ms * 1000000ll;
+tattr.TIME_CAPACITY = 25000000ll;   /* 与 PERIOD 相同 */
 tattr.DEADLINE      = SOFT;
 CREATE_PROCESS(&tattr, &arinc_threads[N], &ret);
 START(arinc_threads[N], &ret);
@@ -125,7 +126,7 @@ SET_PARTITION_MODE(NORMAL, &ret);
 - 端口 ID 在 `main.c` 中声明为全局变量，在 `activity.c` 中用 `extern` 引用
 - **不要**在 `while(1)` 循环内调用 `CREATE_*` 或 `GET_*_PORT_ID`
 - 每次 APEX 调用后调用 `CHECK_CODE("调用描述", ret)`
-- 周期单位为纳秒（period_ms × 1,000,000）
+- 周期单位为纳秒，**必须写计算结果**（如 25ms → `25000000ll`），不要写 `25 * 1000000ll`
 - 所有头文件有 `#ifndef`/`#define`/`#endif` 保护
 - `activity.c` 和 `main.c` 包含 `#include <os/pos/apex/apexLib.h>`
 - `main.c` 末尾实现 `module_HM_callback` 和 `partition_HM_callback`
