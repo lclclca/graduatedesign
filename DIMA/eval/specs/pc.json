@@ -1,0 +1,71 @@
+{
+  "partition": "pc",
+  "module": "MA",
+  "aadl_process": "DIMA2_partitions::PC.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskC1",
+      "period_ms": 25,
+      "priority": 2
+    },
+    {
+      "name": "taskC2",
+      "period_ms": 50,
+      "priority": 3
+    },
+    {
+      "name": "taskC3",
+      "period_ms": 100,
+      "priority": 4
+    }
+  ],
+  "sampling_ports": [
+    {
+      "name": "data_in",
+      "direction": "DESTINATION",
+      "refresh_period_ns": 100,
+      "api_read": "READ_SAMPLING_MESSAGE"
+    }
+  ],
+  "queuing_ports": [
+    {
+      "name": "cmd_out",
+      "direction": "SOURCE",
+      "max_nb": 4,
+      "api_write": "SEND_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [
+    {
+      "name": "bb_data_link"
+    }
+  ],
+  "buffers": [
+    {
+      "name": "buf_msg_queue",
+      "max_nb": 4
+    }
+  ],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 3,
+    "nb_samplings": 1,
+    "nb_queueings": 1,
+    "nb_blackboards": 1,
+    "nb_buffers": 1,
+    "stacks_size": 24576
+  }
+}

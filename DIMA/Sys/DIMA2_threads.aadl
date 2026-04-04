@@ -1,0 +1,131 @@
+package DIMA2_threads
+public
+
+	with ARINC653;
+	with Base_Types;
+
+	-- =========================================================================
+	--  Partition PA  (1 task, 1 queuing DESTINATION port)
+	-- =========================================================================
+
+	thread TskA1
+		features
+			ctrl_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskA1;
+
+	thread implementation TskA1.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 50ms;
+			Deadline              => 50ms;
+			Priority              => 2;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskA1.impl;
+
+	-- =========================================================================
+	--  Partition PB  (2 tasks, 1 sampling SOURCE, 1 queuing DEST, 1 blackboard)
+	-- =========================================================================
+
+	thread TskB1
+		features
+			sensor_out: out data port Base_Types::Integer;
+			bb_write:   out data port Base_Types::Integer;
+	end TskB1;
+
+	thread implementation TskB1.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 25ms;
+			Deadline              => 25ms;
+			Priority              => 2;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 25ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskB1.impl;
+
+	thread TskB2
+		features
+			cmd_in:  in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			bb_read: in data port Base_Types::Integer;
+	end TskB2;
+
+	thread implementation TskB2.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 50ms;
+			Deadline              => 50ms;
+			Priority              => 3;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskB2.impl;
+
+	-- =========================================================================
+	--  Partition PC  (3 tasks, 1 sampling DEST, 1 queuing SOURCE,
+	--                 1 blackboard, 1 buffer)
+	-- =========================================================================
+
+	thread TskC1
+		features
+			data_in:  in data port Base_Types::Integer;
+			bb_write: out data port Base_Types::Integer;
+			buf_send: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskC1;
+
+	thread implementation TskC1.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 25ms;
+			Deadline              => 25ms;
+			Priority              => 2;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 25ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskC1.impl;
+
+	thread TskC2
+		features
+			bb_read:  in data port Base_Types::Integer;
+			buf_recv: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskC2;
+
+	thread implementation TskC2.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 50ms;
+			Deadline              => 50ms;
+			Priority              => 3;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskC2.impl;
+
+	thread TskC3
+		features
+			cmd_out: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskC3;
+
+	thread implementation TskC3.impl
+		properties
+			Dispatch_Protocol     => Periodic;
+			Period                => 100ms;
+			Deadline              => 100ms;
+			Priority              => 4;
+			Stack_Size            => 8Kbyte;
+			ARINC653::Time_Capacity  => 100ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskC3.impl;
+
+end DIMA2_threads;

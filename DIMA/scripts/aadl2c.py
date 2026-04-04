@@ -32,6 +32,7 @@ Example
 """
 
 import argparse
+import json
 import os
 import re
 import sys
@@ -1099,6 +1100,88 @@ def write_partition(pr: PartitionResources, outdir: str):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
+#  Spec JSON builder
+# ─────────────────────────────────────────────────────────────────────────────
+
+def build_spec_json(res, module: str, part_name: str, aadl_process: str) -> dict:
+    """Serialize PartitionResources to the specs/psX.json format."""
+    STACK_PER_TASK = 8192
+
+    tasks = []
+    for t in res.tasks:
+        tasks.append({
+            "name": t.inst_name,
+            "period_ms": int(t.thread.period_ns // 1_000_000),
+            "priority": t.thread.priority,
+        })
+
+    sampling_ports = []
+    for s in res.sampling:
+        entry = {
+            "name": s.port_name,
+            "direction": s.direction,
+            "refresh_period_ns": s.refresh_ns,
+        }
+        if s.direction == "DESTINATION":
+            entry["api_read"] = "READ_SAMPLING_MESSAGE"
+        else:
+            entry["api_write"] = "WRITE_SAMPLING_MESSAGE"
+        sampling_ports.append(entry)
+
+    queuing_ports = []
+    for q in res.queuing:
+        entry = {
+            "name": q.port_name,
+            "direction": q.direction,
+            "max_nb": q.max_msgs,
+        }
+        if q.direction == "DESTINATION":
+            entry["api_read"] = "RECEIVE_QUEUING_MESSAGE"
+        else:
+            entry["api_write"] = "SEND_QUEUING_MESSAGE"
+        queuing_ports.append(entry)
+
+    blackboards = [{"name": b.bb_name} for b in res.blackboards]
+    buffers = [{"name": b.buf_name, "max_nb": b.max_msgs} for b in res.buffers]
+
+    subprograms = []
+    seen: set = set()
+    for t in res.tasks:
+        for sp in (t.thread.calls or []):
+            if sp not in seen:
+                subprograms.append(sp)
+                seen.add(sp)
+
+    return {
+        "partition": part_name,
+        "module": module,
+        "aadl_process": aadl_process,
+        "required_files": [
+            "activity.c", "activity.h",
+            "deployment.c", "deployment.h",
+            "globals.c",   "globals.h",
+            "gtypes.c",    "gtypes.h",
+            "main.c",
+            "subprograms.c", "subprograms.h",
+        ],
+        "tasks":          tasks,
+        "sampling_ports": sampling_ports,
+        "queuing_ports":  queuing_ports,
+        "blackboards":    blackboards,
+        "buffers":        buffers,
+        "subprograms":    subprograms,
+        "deployment": {
+            "nb_threads":     len(tasks),
+            "nb_samplings":   len(sampling_ports),
+            "nb_queueings":   len(queuing_ports),
+            "nb_blackboards": len(blackboards),
+            "nb_buffers":     len(buffers),
+            "stacks_size":    len(tasks) * STACK_PER_TASK,
+        },
+    }
+
+
+# ─────────────────────────────────────────────────────────────────────────────
 #  CLI entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -1115,6 +1198,10 @@ def main():
                     help='Module name prefix for filtering (optional, e.g. M1)')
     ap.add_argument('--partlist',   nargs='*',
                     help='Generate only these partition names, e.g. --partlist P1 P2')
+    ap.add_argument('--spec-json', action='store_true',
+                    help='Also write a specs JSON file alongside the generated C code')
+    ap.add_argument('--package', default='',
+                    help='AADL package name for aadl_process field in spec JSON (e.g. DIMA2_partitions)')
     args = ap.parse_args()
 
     parser = AadlParser()
@@ -1135,8 +1222,9 @@ def main():
         if pname not in selected:
             continue
 
-        # Derive a short prefix from the partition name (e.g. P1 → ps1)
-        prefix = 'ps' + re.sub(r'[^0-9]', '', pname) or pname.lower()
+        # Derive a short prefix from the partition name (e.g. P1 → ps1, PA → pa)
+        nums = re.sub(r'[^0-9]', '', pname)
+        prefix = ('ps' + nums) if nums else pname.lower()
         if args.module:
             prefix = prefix  # could prefix with module if needed
 
@@ -1148,6 +1236,15 @@ def main():
         print(f'       Blackboards: {[b.bb_name   for b in pr.blackboards]}')
         print(f'       Buffers:     {[b.buf_name  for b in pr.buffers]}')
         write_partition(pr, args.outdir)
+
+        if args.spec_json:
+            pkg = args.package or 'DIMA_partitions'
+            aadl_proc = f"{pkg}::{pname}.impl"
+            spec = build_spec_json(pr, args.module or "M?", prefix, aadl_proc)
+            spec_path = os.path.join(args.outdir, prefix, f"{prefix}.json")
+            with open(spec_path, 'w', encoding='utf-8') as f:
+                json.dump(spec, f, indent=2, ensure_ascii=False)
+            print(f'  [SPEC] {spec_path}')
 
     print('\n[DONE] Code generation complete.')
 

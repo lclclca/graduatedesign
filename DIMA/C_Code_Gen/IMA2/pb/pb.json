@@ -1,0 +1,61 @@
+{
+  "partition": "pb",
+  "module": "MA",
+  "aadl_process": "DIMA2_partitions::PB.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskB1",
+      "period_ms": 25,
+      "priority": 2
+    },
+    {
+      "name": "taskB2",
+      "period_ms": 50,
+      "priority": 3
+    }
+  ],
+  "sampling_ports": [
+    {
+      "name": "sensor_out",
+      "direction": "SOURCE",
+      "refresh_period_ns": 100,
+      "api_write": "WRITE_SAMPLING_MESSAGE"
+    }
+  ],
+  "queuing_ports": [
+    {
+      "name": "cmd_in",
+      "direction": "DESTINATION",
+      "max_nb": 4,
+      "api_read": "RECEIVE_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [
+    {
+      "name": "bb_data_link"
+    }
+  ],
+  "buffers": [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 2,
+    "nb_samplings": 1,
+    "nb_queueings": 1,
+    "nb_blackboards": 1,
+    "nb_buffers": 0,
+    "stacks_size": 16384
+  }
+}
