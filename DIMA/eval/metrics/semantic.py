@@ -113,27 +113,31 @@ def check(gen_dir: str, spec: dict) -> Dict:
     })
 
     # ── C6：黑板名称出现在代码中 ────────────────────────────────────────
-    missing_bb = [b for b in spec["blackboards"] if b not in all_code]
-    c6_score = (max(0, len(spec["blackboards"]) - len(missing_bb)) /
-                len(spec["blackboards"])) if spec["blackboards"] else 1.0
+    # 兼容两种格式：DIMA specs 为字符串列表，IMA2 specs 为字典列表 {"name": ...}
+    bb_names = [b["name"] if isinstance(b, dict) else b for b in spec["blackboards"]]
+    missing_bb = [n for n in bb_names if n not in all_code]
+    c6_score = (max(0, len(bb_names) - len(missing_bb)) /
+                len(bb_names)) if bb_names else 1.0
     details.append({
         "id": "C6", "weight": 1.5,
-        "desc": f"黑板名称出现在代码中（{spec['blackboards']}）",
+        "desc": f"黑板名称出现在代码中（{bb_names}）",
         "passed": len(missing_bb) == 0, "partial": c6_score,
         "note": (f"缺失黑板名: {missing_bb}" if missing_bb else
-                 "无黑板" if not spec["blackboards"] else "全部出现")
+                 "无黑板" if not bb_names else "全部出现")
     })
 
     # ── C7：缓冲区名称出现在代码中 ──────────────────────────────────────
-    missing_buf = [b for b in spec["buffers"] if b not in all_code]
-    c7_score = (max(0, len(spec["buffers"]) - len(missing_buf)) /
-                len(spec["buffers"])) if spec["buffers"] else 1.0
+    # 兼容两种格式：DIMA specs 为字符串列表，IMA2 specs 为字典列表 {"name": ..., "max_nb": ...}
+    buf_names = [b["name"] if isinstance(b, dict) else b for b in spec["buffers"]]
+    missing_buf = [n for n in buf_names if n not in all_code]
+    c7_score = (max(0, len(buf_names) - len(missing_buf)) /
+                len(buf_names)) if buf_names else 1.0
     details.append({
         "id": "C7", "weight": 1.5,
-        "desc": f"缓冲区名称出现在代码中（{spec['buffers']}）",
+        "desc": f"缓冲区名称出现在代码中（{buf_names}）",
         "passed": len(missing_buf) == 0, "partial": c7_score,
         "note": (f"缺失缓冲区名: {missing_buf}" if missing_buf else
-                 "无缓冲区" if not spec["buffers"] else "全部出现")
+                 "无缓冲区" if not buf_names else "全部出现")
     })
 
     # ── C8：子程序名称出现在代码中 ──────────────────────────────────────
