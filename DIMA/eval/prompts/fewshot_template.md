@@ -1,12 +1,10 @@
-# 少样本提示词模板（Few-Shot）
+# 少样本提示词模板（Few-Shot）— IMA2 系统
 
 **使用方法**：
-1. 将下方 `{{SPEC_JSON}}` 替换为目标分区的 `specs/psX.json` 内容（X = 2/3/4/5）
-2. 将 `{{PARTITION_NAME}}` 替换为分区名（如 `ps2`）
+1. 将下方 `{{SPEC_JSON}}` 替换为目标分区的规格文件内容（`specs/pa.json` / `pb.json` / `pc.json`）
+2. 将 `{{PARTITION_NAME}}` 替换为分区名（`pa` / `pb` / `pc`）
 3. 将整个提示词粘贴给 AI
 4. 将结果保存到 `DIMA/eval/generated/fewshot/{{PARTITION_NAME}}/`
-
-> **注意**：ps1 已作为固定示例嵌入本模板，请勿对 ps1 使用本模板。
 
 ---
 
@@ -16,14 +14,252 @@
 
 你是一名嵌入式航空软件工程师，熟悉 ARINC 653 标准和 ACoreOS653 实时操作系统。
 
-以下是一个完整的 ARINC 653 分区代码示例（分区 ps1），请仔细学习其代码结构和风格，
-然后为另一个分区生成风格一致的代码。
+下面给出一个完整的示例：一个 ARINC 653 分区的规格 JSON，以及对应的 11 个 C 文件。
+请仔细学习该示例的代码结构和风格，然后为新的目标分区生成风格一致的代码。
 
 ---
 
-## 示例：分区 ps1 的完整代码
+## 示例
 
-### 示例文件 1：ps1/main.c
+### 示例规格 JSON（分区 ps3）
+
+```json
+{
+  "partition": "ps3",
+  "module": "M2",
+  "aadl_process": "DIMA_partitions::P3.impl",
+  "required_files": [
+    "activity.c", "activity.h", "deployment.c", "deployment.h",
+    "globals.c", "globals.h", "gtypes.c", "gtypes.h",
+    "main.c", "subprograms.c", "subprograms.h"
+  ],
+  "tasks": [
+    {"name": "task31", "period_ms": 25, "priority": 2},
+    {"name": "task32", "period_ms": 50, "priority": 3},
+    {"name": "task33", "period_ms": 50, "priority": 4}
+  ],
+  "sampling_ports": [],
+  "queuing_ports": [
+    {"name": "order_in",   "direction": "DESTINATION", "max_nb": 10, "api_read": "RECEIVE_QUEUING_MESSAGE"},
+    {"name": "queueingin", "direction": "DESTINATION", "max_nb": 4,  "api_read": "RECEIVE_QUEUING_MESSAGE"}
+  ],
+  "blackboards": [],
+  "buffers": [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 3, "nb_samplings": 0, "nb_queueings": 2,
+    "nb_blackboards": 0, "nb_buffers": 0, "stacks_size": 24576
+  }
+}
+```
+
+### 示例输出：分区 ps3 的 11 个 C 文件
+
+#### deployment.h
+
+```c
+#ifndef __PS3_GENERATED_DEPLOYMENT_H_
+#define __PS3_GENERATED_DEPLOYMENT_H_
+
+#define IMA2C_RUNTIME_ACoreOS653 1
+#define ACoreOS653_GENERATED_CODE 1
+#define ACoreOS653_CONFIG_NB_THREADS     3
+#define ACoreOS653_CONFIG_NB_SAMPLINGS   0
+#define ACoreOS653_CONFIG_NB_QUEUEINGS   2
+#define ACoreOS653_CONFIG_NB_BLACKBOARDS 0
+#define ACoreOS653_CONFIG_NB_BUFFERS     0
+#define ACoreOS653_NEEDS_ARINC653_PARTITION  1
+#define ACoreOS653_NEEDS_ARINC653_PROCESS    1
+#define ACoreOS653_NEEDS_ARINC653_SAMPLING   0
+#define ACoreOS653_NEEDS_ARINC653_QUEUEING   1
+#define ACoreOS653_NEEDS_ARINC653_BLACKBOARD 0
+#define ACoreOS653_NEEDS_ARINC653_BUFFER     0
+#define ACoreOS653_NEEDS_ARINC653_SEMAPHORE  0
+#define ACoreOS653_NEEDS_ARINC653_EVENT      0
+#define ACoreOS653_NEEDS_MIDDLEWARE          1
+#define ACoreOS653_NEEDS_ARINC653_TIME       1
+#define ACoreOS653_CONFIG_STACKS_SIZE 24576
+
+#endif
+```
+
+#### deployment.c
+
+```c
+#include "deployment.h"
+```
+
+#### globals.h
+
+```c
+#ifndef __PS3_GENERATED_GLOBALS_H_
+#define __PS3_GENERATED_GLOBALS_H_
+
+#include <stdio.h>
+#include <os/pos/apex/apexLib.h>
+
+#define CHECK_CODE(msg, code) \
+    if ((code) == NO_ERROR) { \
+        printf("%s : NO_ERROR\n", (msg)); \
+    } else { \
+        printf("%s : ERROR(%s)\n", (msg), codeToStr(code)); \
+    }
+
+#define CHECK_VALIDCODE(msg, validCode, ret) \
+    if ((validCode) == VALID && (ret) == NO_ERROR) { \
+        printf("%s : VALID/NO_ERROR\n", (msg)); \
+    } else { \
+        printf("%s : INVALID or ERROR(%s)\n", (msg), codeToStr(ret)); \
+    }
+
+static char *codeToStr(RETURN_CODE_TYPE retCode)
+{
+    switch (retCode) {
+        case NO_ERROR:       return "NO_ERROR";
+        case NO_ACTION:      return "NO_ACTION";
+        case NOT_AVAILABLE:  return "NOT_AVAILABLE";
+        case INVALID_PARAM:  return "INVALID_PARAM";
+        case INVALID_CONFIG: return "INVALID_CONFIG";
+        case INVALID_MODE:   return "INVALID_MODE";
+        case TIMED_OUT:      return "TIMED_OUT";
+        default:             break;
+    }
+    return "UNKNOWN";
+}
+
+#endif
+```
+
+#### globals.c
+
+```c
+#include "globals.h"
+```
+
+#### gtypes.h
+
+```c
+#ifndef __PS3_GENERATED_GTYPES_H__
+#define __PS3_GENERATED_GTYPES_H__
+
+#include <os/pos/apex/apexLib.h>
+
+typedef int integer;
+
+#endif
+```
+
+#### gtypes.c
+
+```c
+#include "gtypes.h"
+```
+
+#### subprograms.h
+
+```c
+#ifndef __PS3_GENERATED_SUBPROGRAMS_H_
+#define __PS3_GENERATED_SUBPROGRAMS_H_
+
+#include "gtypes.h"
+
+#endif
+```
+
+#### subprograms.c
+
+```c
+#include "subprograms.h"
+```
+
+#### activity.h
+
+```c
+#ifndef __PS3_GENERATED_ACTIVITY_H_
+#define __PS3_GENERATED_ACTIVITY_H_
+
+void* task31_job(void);
+void* task32_job(void);
+void* task33_job(void);
+
+#endif
+```
+
+#### activity.c
+
+```c
+#include <os/pos/apex/apexLib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "activity.h"
+#include "gtypes.h"
+#include "deployment.h"
+#include "globals.h"
+#include "subprograms.h"
+
+extern QUEUING_PORT_ID_TYPE ps3_order_in_id;
+
+void* task31_job(void)
+{
+    RETURN_CODE_TYPE ret = NO_ERROR;
+    MESSAGE_SIZE_TYPE msg_len;
+    integer val = 0;
+
+    while (1)
+    {
+        RECEIVE_QUEUING_MESSAGE(ps3_order_in_id,
+            5000000ll,
+            (MESSAGE_ADDR_TYPE)&val, &msg_len, &ret);
+        CHECK_CODE("RECEIVE_QUEUING_MESSAGE(order_in)", ret);
+
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT(task31)", ret);
+    }
+}
+
+extern QUEUING_PORT_ID_TYPE ps3_order_in_id;
+
+void* task32_job(void)
+{
+    RETURN_CODE_TYPE ret = NO_ERROR;
+    MESSAGE_SIZE_TYPE msg_len;
+    integer val = 0;
+
+    while (1)
+    {
+        RECEIVE_QUEUING_MESSAGE(ps3_order_in_id,
+            5000000ll,
+            (MESSAGE_ADDR_TYPE)&val, &msg_len, &ret);
+        CHECK_CODE("RECEIVE_QUEUING_MESSAGE(order_in)", ret);
+
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT(task32)", ret);
+    }
+}
+
+extern QUEUING_PORT_ID_TYPE ps3_queueingin_id;
+
+void* task33_job(void)
+{
+    RETURN_CODE_TYPE ret = NO_ERROR;
+    MESSAGE_SIZE_TYPE msg_len;
+    integer val = 0;
+
+    while (1)
+    {
+        RECEIVE_QUEUING_MESSAGE(ps3_queueingin_id,
+            5000000ll,
+            (MESSAGE_ADDR_TYPE)&val, &msg_len, &ret);
+        CHECK_CODE("RECEIVE_QUEUING_MESSAGE(queueingin)", ret);
+
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT(task33)", ret);
+    }
+}
+```
+
+#### main.c
 
 ```c
 #include <os/pos/apex/apexLib.h>
@@ -36,129 +272,79 @@
 #include "globals.h"
 #include "subprograms.h"
 
-/* Array of ARINC 653 process (task) handles */
 PROCESS_ID_TYPE arinc_threads[ACoreOS653_CONFIG_NB_THREADS];
 
 /* ---- Inter-partition ports ---- */
-SAMPLING_PORT_ID_TYPE ps1_pr1samplingout_id;
-QUEUING_PORT_ID_TYPE  ps1_pr1queueingin_id;
-
-/* ---- Intra-partition blackboards ---- */
-BLACKBOARD_ID_TYPE ps1_bb_acc1_id;
-BLACKBOARD_ID_TYPE ps1_bb_acc2_id;
-BLACKBOARD_ID_TYPE ps1_bb_sem_id;
-BLACKBOARD_ID_TYPE ps1_bb_t3t4_id;
-BLACKBOARD_ID_TYPE ps1_bb_t4t3_id;
-
-/* ---- Intra-partition buffers ---- */
-BUFFER_ID_TYPE ps1_buf_sensor_id;
-BUFFER_ID_TYPE ps1_buf_t3tot4_id;
-BUFFER_ID_TYPE ps1_buf_t4tot3_id;
+QUEUING_PORT_ID_TYPE  ps3_order_in_id;
+QUEUING_PORT_ID_TYPE  ps3_queueingin_id;
 
 void appMain(void)
 {
     PROCESS_ATTRIBUTE_TYPE tattr;
     RETURN_CODE_TYPE ret = NO_ERROR;
 
-    CREATE_SAMPLING_PORT(
-        "pr1samplingout",
-        sizeof(integer),
-        SOURCE,
-        100ll,
-        &(ps1_pr1samplingout_id),
-        &(ret));
-    CHECK_CODE("CREATE_SAMPLING_PORT(pr1samplingout)", ret);
-
-    CREATE_BLACKBOARD("bb_acc1", sizeof(integer), &(ps1_bb_acc1_id), &(ret));
-    CHECK_CODE("CREATE_BLACKBOARD(bb_acc1)", ret);
-
-    CREATE_BLACKBOARD("bb_acc2", sizeof(integer), &(ps1_bb_acc2_id), &(ret));
-    CHECK_CODE("CREATE_BLACKBOARD(bb_acc2)", ret);
-
-    strcpy(tattr.NAME, "task11");
-    tattr.ENTRY_POINT   = task11_job;
+    strcpy(tattr.NAME, "task31");
+    tattr.ENTRY_POINT   = task31_job;
     tattr.BASE_PRIORITY = 2;
     tattr.PERIOD        = 25000000ll;
     tattr.STACK_SIZE    = 8192;
-    tattr.TIME_CAPACITY = 25000000ll;
+    tattr.TIME_CAPACITY = 50000000ll;
     tattr.DEADLINE      = SOFT;
-    CREATE_PROCESS(&(tattr), &(arinc_threads[0]), &(ret));
-    CHECK_CODE("CREATE_PROCESS(task11)", ret);
-    START(arinc_threads[0], &(ret));
-    CHECK_CODE("START(task11)", ret);
+    CREATE_PROCESS(&(tattr), &(arinc_threads[0]), &ret);
+    CHECK_CODE("CREATE_PROCESS(task31)", ret);
+    START(arinc_threads[0], &ret);
+    CHECK_CODE("START(task31)", ret);
 
-    CREATE_BUFFER("buf_sensor", sizeof(integer), 1, FIFO, &(ps1_buf_sensor_id), &(ret));
-    CHECK_CODE("CREATE_BUFFER(buf_sensor)", ret);
-
-    CREATE_BLACKBOARD("bb_sem", sizeof(integer), &(ps1_bb_sem_id), &(ret));
-    CHECK_CODE("CREATE_BLACKBOARD(bb_sem)", ret);
-
-    strcpy(tattr.NAME, "task12");
-    tattr.ENTRY_POINT   = task12_job;
+    strcpy(tattr.NAME, "task32");
+    tattr.ENTRY_POINT   = task32_job;
     tattr.BASE_PRIORITY = 3;
     tattr.PERIOD        = 50000000ll;
     tattr.STACK_SIZE    = 8192;
     tattr.TIME_CAPACITY = 50000000ll;
     tattr.DEADLINE      = SOFT;
-    CREATE_PROCESS(&(tattr), &(arinc_threads[1]), &(ret));
-    CHECK_CODE("CREATE_PROCESS(task12)", ret);
-    START(arinc_threads[1], &(ret));
-    CHECK_CODE("START(task12)", ret);
+    CREATE_PROCESS(&(tattr), &(arinc_threads[1]), &ret);
+    CHECK_CODE("CREATE_PROCESS(task32)", ret);
+    START(arinc_threads[1], &ret);
+    CHECK_CODE("START(task32)", ret);
 
-    CREATE_BUFFER("buf_t3tot4", sizeof(integer), 10, FIFO, &(ps1_buf_t3tot4_id), &(ret));
-    CHECK_CODE("CREATE_BUFFER(buf_t3tot4)", ret);
-
-    CREATE_BUFFER("buf_t4tot3", sizeof(integer), 10, FIFO, &(ps1_buf_t4tot3_id), &(ret));
-    CHECK_CODE("CREATE_BUFFER(buf_t4tot3)", ret);
-
-    CREATE_BLACKBOARD("bb_t3t4", sizeof(integer), &(ps1_bb_t3t4_id), &(ret));
-    CHECK_CODE("CREATE_BLACKBOARD(bb_t3t4)", ret);
-
-    CREATE_BLACKBOARD("bb_t4t3", sizeof(integer), &(ps1_bb_t4t3_id), &(ret));
-    CHECK_CODE("CREATE_BLACKBOARD(bb_t4t3)", ret);
-
-    strcpy(tattr.NAME, "task13");
-    tattr.ENTRY_POINT   = task13_job;
+    strcpy(tattr.NAME, "task33");
+    tattr.ENTRY_POINT   = task33_job;
     tattr.BASE_PRIORITY = 4;
     tattr.PERIOD        = 50000000ll;
     tattr.STACK_SIZE    = 8192;
     tattr.TIME_CAPACITY = 50000000ll;
     tattr.DEADLINE      = SOFT;
-    CREATE_PROCESS(&(tattr), &(arinc_threads[2]), &(ret));
-    CHECK_CODE("CREATE_PROCESS(task13)", ret);
-    START(arinc_threads[2], &(ret));
-    CHECK_CODE("START(task13)", ret);
+    CREATE_PROCESS(&(tattr), &(arinc_threads[2]), &ret);
+    CHECK_CODE("CREATE_PROCESS(task33)", ret);
+    START(arinc_threads[2], &ret);
+    CHECK_CODE("START(task33)", ret);
 
     CREATE_QUEUING_PORT(
-        "pr1queueingin",
+        "order_in",
         sizeof(integer),
-        30,
+        10,
         DESTINATION,
         FIFO,
-        &(ps1_pr1queueingin_id),
-        &(ret));
-    CHECK_CODE("CREATE_QUEUING_PORT(pr1queueingin)", ret);
+        &(ps3_order_in_id), &ret);
+    CHECK_CODE("CREATE_QUEUING_PORT(order_in)", ret);
 
-    strcpy(tattr.NAME, "task14");
-    tattr.ENTRY_POINT   = task14_job;
-    tattr.BASE_PRIORITY = 5;
-    tattr.PERIOD        = 50000000ll;
-    tattr.STACK_SIZE    = 8192;
-    tattr.TIME_CAPACITY = 50000000ll;
-    tattr.DEADLINE      = SOFT;
-    CREATE_PROCESS(&(tattr), &(arinc_threads[3]), &(ret));
-    CHECK_CODE("CREATE_PROCESS(task14)", ret);
-    START(arinc_threads[3], &(ret));
-    CHECK_CODE("START(task14)", ret);
+    CREATE_QUEUING_PORT(
+        "queueingin",
+        sizeof(integer),
+        4,
+        DESTINATION,
+        FIFO,
+        &(ps3_queueingin_id), &ret);
+    CHECK_CODE("CREATE_QUEUING_PORT(queueingin)", ret);
 
-    SET_PARTITION_MODE(NORMAL, &(ret));
+    SET_PARTITION_MODE(NORMAL, &ret);
     CHECK_CODE("SET_PARTITION_MODE(NORMAL)", ret);
     return;
 }
 
 void module_HM_callback(ERROR_STATUS_TYPE *error_status)
 {
-    printf("[HM MODULE ps1] ErrorID=%d  FailedProcess=%d  State=%d\n",
+    printf("[HM MODULE ps3] ErrorID=%d  FailedProcess=%d  State=%d\n",
            (int)error_status->ERROR_IDENTIFIER,
            (int)error_status->FAILED_PROCESS_ID,
            (int)error_status->SYSTEM_STATE);
@@ -166,208 +352,9 @@ void module_HM_callback(ERROR_STATUS_TYPE *error_status)
 
 void partition_HM_callback(ERROR_STATUS_TYPE *error_status)
 {
-    printf("[HM PARTITION ps1] ErrorID=%d  FailedProcess=%d\n",
+    printf("[HM PARTITION ps3] ErrorID=%d  FailedProcess=%d\n",
            (int)error_status->ERROR_IDENTIFIER,
            (int)error_status->FAILED_PROCESS_ID);
-}
-```
-
-### 示例文件 2：ps1/activity.c
-
-```c
-#include <os/pos/apex/apexLib.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "activity.h"
-#include "gtypes.h"
-#include "deployment.h"
-#include "globals.h"
-#include "subprograms.h"
-
-#define SZ 1024
-
-extern SAMPLING_PORT_ID_TYPE ps1_pr1samplingout_id;
-extern BLACKBOARD_ID_TYPE    ps1_bb_acc1_id;
-extern BLACKBOARD_ID_TYPE    ps1_bb_acc2_id;
-extern BUFFER_ID_TYPE        ps1_buf_sensor_id;
-
-void* task11_job(void)
-{
-    RETURN_CODE_TYPE  ret = NO_ERROR;
-    MESSAGE_SIZE_TYPE buf_sensor_len;
-    integer ps1_pr1samplingout_val = 0;
-    integer ps1_bb_acc1_val        = 0;
-    integer ps1_bb_acc2_val        = 0;
-    integer ps1_buf_sensor_val     = 0;
-
-    while (1)
-    {
-        READ_BUFFER(ps1_buf_sensor_id, 0ll,
-                    (MESSAGE_ADDR_TYPE)&ps1_buf_sensor_val,
-                    &buf_sensor_len, &ret);
-        CHECK_CODE("READ_BUFFER(buf_sensor)", ret);
-
-        commandboard_receiveinput_spg(&ps1_buf_sensor_val, &ps1_pr1samplingout_val);
-        commandboard_printinfos_spg(&ps1_pr1samplingout_val);
-
-        DISPLAY_BLACKBOARD(ps1_bb_acc1_id,
-                           (MESSAGE_ADDR_TYPE)&ps1_bb_acc1_val,
-                           sizeof(integer), &ret);
-        CHECK_CODE("DISPLAY_BLACKBOARD(bb_acc1)", ret);
-
-        DISPLAY_BLACKBOARD(ps1_bb_acc2_id,
-                           (MESSAGE_ADDR_TYPE)&ps1_bb_acc2_val,
-                           sizeof(integer), &ret);
-        CHECK_CODE("DISPLAY_BLACKBOARD(bb_acc2)", ret);
-
-        WRITE_SAMPLING_MESSAGE(ps1_pr1samplingout_id,
-                               (MESSAGE_ADDR_TYPE)&ps1_pr1samplingout_val,
-                               sizeof(integer), &ret);
-        CHECK_CODE("WRITE_SAMPLING_MESSAGE(pr1samplingout)", ret);
-
-        PERIODIC_WAIT(&ret);
-        CHECK_CODE("PERIODIC_WAIT(task11)", ret);
-    }
-}
-
-extern BLACKBOARD_ID_TYPE ps1_bb_sem_id;
-
-void* task12_job(void)
-{
-    RETURN_CODE_TYPE  ret = NO_ERROR;
-    MESSAGE_SIZE_TYPE bb_acc1_len, bb_acc2_len;
-    integer ps1_bb_acc1_val    = 0;
-    integer ps1_bb_acc2_val    = 0;
-    integer ps1_buf_sensor_val = 0;
-    integer ps1_bb_sem_val     = 0;
-
-    while (1)
-    {
-        READ_BLACKBOARD(ps1_bb_acc1_id, 0ll,
-                        (MESSAGE_ADDR_TYPE)&ps1_bb_acc1_val,
-                        &bb_acc1_len, &ret);
-        CHECK_CODE("READ_BLACKBOARD(bb_acc1)", ret);
-
-        READ_BLACKBOARD(ps1_bb_acc2_id, 0ll,
-                        (MESSAGE_ADDR_TYPE)&ps1_bb_acc2_val,
-                        &bb_acc2_len, &ret);
-        CHECK_CODE("READ_BLACKBOARD(bb_acc2)", ret);
-
-        ps1_buf_sensor_val = ps1_bb_acc1_val + ps1_bb_acc2_val;
-        ps1_bb_sem_val     = ps1_bb_acc1_val;
-
-        WRITE_BUFFER(ps1_buf_sensor_id,
-                     (MESSAGE_ADDR_TYPE)&ps1_buf_sensor_val,
-                     sizeof(integer), 0ll, &ret);
-        CHECK_CODE("WRITE_BUFFER(buf_sensor)", ret);
-
-        DISPLAY_BLACKBOARD(ps1_bb_sem_id,
-                           (MESSAGE_ADDR_TYPE)&ps1_bb_sem_val,
-                           sizeof(integer), &ret);
-        CHECK_CODE("DISPLAY_BLACKBOARD(bb_sem)", ret);
-
-        PERIODIC_WAIT(&ret);
-        CHECK_CODE("PERIODIC_WAIT(task12)", ret);
-    }
-}
-
-extern BLACKBOARD_ID_TYPE ps1_bb_t3t4_id;
-extern BLACKBOARD_ID_TYPE ps1_bb_t4t3_id;
-extern BUFFER_ID_TYPE     ps1_buf_t3tot4_id;
-extern BUFFER_ID_TYPE     ps1_buf_t4tot3_id;
-
-void* task13_job(void)
-{
-    RETURN_CODE_TYPE  ret = NO_ERROR;
-    MESSAGE_SIZE_TYPE bb_sem_len, bb_t4t3_len, buf_t4tot3_len;
-    integer ps1_bb_sem_val     = 0;
-    integer ps1_buf_t4tot3_val = 0;
-    integer ps1_bb_t4t3_val    = 0;
-    integer ps1_buf_t3tot4_val = 0;
-    integer ps1_bb_t3t4_val    = 0;
-
-    while (1)
-    {
-        READ_BLACKBOARD(ps1_bb_sem_id, 0ll,
-                        (MESSAGE_ADDR_TYPE)&ps1_bb_sem_val,
-                        &bb_sem_len, &ret);
-        CHECK_CODE("READ_BLACKBOARD(bb_sem)", ret);
-
-        commandboard_receiveinput_spg(&ps1_bb_sem_val, &ps1_buf_t3tot4_val);
-
-        READ_BUFFER(ps1_buf_t4tot3_id, 5000000ll,
-                    (MESSAGE_ADDR_TYPE)&ps1_buf_t4tot3_val,
-                    &buf_t4tot3_len, &ret);
-        CHECK_CODE("READ_BUFFER(buf_t4tot3)", ret);
-
-        READ_BLACKBOARD(ps1_bb_t4t3_id, 0ll,
-                        (MESSAGE_ADDR_TYPE)&ps1_bb_t4t3_val,
-                        &bb_t4t3_len, &ret);
-        CHECK_CODE("READ_BLACKBOARD(bb_t4t3)", ret);
-
-        ps1_bb_t3t4_val = ps1_buf_t4tot3_val + ps1_bb_t4t3_val;
-
-        WRITE_BUFFER(ps1_buf_t3tot4_id,
-                     (MESSAGE_ADDR_TYPE)&ps1_buf_t3tot4_val,
-                     sizeof(integer), 5000000ll, &ret);
-        CHECK_CODE("WRITE_BUFFER(buf_t3tot4)", ret);
-
-        DISPLAY_BLACKBOARD(ps1_bb_t3t4_id,
-                           (MESSAGE_ADDR_TYPE)&ps1_bb_t3t4_val,
-                           sizeof(integer), &ret);
-        CHECK_CODE("DISPLAY_BLACKBOARD(bb_t3t4)", ret);
-
-        PERIODIC_WAIT(&ret);
-        CHECK_CODE("PERIODIC_WAIT(task13)", ret);
-    }
-}
-
-extern QUEUING_PORT_ID_TYPE ps1_pr1queueingin_id;
-
-void* task14_job(void)
-{
-    RETURN_CODE_TYPE  ret = NO_ERROR;
-    MESSAGE_SIZE_TYPE qin_len, buf_t3tot4_len, bb_t3t4_len;
-    integer ps1_pr1queueingin_val = 0;
-    integer ps1_buf_t3tot4_val    = 0;
-    integer ps1_bb_t3t4_val       = 0;
-    integer ps1_buf_t4tot3_val    = 0;
-    integer ps1_bb_t4t3_val       = 0;
-
-    while (1)
-    {
-        RECEIVE_QUEUING_MESSAGE(ps1_pr1queueingin_id, 5000000ll,
-                                (MESSAGE_ADDR_TYPE)&ps1_pr1queueingin_val,
-                                &qin_len, &ret);
-        CHECK_CODE("RECEIVE_QUEUING_MESSAGE(pr1queueingin)", ret);
-
-        READ_BUFFER(ps1_buf_t3tot4_id, 5000000ll,
-                    (MESSAGE_ADDR_TYPE)&ps1_buf_t3tot4_val,
-                    &buf_t3tot4_len, &ret);
-        CHECK_CODE("READ_BUFFER(buf_t3tot4)", ret);
-
-        READ_BLACKBOARD(ps1_bb_t3t4_id, 0ll,
-                        (MESSAGE_ADDR_TYPE)&ps1_bb_t3t4_val,
-                        &bb_t3t4_len, &ret);
-        CHECK_CODE("READ_BLACKBOARD(bb_t3t4)", ret);
-
-        calculate_spg(&ps1_bb_t3t4_val, &ps1_bb_t4t3_val);
-
-        ps1_buf_t4tot3_val = ps1_buf_t3tot4_val + ps1_pr1queueingin_val;
-        WRITE_BUFFER(ps1_buf_t4tot3_id,
-                     (MESSAGE_ADDR_TYPE)&ps1_buf_t4tot3_val,
-                     sizeof(integer), 5000000ll, &ret);
-        CHECK_CODE("WRITE_BUFFER(buf_t4tot3)", ret);
-
-        DISPLAY_BLACKBOARD(ps1_bb_t4t3_id,
-                           (MESSAGE_ADDR_TYPE)&ps1_bb_t4t3_val,
-                           sizeof(integer), &ret);
-        CHECK_CODE("DISPLAY_BLACKBOARD(bb_t4t3)", ret);
-
-        PERIODIC_WAIT(&ret);
-        CHECK_CODE("PERIODIC_WAIT(task14)", ret);
-    }
 }
 ```
 
@@ -375,7 +362,7 @@ void* task14_job(void)
 
 ## 目标分区规格
 
-现在请为以下分区生成完整的 11 个 C 文件，风格与上面 ps1 示例完全一致：
+现在请为以下新分区生成完整的 11 个 C 文件，风格与上面 ps3 示例完全一致：
 
 ```json
 {{SPEC_JSON}}
@@ -383,13 +370,15 @@ void* task14_job(void)
 
 ## 要求
 
-- 11 个文件：deployment.h/.c、gtypes.h/.c、globals.h/.c、subprograms.h/.c、activity.h/.c、main.c
-- **任务函数命名（严格）**：每个任务函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。如上例 ps1 中 `"name": "task11"` → `task11_job`。activity.h 声明、activity.c 实现、`tattr.ENTRY_POINT`、`strcpy(tattr.NAME, ...)` 字符串，均必须使用完全相同的名称。
-- 命名规范：全局变量前缀使用 `{{PARTITION_NAME}}_`（如 `ps2_bb_acc3_id`）
-- 所有头文件有 `#ifndef`/`#define`/`#endif` 保护
-- 任务周期单位为纳秒（ms × 1,000,000）
-- 端口 ID 在 `appMain` 中创建，在 `activity.c` 中用 `extern` 引用
-- 每次 APEX 调用后用 `CHECK_CODE` 检查返回值
+- 生成 11 个文件：`deployment.h/.c`、`globals.h/.c`、`gtypes.h/.c`、`subprograms.h/.c`、`activity.h/.c`、`main.c`
+- **任务函数命名（严格）**：函数名必须为 `<name>_job`，其中 `<name>` 完全等于规格 JSON 中 `tasks[].name` 的值。`activity.h` 声明、`activity.c` 实现、`tattr.ENTRY_POINT`、`strcpy(tattr.NAME, ...)` 字符串，均必须使用完全相同的名称
+- **全局变量前缀**：使用 `{{PARTITION_NAME}}_`（如 `{{PARTITION_NAME}}_order_in_id`）
+- **端口 ID 全局变量**：在 `main.c` 中声明，在 `activity.c` 中用 `extern` 引用
+- **周期单位为纳秒**：`period_ms` × 1,000,000（如 50ms → `50000000ll`），直接写计算结果
+- **所有头文件**有 `#ifndef`/`#define`/`#endif` 保护
+- **deployment.h 的宏**：`NB_THREADS`、`NB_SAMPLINGS`、`NB_QUEUEINGS`、`NB_BLACKBOARDS`、`NB_BUFFERS` 及 `STACKS_SIZE` 均从规格 JSON 的 `deployment` 字段读取；`NEEDS_ARINC653_SAMPLING/QUEUEING/BLACKBOARD/BUFFER` 在数量 > 0 时为 1，否则为 0
+- **每次 APEX 调用后**用 `CHECK_CODE("描述", ret)` 检查返回值
+- **不要**在 `while(1)` 内调用 `CREATE_*`
 
 请逐一输出每个文件的完整代码，格式为：
 ```
