@@ -1,17 +1,5 @@
 # 零样本提示词模板（Zero-Shot）
 
-**使用方法**：
-1. 将下方 `{{SPEC_JSON}}` 替换为 `DIMA/eval/specs/psX.json` 的内容（X = 2/3/4/5）
-2. 将下方 `{{PARTITION_NAME}}` 替换为分区名（如 `ps2`）
-3. 将整个提示词粘贴给 AI，要求 AI 生成代码
-4. 将 AI 返回的代码保存到 `DIMA/eval/generated/zeroshot/{{PARTITION_NAME}}/` 下的 11 个文件
-
----
-
-## 提示词正文（从下方横线后复制）
-
----
-
 你是一名嵌入式航空软件工程师，熟悉 ARINC 653 标准和 ACoreOS653 实时操作系统。
 
 请根据以下 IMA（综合模块化航空电子）分区规格，生成完整的 ARINC 653 C 代码。

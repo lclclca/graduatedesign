@@ -1,17 +1,5 @@
 # 少样本提示词模板（Few-Shot）— IMA2 系统
 
-**使用方法**：
-1. 将下方 `{{SPEC_JSON}}` 替换为目标分区的规格文件内容（`specs/pa.json` / `pb.json` / `pc.json`）
-2. 将 `{{PARTITION_NAME}}` 替换为分区名（`pa` / `pb` / `pc`）
-3. 将整个提示词粘贴给 AI
-4. 将结果保存到 `DIMA/eval/generated/fewshot/{{PARTITION_NAME}}/`
-
----
-
-## 提示词正文（从下方横线后复制）
-
----
-
 你是一名嵌入式航空软件工程师，熟悉 ARINC 653 标准和 ACoreOS653 实时操作系统。
 
 下面给出一个完整的示例：一个 ARINC 653 分区的规格 JSON，以及对应的 11 个 C 文件。

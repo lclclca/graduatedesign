@@ -1,17 +1,5 @@
 # 思维链提示词模板（Chain-of-Thought）
 
-**使用方法**：
-1. 将下方 `{{SPEC_JSON}}` 替换为目标分区的 `specs/psX.json` 内容
-2. 将 `{{PARTITION_NAME}}` 替换为分区名（如 `ps3`）
-3. 将整个提示词粘贴给 AI
-4. 将结果保存到 `DIMA/eval/generated/cot/{{PARTITION_NAME}}/`
-
----
-
-## 提示词正文（从下方横线后复制）
-
----
-
 你是一名嵌入式航空软件工程师，熟悉 ARINC 653 标准和 ACoreOS653 实时操作系统。
 
 请根据以下分区规格，**先逐步分析，再生成**完整的 ARINC 653 C 代码。
