@@ -61,7 +61,14 @@ def parse_results(log_path: Path):
         print("请先在 Windows 上运行 check_all.bat 生成结果文件。")
         sys.exit(1)
 
-    text = log_path.read_text(encoding="utf-8", errors="replace")
+    for enc in ("utf-8-sig", "utf-8", "gbk", "cp936"):
+        try:
+            text = log_path.read_text(encoding=enc)
+            break
+        except (UnicodeDecodeError, LookupError):
+            continue
+    else:
+        text = log_path.read_text(encoding="utf-8", errors="replace")
     sections = re.split(r"\[([a-z]+/[a-z0-9]+)\]", text)
 
     results = []
