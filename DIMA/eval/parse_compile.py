@@ -193,7 +193,7 @@ def save_reports(results, report_dir: Path):
         else:
             lines.append("无错误/警告。")
 
-        fname.write_text("\n".join(lines), encoding="utf-8")
+        fname.write_text("\n".join(lines), encoding="utf-8-sig")
 
     print(f"\n各分区报告已保存至：{report_dir}/")
 
