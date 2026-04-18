@@ -202,18 +202,21 @@ def save_reports(results, report_dir: Path):
 
 def save_csv(results, out_path: Path):
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
-        writer = csv.writer(f)
-        writer.writerow(["策略", "分区", "错误数", "警告数", "通过"] + CATEGORY_NAMES)
-        for r in results:
-            cats = [r["cat_counts"].get(n, 0) for n in CATEGORY_NAMES]
-            writer.writerow([
-                r["strategy"], r["partition"],
-                r["errors"], r["warnings"],
-                "是" if r["passed"] else "否",
-                *cats,
-            ])
-    print(f"CSV 已保存：{out_path}")
+    try:
+        with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
+            writer = csv.writer(f)
+            writer.writerow(["策略", "分区", "错误数", "警告数", "通过"] + CATEGORY_NAMES)
+            for r in results:
+                cats = [r["cat_counts"].get(n, 0) for n in CATEGORY_NAMES]
+                writer.writerow([
+                    r["strategy"], r["partition"],
+                    r["errors"], r["warnings"],
+                    "是" if r["passed"] else "否",
+                    *cats,
+                ])
+        print(f"CSV 已保存：{out_path}")
+    except PermissionError:
+        print(f"[跳过 CSV] 文件被占用（可能在 Excel 中打开）：{out_path}")
 
 
 # ── 入口 ──────────────────────────────────────────────────────────────────────
