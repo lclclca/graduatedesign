@@ -61,14 +61,16 @@ def parse_results(log_path: Path):
         print("请先在 Windows 上运行 check_all.bat 生成结果文件。")
         sys.exit(1)
 
-    for enc in ("utf-8-sig", "utf-8", "gbk", "cp936"):
+    # check_all.bat 开头有 chcp 65001，生成的文件是 UTF-8
+    # 旧文件（GBK）作为回退
+    for enc in ("utf-8-sig", "utf-8", "gbk"):
         try:
             text = log_path.read_text(encoding=enc)
             break
-        except (UnicodeDecodeError, LookupError):
+        except UnicodeDecodeError:
             continue
     else:
-        text = log_path.read_text(encoding="utf-8", errors="replace")
+        text = log_path.read_text(encoding="gbk", errors="replace")
     sections = re.split(r"\[([a-z]+/[a-z0-9]+)\]", text)
 
     results = []
@@ -151,9 +153,9 @@ def print_verbose(results):
         all_items = r["error_items"] + r["warning_items"]
         if not all_items:
             continue
-        print(f"\n{'─'*60}")
+        print(f"\n{'-'*60}")
         print(f"  {r['strategy']}/{r['partition']}")
-        print(f"{'─'*60}")
+        print(f"{'-'*60}")
         # 按分类分组显示
         by_cat = defaultdict(list)
         for kind, code, cat, line in all_items:
@@ -237,6 +239,8 @@ def main():
     parser.add_argument("--reports", action="store_true",
                         help="为每个分区生成独立的 .txt 报告文件")
     args = parser.parse_args()
+
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
     results = parse_results(Path(args.input))
     print_table(results)
