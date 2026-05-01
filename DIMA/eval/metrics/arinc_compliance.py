@@ -71,9 +71,12 @@ def check(gen_dir: str, spec: dict) -> list:
     main_c = _strip_comments(_read(gen_dir, "main.c"))
     results = []
 
-    # ── R1：黑板名称出现在 activity.c ──────────────────────────────────
-    # 背景：CREATE_BLACKBOARD 在 main.c 中调用；任务若未实际读写黑板，
-    #       仅凭名称出现在 main.c 中即可通过 C6，但资源实际上被闲置。
+    # ── R1：黑板读写 API 均出现在 activity.c ──────────────────────────
+    # 仅检查名称是否出现会被 extern 声明欺骗（extern BLACKBOARD_ID_TYPE bb_xx_id
+    # 使名称出现但黑板从未真正使用）。必须同时存在 DISPLAY_BLACKBOARD（写入）
+    # 和 READ_BLACKBOARD（读取）调用，才能确认黑板被实际使用。
+    has_display = "DISPLAY_BLACKBOARD" in act_c
+    has_read_bb = "READ_BLACKBOARD"    in act_c
     blackboards = spec.get("blackboards", [])
     if not blackboards:
         results.append({
@@ -81,15 +84,23 @@ def check(gen_dir: str, spec: dict) -> list:
             "msg": "无黑板，跳过 R1"
         })
     else:
-        for b in blackboards:
-            n = _name(b)
-            ok = n in act_c
-            results.append({
-                "rule": "R1", "item": n, "pass": ok,
-                "msg": f"黑板 {n} {'出现在' if ok else '【未出现在】'} activity.c"
-            })
+        ok = has_display and has_read_bb
+        missing = []
+        if not has_display: missing.append("DISPLAY_BLACKBOARD（写入）")
+        if not has_read_bb: missing.append("READ_BLACKBOARD（读取）")
+        results.append({
+            "rule": "R1", "item": "blackboard read/write",
+            "pass": ok,
+            "msg": ("DISPLAY_BLACKBOARD 与 READ_BLACKBOARD 均出现在 activity.c ✓"
+                    if ok else
+                    f"activity.c 缺少：{', '.join(missing)}")
+        })
 
-    # ── R2：缓冲区名称出现在 activity.c ────────────────────────────────
+    # ── R2：缓冲区收发 API 均出现在 activity.c ────────────────────────
+    # 同 R1，仅检查名称会被 extern 声明欺骗。必须同时存在 SEND_BUFFER
+    # 和 RECEIVE_BUFFER，才能确认缓冲区双端均已实现。
+    has_send_buf = "SEND_BUFFER"    in act_c
+    has_recv_buf = "RECEIVE_BUFFER" in act_c
     buffers = spec.get("buffers", [])
     if not buffers:
         results.append({
@@ -97,13 +108,17 @@ def check(gen_dir: str, spec: dict) -> list:
             "msg": "无缓冲区，跳过 R2"
         })
     else:
-        for b in buffers:
-            n = _name(b)
-            ok = n in act_c
-            results.append({
-                "rule": "R2", "item": n, "pass": ok,
-                "msg": f"缓冲区 {n} {'出现在' if ok else '【未出现在】'} activity.c"
-            })
+        ok = has_send_buf and has_recv_buf
+        missing = []
+        if not has_send_buf: missing.append("SEND_BUFFER（发送）")
+        if not has_recv_buf: missing.append("RECEIVE_BUFFER（接收）")
+        results.append({
+            "rule": "R2", "item": "buffer send/recv",
+            "pass": ok,
+            "msg": ("SEND_BUFFER 与 RECEIVE_BUFFER 均出现在 activity.c ✓"
+                    if ok else
+                    f"activity.c 缺少：{', '.join(missing)}")
+        })
 
     # ── R3/R4：采样端口方向与 API 匹配（在 activity.c 中）────────────
     # ARINC 653: SOURCE 端口调用 WRITE_SAMPLING_MESSAGE，
