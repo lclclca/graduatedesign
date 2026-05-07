@@ -1,0 +1,107 @@
+﻿编译检查报告：cot/ps1
+==================================================
+错误数：73  警告数：18  未通过
+
+分类统计：
+  语法错误         40
+  其他           26
+  未声明标识符       25
+
+详细问题：
+
+  [语法错误]
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2059: 语法错误:“)”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2059: 语法错误:“)”
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(21): error C2065: “received_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(22): error C2065: “acc2_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(29): error C2065: “received_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(34): error C2065: “received_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(51): error C2065: “acc2_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(105): error C2065: “sem_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(163): error C2065: “sem_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(164): error C2065: “t3_data”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(165): error C2065: “t3t4_bb”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(166): error C2065: “feedback”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(167): error C2065: “sem_clear”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(181): error C2065: “sem_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(194): error C2065: “t3_data”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “feedback”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “t3_data”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “t3t4_bb”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps1\activity.c(226): error C2065: “feedback”: 未声明的标识符
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(29): warning C4013: “commandboard_receiveinput_spg”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(32): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(40): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(82): warning C4013: “commandboard_printinfos_spg”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(112): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\activity.c(123): warning C4013: “calculate_spg”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\main.c(29): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps1\main.c(190): warning C4013: “STOP_SELF”未定义；假设外部返回 int
+
+  [其他]
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(21): error C2146: 语法错误: 缺少“;”(在标识符“received_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(22): error C2146: 语法错误: 缺少“;”(在标识符“acc2_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(76): error C2146: 语法错误: 缺少“;”(在标识符“out_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(103): error C2146: 语法错误: 缺少“;”(在标识符“sensor_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(104): error C2146: 语法错误: 缺少“;”(在标识符“result_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(105): error C2146: 语法错误: 缺少“;”(在标识符“sem_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(163): error C2146: 语法错误: 缺少“;”(在标识符“sem_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(164): error C2146: 语法错误: 缺少“;”(在标识符“t3_data”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(165): error C2146: 语法错误: 缺少“;”(在标识符“t3t4_bb”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(166): error C2146: 语法错误: 缺少“;”(在标识符“feedback”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps1\activity.c(167): error C2146: 语法错误: 缺少“;”(在标识符“sem_clear”的前面)
+    ERROR   C2039  DIMA\eval\generated\cot\ps1\main.c(186): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2039  DIMA\eval\generated\cot\ps1\main.c(201): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2054  DIMA\eval\generated\cot\ps1\subprograms.c(15): error C2054: 在“out_val”之后应输入“(”
+    ERROR   C2054  DIMA\eval\generated\cot\ps1\subprograms.c(48): error C2054: 在“in_val”之后应输入“(”
+    ERROR   C2054  DIMA\eval\generated\cot\ps1\subprograms.c(84): error C2054: 在“result_val”之后应输入“(”
+    WARNING C4113  DIMA\eval\generated\cot\ps1\main.c(117): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps1\main.c(131): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps1\main.c(145): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps1\main.c(159): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4996  DIMA\eval\generated\cot\ps1\main.c(116): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps1\main.c(130): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps1\main.c(144): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps1\main.c(158): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4473  DIMA\eval\generated\cot\ps1\main.c(185): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+    WARNING C4473  DIMA\eval\generated\cot\ps1\main.c(200): warning C4473: “printf”: 没有为格式字符串传递足够的参数

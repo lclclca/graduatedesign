@@ -1,0 +1,15 @@
+﻿编译检查报告：combined/pa
+==================================================
+错误数：0  警告数：2  通过
+
+分类统计：
+  未使用变量        1
+  其他           1
+
+详细问题：
+
+  [未使用变量]
+    WARNING C4101  DIMA\eval\generated\combined\pa\activity.c(16): warning C4101: “msg_len”: 未引用的局部变量
+
+  [其他]
+    WARNING C4996  DIMA\eval\generated\combined\pa\main.c(21): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

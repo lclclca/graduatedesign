@@ -1,0 +1,23 @@
+﻿编译检查报告：combined/pc
+==================================================
+错误数：0  警告数：7  通过
+
+分类统计：
+  未使用变量        2
+  未声明标识符       2
+  其他           3
+
+详细问题：
+
+  [未声明标识符]
+    WARNING C4013  DIMA\eval\generated\combined\pc\activity.c(49): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\combined\pc\activity.c(68): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+
+  [未使用变量]
+    WARNING C4101  DIMA\eval\generated\combined\pc\activity.c(17): warning C4101: “msg_len”: 未引用的局部变量
+    WARNING C4101  DIMA\eval\generated\combined\pc\activity.c(41): warning C4101: “msg_len”: 未引用的局部变量
+
+  [其他]
+    WARNING C4996  DIMA\eval\generated\combined\pc\main.c(26): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\combined\pc\main.c(38): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\combined\pc\main.c(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

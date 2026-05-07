@@ -1,0 +1,44 @@
+﻿编译检查报告：zeroshot/ps4
+==================================================
+错误数：12  警告数：19  未通过
+
+分类统计：
+  其他           26
+  未声明标识符       5
+
+详细问题：
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps4\main.c(105): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps4\main.c(122): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps4\main.c(139): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps4\main.c(156): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps4\main.c(173): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+
+  [其他]
+    ERROR   C2039  DIMA\eval\generated\zeroshot\ps4\main.c(25): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2039  DIMA\eval\generated\zeroshot\ps4\main.c(33): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps4\main.c(105): error C2146: 语法错误: 缺少“;”(在标识符“task41_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps4\main.c(122): error C2146: 语法错误: 缺少“;”(在标识符“task42_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps4\main.c(139): error C2146: 语法错误: 缺少“;”(在标识符“task43_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps4\main.c(156): error C2146: 语法错误: 缺少“;”(在标识符“task44_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps4\main.c(173): error C2146: 语法错误: 缺少“;”(在标识符“task45_job”的前面)
+    WARNING C4477  DIMA\eval\generated\zeroshot\ps4\main.c(24): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“__int64”
+    WARNING C4473  DIMA\eval\generated\zeroshot\ps4\main.c(24): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+    WARNING C4477  DIMA\eval\generated\zeroshot\ps4\main.c(32): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“__int64”
+    WARNING C4473  DIMA\eval\generated\zeroshot\ps4\main.c(32): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps4\main.c(105): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps4\main.c(105): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps4\main.c(122): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps4\main.c(122): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps4\main.c(139): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps4\main.c(139): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps4\main.c(156): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps4\main.c(156): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps4\main.c(173): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps4\main.c(173): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps4\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps4\main.c(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps4\main.c(138): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps4\main.c(155): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps4\main.c(172): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

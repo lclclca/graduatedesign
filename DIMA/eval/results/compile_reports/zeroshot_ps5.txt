@@ -1,0 +1,43 @@
+﻿编译检查报告：zeroshot/ps5
+==================================================
+错误数：18  警告数：9  未通过
+
+分类统计：
+  未声明标识符       4
+  其他           17
+  语法错误         6
+
+详细问题：
+
+  [语法错误]
+    ERROR   C2143  DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2059: 语法错误:“)”
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2065: “MAX_MESSAGE_SIZE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps5\main.c(88): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps5\main.c(105): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps5\main.c(122): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+
+  [其他]
+    ERROR   C2057  DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2057: 应输入常量表达式
+    ERROR   C2466  DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2466: 不能分配常量大小为 0 的数组
+    ERROR   C2133  DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2133: “msg_buf”: 未知的大小
+    ERROR   C2054  DIMA\eval\generated\zeroshot\ps5\main.c(23): error C2054: 在“error_status”之后应输入“(”
+    ERROR   C2054  DIMA\eval\generated\zeroshot\ps5\main.c(32): error C2054: 在“error_status”之后应输入“(”
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps5\main.c(88): error C2146: 语法错误: 缺少“;”(在标识符“task51_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps5\main.c(105): error C2146: 语法错误: 缺少“;”(在标识符“task52_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps5\main.c(122): error C2146: 语法错误: 缺少“;”(在标识符“task53_job”的前面)
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps5\main.c(88): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps5\main.c(88): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps5\main.c(105): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps5\main.c(105): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps5\main.c(122): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps5\main.c(122): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps5\main.c(87): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps5\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps5\main.c(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
