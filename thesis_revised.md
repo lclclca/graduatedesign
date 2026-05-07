@@ -13,7 +13,11 @@
 
 ## 摘　　要
 
-综合模块化航空电子（IMA）系统是现代民用航空的核心架构，其分区软件须严格遵循ARINC 653标准。手工编写符合标准的C代码不仅开发周期长，且对工程师的专业知识要求极高。本文提出一种基于提示工程的ARINC 653分区C代码自动生成方法，将分区的AADL架构描述转化为结构化JSON规格，通过四种精心设计的提示词模板（零样本、思维链、少样本、组合）驱动大语言模型生成完整的分区C代码。实验在DIMA（5个分区）和IMA2（3个分区）两套真实IMA系统上进行，设计了三维评分框架（结构完整性30%、API正确性40%、语义一致性30%）和ARINC 653合规检查模块（R1–R8）对生成代码进行量化评估。实验结果表明，组合策略的三维综合得分（均值100.0）和ARINC 653合规率（均值94.4%）均位居首位，少样本策略三维得分满分但合规率（83.3%）低于组合策略，思维链策略因影响辅助文件结构而综合得分最低（86.4%）。本文还实现了包含命令行脚本和图形化界面的自动化评估工具链。实验揭示，在规范约束密集的领域代码生成任务中，提供高质量参考示例是提升生成代码质量最有效的手段。
+综合模块化航空电子（IMA）系统是现代民用航空的核心架构，通过在共享计算平台上隔离部署多个功能分区，实现资源高效复用与强安全隔离。其分区软件须严格遵循ARINC 653标准，涵盖进程管理、分区间采样/队列端口通信、分区内黑板/缓冲区共享等复杂APEX接口调用，每个分区须生成11个C/H源文件。手工完成这一工作不仅开发周期长，且对工程师的专业知识要求极高，亟需自动化工具的支撑。
+
+本文提出一种基于提示工程的ARINC 653分区C代码自动生成方法。该方法首先将分区的AADL架构描述转化为结构化JSON规格，再通过四种精心设计的提示词模板（零样本、思维链、少样本、组合）驱动大语言模型生成完整的分区C代码。实验在DIMA（5个分区）和IMA2（3个分区）两套真实IMA系统上进行，共完成16组实验。本文同时设计了三维评分框架（结构完整性30%、API正确性40%、语义一致性30%）和ARINC 653合规检查模块（R1–R8）对生成代码进行多层次量化评估，并实现了涵盖命令行脚本与图形化界面的自动化评估工具链。
+
+实验结果表明，组合策略在三维综合得分（均值100.0）和ARINC 653合规率（均值94.4%）两项指标上均位居首位；少样本策略三维得分满分，但合规率（83.3%）低于组合策略；思维链策略因对辅助文件结构产生负面影响，综合得分最低（86.4%）。实验揭示，在规范约束密集的专业领域代码生成任务中，提供高质量参考示例是提升代码质量最有效的手段；而链式推理在缺乏示例的条件下对辅助文件生成存在干扰，需在提示设计中加以修正。
 
 **关键词：** 提示工程；大语言模型；ARINC 653；代码生成；IMA
 
@@ -21,7 +25,11 @@
 
 ## Abstract
 
-Integrated Modular Avionics (IMA) systems, governed by the ARINC 653 standard, constitute the core software architecture of modern civil aircraft. Writing ARINC 653-compliant C code by hand is time-consuming and demands deep domain expertise. This thesis proposes a prompt engineering-based approach for the automatic generation of ARINC 653 partition C code using Large Language Models (LLMs). The approach extracts partition architecture information from AADL models into structured JSON specifications, which are then fed into four carefully designed prompt templates: Zero-Shot, Chain-of-Thought (CoT), Few-Shot, and Combined. Experiments are conducted on two real IMA systems — DIMA (5 partitions) and IMA2 (3 partitions). A three-dimensional quality evaluation framework (structural integrity 30%, API correctness 40%, semantic consistency 30%) and an ARINC 653 compliance check module (R1–R8) are designed to quantitatively assess the generated code. Results show that the Combined strategy achieves the highest three-dimensional score (mean 100.0) and ARINC 653 compliance rate (94.4%), while the Few-Shot strategy achieves a perfect three-dimensional score but lower compliance (83.3%). The CoT strategy scores lowest (86.4%) due to its negative impact on auxiliary file generation. An automated evaluation toolchain including command-line scripts and a graphical user interface is also implemented. The study demonstrates that providing high-quality code examples is the most effective means of improving generated code quality in domain-specific, constraint-intensive code generation tasks such as ARINC 653 partition software generation.
+Integrated Modular Avionics (IMA) systems isolate multiple software partitions on a shared computing platform, enabling high resource utilization and strong safety guarantees required by modern civil aviation. Partition software must strictly conform to the ARINC 653 standard, which specifies complex APEX interface calls covering process management, inter-partition sampling/queuing port communication, and intra-partition blackboard/buffer sharing. Each partition requires generating 11 C/H source files, making manual implementation both time-consuming and error-prone.
+
+This thesis proposes a prompt engineering-based approach for the automatic generation of ARINC 653 partition C code using Large Language Models (LLMs). The approach first extracts partition architecture information from AADL models into structured JSON specifications, which are then fed into four carefully designed prompt templates — Zero-Shot, Chain-of-Thought (CoT), Few-Shot, and Combined — to drive an LLM to generate complete partition code. Experiments are conducted across 16 trials on two real IMA systems: DIMA (5 partitions) and IMA2 (3 partitions). A three-dimensional quality evaluation framework (structural integrity 30%, API correctness 40%, semantic consistency 30%) and an ARINC 653 compliance check module (R1–R8) are designed for multi-level quantitative assessment, supported by an automated toolchain with both command-line scripts and a graphical user interface.
+
+Results show that the Combined strategy achieves the highest three-dimensional score (mean 100.0) and ARINC 653 compliance rate (94.4%); the Few-Shot strategy achieves a perfect three-dimensional score but lower compliance (83.3%); the CoT strategy scores lowest (86.4%) due to its negative impact on auxiliary file generation. The study demonstrates that in domain-specific, constraint-intensive code generation tasks, providing high-quality reference examples is the most effective means of improving code quality, while chain-of-thought reasoning without examples can interfere with auxiliary file generation and requires targeted correction in prompt design.
 
 **Keywords:** Prompt Engineering; Large Language Models; ARINC 653; Code Generation; IMA
 
