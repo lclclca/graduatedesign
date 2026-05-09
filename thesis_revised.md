@@ -50,9 +50,10 @@ Results show that the Combined strategy achieves the highest three-dimensional s
   - 2.4 大语言模型与提示工程
 - 第三章 基于提示词模板的IMA代码生成方法
   - 3.1 方法总体设计
-  - 3.2 实验系统介绍
-  - 3.3 提示词模板设计
-  - 3.4 实验结果展示
+  - 3.2 规格JSON设计与AADL解析
+  - 3.3 实验系统介绍
+  - 3.4 提示词模板设计
+  - 3.5 实验结果展示
 - 第四章 代码质量评估
   - 4.1 评估框架设计
   - 4.2 评估工具实现
@@ -77,7 +78,7 @@ Results show that the Combined strategy achieves the highest three-dimensional s
 
 ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线电技术委员会（AERONAUTICAL RADIO, INCORPORATED）制定。该标准定义了应用程序执行环境（Application EXecutive，APEX）服务接口，包括进程管理、分区间通信（采样端口、队列端口）、分区内通信（黑板、缓冲区）和分区模式管理等核心功能，是保证多功能分区在同一物理平台上安全隔离运行的技术基础[14]。
 
-然而，手工编写符合ARINC 653标准的C代码面临显著挑战。首先，APEX API数量庞大且参数复杂，工程师需要深入理解标准细节；其次，分区代码结构固定但冗长，每个分区通常需要编写包括main.c、activity.c、deployment.h等在内的11个C/H源文件；再者，AADL架构描述与C代码实现之间存在大量需要人工对应的映射关系，极易产生遗漏或不一致。国内外研究者已尝试基于模型驱动工程（MDE）实现从AADL模型到ARINC 653代码的自动生成[5][6][7][8]，但这类方法依赖专用工具链，对模型的形式化程度要求高，在工程实践中推广受限。
+然而，手工编写符合ARINC 653标准的C代码面临显著挑战。首先，APEX API数量庞大且参数复杂，工程师需要深入理解标准细节；其次，分区代码结构固定但冗长，每个分区通常需要编写包括main.c、activity.c、deployment.h等在内的11个C/H源文件；再者，AADL架构描述与C代码实现之间存在大量需要人工对应的映射关系，极易产生遗漏或不一致。国内外研究者已尝试基于模型驱动工程（MDE）实现从AADL模型到ARINC 653代码的自动生成[5][6][7][8][21]，但这类方法依赖专用工具链，对模型的形式化程度要求高，在工程实践中推广受限。
 
 近年来，大语言模型（Large Language Model，LLM）在代码生成领域展现出前所未有的能力，为ARINC 653分区代码的自动生成提供了新的技术路径。利用提示工程（Prompt Engineering）引导LLM生成结构化、规范化代码，有望在不依赖专用工具链的情况下实现高质量的ARINC 653代码自动生成。
 
@@ -93,7 +94,7 @@ ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线�
 
 ### 1.2.2 领域专用代码自动生成
 
-在航空领域，基于模型驱动工程的代码生成方法已有较成熟的研究。Hugues和Delange提出利用AADL模型和Ocarina工具链自动生成ARINC 653分区代码[7]；Lukić等人则提出了基于系统架构模型自动生成和验证ARINC 653合规航空代码的流水线方法[5][6]；AADL653形式化语言提供了专门针对ARINC 653建模和验证的语言扩展[8]。国内，南京航空航天大学安全关键软件研究课题组在AADL模型到ARINC 653 C代码自动生成方面开展了系统性研究，提出了HMC4ARINC653属性集扩展和从IMA模型到C代码的映射规则，生成的代码符合MISRA C安全编码规范[15+]。
+在航空领域，基于模型驱动工程的代码生成方法已有较成熟的研究。Hugues和Delange提出利用AADL模型和Ocarina工具链自动生成ARINC 653分区代码[7]；Lukić等人则提出了基于系统架构模型自动生成和验证ARINC 653合规航空代码的流水线方法[5][6]；AADL653形式化语言提供了专门针对ARINC 653建模和验证的语言扩展[8]。国内，南京航空航天大学安全关键软件研究课题组提出HMC\ARINC653 AADL属性集扩展和从IMA模型到C代码的映射规则，实现了基于Eclipse插件的IMACGT工具（约8800行Java代码），生成代码经Cppcheck静态分析满足MISRA C安全编码规范，并在包含18个分区、70个线程的飞行管理系统上完成了验证[21]。然而，该方法依赖专用Java工具链和形式化AADL扩展建模，对工程师的领域建模能力要求较高；本文的LLM提示工程路径以结构化JSON规格为输入，无需构建专用工具链，探索了一条零工具依赖的ARINC 653代码自动生成方案。
 
 在嵌入式和航天领域LLM应用方面，Englhardt等人系统考察了LLM在嵌入式系统开发中的能力边界[9]；Fakih等人提出了LLM4PLC方法，将LLM与形式化验证相结合用于工业控制代码生成[10]；Babiuch等人对多个LLM在微控制器驱动应用编程任务上进行了系统基准测试[11]；面向航天领域的LLM代码生成研究表明，LLM在结构化规范翻译任务中具有应用潜力，但需要专业提示策略的支撑[12]。
 
@@ -225,7 +226,7 @@ AADL模型作为系统架构的权威描述，其中包含了生成分区代码�
 
 AADL模型文件包含大量形式化语言噪声（关键字、括号、缩进、注释、属性单位换算等），直接将AADL原文作为提示词输入会给LLM带来额外的语法解析负担，增加数值解读错误的概率（例如将"50ms"解读为毫秒而非将其换算为纳秒后写入代码）。为此，本文在LLM调用之前设计了一个中间表示层：将AADL模型提炼为精简的JSON规格，去除所有语法噪声，以扁平的键值结构呈现所有生成代码所需的语义信息。
 
-实验也证实了这一决策的价值：在少样本和组合策略中，LLM通过JSON规格直接读取`period_ms`字段，在代码中正确写出纳秒数值（如`25 × 1000000 = 25000000ll`）；而在零样本和思维链策略中，偶有分区出现`deployment.h`数量宏取值错误，分析原因之一即是模型对JSON字段与宏常量的对应关系存在误判。
+实验也证实了这一决策的价值：在少样本和组合策略中，LLM通过JSON规格直接读取`period_ms`字段，在代码中正确写出纳秒数值（如`25 × 1000000 = 25000000ll`）；而在零样本和思维链策略中，偶有分区出现`deployment.h`数量宏取值错误，分析原因之一即是模型对JSON字段与宏常量的对应关系存在误判。这种轻量级预处理与凌仕翔等人[21]采用HMC\ARINC653 AADL扩展属性集传递IMA语义的思路异曲同工，区别在于本文的JSON中间层专为LLM上下文格式设计，以最小信息量满足提示词需求，避免了形式化AADL工具链的引入。
 
 ### 3.2.2 规格JSON的结构设计
 
@@ -275,9 +276,9 @@ AADL模型文件包含大量形式化语言噪声（关键字、括号、缩进�
 
 ## 3.3 实验系统介绍
 
-实验在两个规模和复杂度不同的IMA系统上进行，分别用于测试DIMA系统的零样本/思维链实验和IMA2系统的少样本/组合实验。
+实验在三个规模和复杂度不同的IMA系统上进行：DIMA系统用于零样本/思维链实验，IMA2系统用于少样本/组合实验，IMA3系统用于组合策略的推广性验证。
 
-### 3.2.1 DIMA系统
+### 3.3.1 DIMA系统
 
 DIMA（Distributed IMA，分布式综合模块化航空电子系统）是一个典型的多模块IMA系统，由3个物理模块（M1/M2/M3）、5个分区（ps1–ps5）和15个周期性任务构成。各模块之间通过光纤通道（Fibre Channel）交换机互联，实现跨模块的采样端口与队列端口通信。
 
@@ -299,7 +300,7 @@ DIMA系统的整体拓扑如图3-2所示。模块M1（嵌入式系统es1）承�
 
 ps3是DIMA中结构最简单的分区，仅包含队列接收端口和周期任务，无分区内共享资源；ps1是最复杂的分区，同时使用采样端口、队列端口、5块黑板和3个缓冲区，覆盖全部4类ARINC 653资源。DIMA系统由AADL模型文件经`aadl2c.py`脚本生成参考代码，作为评估基准。
 
-### 3.2.2 IMA2系统
+### 3.3.2 IMA2系统
 
 IMA2系统是为少样本实验专门设计的新IMA系统，包含1个模块（MA）、3个分区（PA/PB/PC）和6个周期性任务，采用单模块架构，分区间通信通过模块内部连接实现。
 
@@ -319,7 +320,75 @@ IMA2系统的设计原则是使三个分区在资源复杂度上呈梯度分布�
 
 少样本实验以DIMA分区ps3的规格JSON和参考C代码作为in-context示例，以IMA2的PA/PB/PC作为待生成目标，评估LLM利用示例迁移到新系统的能力。
 
-## 3.3 提示词模板设计
+### 3.3.3 IMA3系统
+
+IMA3系统是本文为验证组合策略推广性而专门建模的第三套IMA系统，以**导航计算模块（Navigation Computing Module）**为原型，包含1个模块（MC）、4个分区（NAV/DISP/CTRL/MON）和10个周期性任务，主帧周期100ms。
+
+**系统设计意图**。DIMA和IMA2的实验已覆盖2–5个任务的分区，但两个系统中最复杂的分区（DIMA的ps1、IMA2的PC）均为3类资源的组合。IMA3的NAV分区被刻意设计为4任务×2黑板×1缓冲区×3分区间端口的极端配置，目的是测试组合策略在前两个系统从未出现过的资源密度下能否稳定生成正确代码。
+
+**建模过程与设计决策**。IMA3的AADL模型按照以下分区间通信拓扑设计（如图3-3所示）：
+
+```
+NAV.pos_out    → DISP.pos_in    （采样端口，传递位置数据）
+NAV.status_out → MON.status_in  （采样端口，传递状态监控数据）
+NAV.cmd_out    → CTRL.nav_in    （队列端口，传递导航指令）
+CTRL.ctrl_out  → DISP.ctrl_in   （队列端口，传递显示控制命令）
+```
+
+【图3-3：IMA3系统分区间通信拓扑 — 待插入】
+
+四个分区在资源配置上形成明确梯度，并各有针对性的设计意图：
+
+| 分区 | 任务数 | 采样端口 | 队列端口 | 黑板数 | 缓冲区数 | 设计意图 |
+|------|--------|----------|----------|--------|----------|----------|
+| NAV  | 4      | 2出      | 1出      | 2      | 1        | 全资源类型极端配置，测试策略上限 |
+| DISP | 2      | 1入      | 1入      | 1      | 0        | 纯接收端，验证READ/RECEIVE方向API |
+| CTRL | 3      | —        | 1入+1出  | 0      | 1        | 双向队列+内部缓冲，测试SEND/RECEIVE配对 |
+| MON  | 1      | 1入      | —        | 0      | 0        | 极简基准，验证最小配置稳定性 |
+
+**表3-3 IMA3系统分区资源配置与设计意图**
+
+在AADL建模中，分区内黑板和缓冲区通过线程间连接的**端口类型**加以区分：`data port`连接（最新值语义）对应黑板，`event data port`连接（FIFO队列语义）对应缓冲区；连接名直接用作`aadl2c.py`解析时的资源标识符。以NAV分区的`process implementation`为例，关键连接声明如下：
+
+```aadl
+-- 分区内黑板（data port连接）：连接名 bb1 → 生成 bb_bb1 黑板资源
+bb1:  port taskN1.bb1_write -> taskN2.bb1_read;
+bb2:  port taskN1.bb2_write -> taskN3.bb2_read;
+-- 分区内缓冲区（event data port连接）：连接名 buf1 → 生成 buf_buf1 缓冲区资源
+buf1: port taskN2.buf1_send -> taskN4.buf1_recv;
+-- 分区间采样端口（路由任务端口到分区端口）
+pos_link:    port taskN1.pos_out    -> pos_out;
+status_link: port taskN1.status_out -> status_out;
+```
+
+这一AADL建模决策（以端口类型区分资源语义）是连接AADL形式化描述与ARINC 653 API之间的关键桥梁：`data port`→`CREATE_BLACKBOARD`/`DISPLAY_BLACKBOARD`/`READ_BLACKBOARD`，`event data port`→`CREATE_BUFFER`/`SEND_BUFFER`/`RECEIVE_BUFFER`。
+
+经`aadl2c.py`解析，NAV分区的规格JSON如下（节选关键字段）：
+
+```json
+{
+  "partition": "nav",
+  "tasks": [
+    {"name": "taskN1", "period_ms": 25, "priority": 2},
+    {"name": "taskN2", "period_ms": 50, "priority": 3},
+    {"name": "taskN3", "period_ms": 100, "priority": 4},
+    {"name": "taskN4", "period_ms": 50, "priority": 5}
+  ],
+  "sampling_ports": [
+    {"name": "pos_out",    "direction": "SOURCE"},
+    {"name": "status_out", "direction": "SOURCE"}
+  ],
+  "queuing_ports":  [{"name": "cmd_out", "direction": "SOURCE", "max_nb": 4}],
+  "blackboards":    [{"name": "bb_bb1"}, {"name": "bb_bb2"}],
+  "buffers":        [{"name": "buf_buf1", "max_nb": 4}],
+  "deployment": {"nb_threads": 4, "nb_samplings": 2, "nb_queueings": 1,
+                 "nb_blackboards": 2, "nb_buffers": 1, "stacks_size": 32768}
+}
+```
+
+JSON规格清晰呈现了NAV分区的全部语义：4个任务的周期与优先级、2个采样源端口、1个队列源端口、2块黑板、1个缓冲区，以及`deployment.h`中5个`ACoreOS653_CONFIG_NB_*`宏的准确取值。这一结构将作为组合策略提示词的`{{SPEC_JSON}}`占位符输入，驱动LLM生成IMA3各分区的完整11文件代码。
+
+## 3.4 提示词模板设计
 
 本文设计了四种提示词模板，对应四种不同的提示工程策略：零样本（Zero-Shot）、思维链（Chain-of-Thought, CoT）、少样本（Few-Shot）和组合（Combined）。四种策略的核心设计差异体现在三个维度：是否提供参考示例、是否引导分步推理、是否提供API参考。
 
@@ -330,11 +399,11 @@ IMA2系统的设计原则是使三个分区在资源复杂度上呈梯度分布�
 | 少样本   | 1个      | 无      | 无           | 示例模仿，降低格式偏差 |
 | 组合     | 1个      | 有      | 有           | 示例+推理双重引导     |
 
-**表3-3 四种提示词策略核心设计对比**
+**表3-4 四种提示词策略核心设计对比**
 
 四种模板并非通用提示策略的直接套用，而是针对ARINC 653代码生成的三类特定难点逐步递进设计的。**难点A（双端API语义）**：黑板须同时调用`DISPLAY_BLACKBOARD`（写）和`READ_BLACKBOARD`（读），缓冲区须同时调用`SEND_BUFFER`和`RECEIVE_BUFFER`，共约20个通信API，通用提示无法保证模型不遗漏某一侧——驱动了CoT中APEX API参考的嵌入和Combined中补充API片段的设计。**难点B（隐式平台约定）**：`deployment.h`宏命名前缀（`ACoreOS653_CONFIG_NB_*`）、全局变量的分区名前缀（`<partition>_`）、`CHECK_CODE`宏的else分支写法等均为ACoreOS653平台惯例，ARINC 653标准正文不覆盖，只有代码示例才能最直接地传递这类隐式约定——驱动了Few-Shot以ps3完整代码为示例的设计。**难点C（11文件固定骨架）**：任何分区遗漏`globals.h`或`gtypes.h`等辅助文件都会导致编译失败，这些文件在通用代码生成任务中没有对应概念——驱动了Zero-Shot模板中逐一列举所有文件要求的显式清单设计。
 
-### 3.3.1 零样本提示词模板
+### 3.4.1 零样本提示词模板
 
 零样本模板（Zero-Shot Template）针对**难点C**做了专项设计：在通用角色定义基础上增加了两项ARINC 653专属约束。第一，角色声明中明确指出"ACoreOS653实时操作系统"，引导模型进入正确的知识检索范围而非泛化到其他RTOS。第二，输出要求部分逐一列举11个目标文件（`deployment.h`、`globals.h`、`gtypes.h`等）并对每个文件给出具体规范，防止模型只生成功能核心文件（`activity.c`、`main.c`）而遗漏辅助文件。该模板不包含对难点A（双端API）和难点B（平台隐式约定）的专门引导，因此以它为基线可以准确测出LLM在没有额外支持时对ARINC 653规范的内化程度[2]。
 
@@ -342,7 +411,7 @@ IMA2系统的设计原则是使三个分区在资源复杂度上呈梯度分布�
 
 零样本模板的优势在于输入简洁、无歧义，适合测试模型对ARINC 653规范的内化程度。其局限在于：当分区资源组合复杂时（如ps1有5块黑板+3个缓冲区），模型可能遗漏部分资源的初始化或产生端口API方向错误。
 
-### 3.3.2 思维链提示词模板
+### 3.4.2 思维链提示词模板
 
 思维链模板（CoT Template）在零样本的基础上同时针对**难点A**和**难点C**进行了增强。针对难点A，模板嵌入了完整的APEX API参考，包含`CREATE_SAMPLING_PORT`/`CREATE_QUEUING_PORT`/`CREATE_BLACKBOARD`/`CREATE_BUFFER`的完整C语法和`WRITE/READ`系列通信API的调用格式，使模型在生成代码时无需单纯依赖记忆。针对难点A中的双端配对问题，四步推理序列的步骤3（"分析每个任务的通信行为：确定各任务读写哪些资源"）专门引导模型显式规划每个任务的资源操作，而非让模型在生成代码时"边写边想"。
 
@@ -355,13 +424,13 @@ IMA2系统的设计原则是使三个分区在资源复杂度上呈梯度分布�
 
 API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推理引导则有助于减少资源遗漏和任务通信逻辑错误。然而，CoT模板要求更长的输出，且实验发现模型有时在推理阶段产生正确分析但在代码阶段遗漏部分约束（如`deployment.h`中的宏值），说明CoT对难点B（平台隐式约定）的覆盖仍不充分[1][4]。
 
-### 3.3.3 少样本提示词模板
+### 3.4.3 少样本提示词模板
 
 少样本模板（Few-Shot Template）以DIMA系统ps3分区的完整规格JSON和对应的11个参考C文件作为in-context示例嵌入提示词，专门针对**难点B**（平台隐式约定）进行设计。ps3的选取不是随机的：ps3是DIMA中资源组合最简单的分区（3个任务、2个队列接收端口、无黑板/缓冲区），这保证了示例代码简洁（不引入资源操作偏置），同时又完整展示了所有分区共有的必需结构——11文件骨架、`appMain`初始化序列、任务`while(1)`循环、`PERIODIC_WAIT`调用、`module_HM_callback`和`partition_HM_callback`两个HM回调。对LLM而言，ps3示例直接"展示"了`deployment.h`的`ACoreOS653_CONFIG_NB_*`宏命名格式、全局变量的分区名前缀规则、`CHECK_CODE`宏的else分支写法等隐式约定，这些用文字难以精确描述，但示例一看即懂[17]。
 
 少样本模板的核心机制是模式迁移：LLM通过示例学习全局变量命名规则（分区名前缀）、`extern`声明模式、`CHECK_CODE`宏的定义和使用、`deployment.h`的宏命名约定等隐式规范，这些细节在零样本和CoT模板中均需通过文字描述传达，而示例可以直接呈现。其局限在于：ps3不含黑板/缓冲区，对难点A（双端API）的覆盖存在盲区，这一缺陷直接导致了少样本策略在PB/PC分区出现黑板单端实现问题。
 
-### 3.3.4 组合提示词模板
+### 3.4.4 组合提示词模板
 
 组合模板（Combined Template）在少样本的基础上补足了对**难点A**的专项覆盖，形成三部分结构：第一部分为ps3分区的完整示例（覆盖难点B）；第二部分为针对示例中未出现的资源类型（采样端口、黑板、缓冲区）补充的APEX API代码片段，显式展示`DISPLAY_BLACKBOARD`/`READ_BLACKBOARD`配对调用和`SEND_BUFFER`/`RECEIVE_BUFFER`配对调用（直接针对难点A的双端配对盲区）；第三部分为目标分区规格和五步推理引导。
 
@@ -371,9 +440,9 @@ API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推�
 
 组合模板是四种策略中信息量最丰富的，也是设计最复杂的，其目标是通过示例、API参考和推理链对三类领域难点（难点A/B/C）的协同覆盖，最大化代码生成的完整性和规范符合度[1][4][17]。
 
-## 3.4 实验结果展示
+## 3.5 实验结果展示
 
-### 3.4.1 实验配置
+### 3.5.1 实验配置
 
 实验选用Claude claude-sonnet-4-6（claude-sonnet-4-6）作为LLM后端，温度参数设为默认值（temperature=1.0）。对于DIMA系统，零样本和思维链两种策略各在ps1–ps5五个分区上执行一次，共生成10组代码；对于IMA2系统，少样本和组合两种策略各在PA/PB/PC三个分区上执行一次，共生成6组代码。所有生成代码存放于`DIMA/eval/generated/<策略>/<分区>/`目录，共计16组实验结果。
 
@@ -384,9 +453,9 @@ API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推�
 | 少样本 | IMA2     | PA、PB、PC     | 3        | ps3完整代码    |
 | 组合   | IMA2     | PA、PB、PC     | 3        | ps3完整代码    |
 
-**表3-4 实验策略与测试系统对应关系**
+**表3-5 实验策略与测试系统对应关系**
 
-### 3.4.2 AADL规格到C代码的对应关系
+### 3.5.2 AADL规格到C代码的对应关系
 
 ARINC 653 C代码的核心结构直接映射自AADL分区模型中的三类设计元素：进程（Process）对应分区任务，特性（Properties）对应周期和优先级，端口与共享资源（Port/Feature）对应APEX通信API。
 
@@ -407,7 +476,7 @@ ARINC 653 C代码的核心结构直接映射自AADL分区模型中的三类设�
 | 缓冲区（Buffer） | `buffers[]` | `CREATE_BUFFER` + `SEND_BUFFER`/`RECEIVE_BUFFER` |
 | 资源数量 | `deployment.nb_*` | `deployment.h`中的`ACoreOS653_CONFIG_NB_*`宏 |
 
-**表3-5 AADL设计元素与C代码的对应关系**
+**表3-6 AADL设计元素与C代码的对应关系**
 
 每个分区生成的代码包含固定的11个文件，其中`activity.c`和`main.c`是包含业务逻辑的核心文件，其余文件提供类型定义、全局变量声明和部署配置。
 
@@ -424,7 +493,7 @@ ARINC 653 C代码的核心结构直接映射自AADL分区模型中的三类设�
 | `activity.c` | 任务函数实现（`while(1)`循环） | 随资源+任务增加 |
 | `main.c` | `appMain()`初始化 + HM回调 | 随资源增加 |
 
-**表3-6 分区C代码文件组成**
+**表3-7 分区C代码文件组成**
 
 各策略的代码质量量化评估结果详见第四章。
 
@@ -856,6 +925,8 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 [19] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by Learning Code Execution[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3).
 
 [20] Yang Z, Chen S, Gao C, et al. An Empirical Study of Retrieval-Augmented Code Generation: Challenges and Opportunities[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7).
+
+[21] 凌仕翔, 杨之彬, 周宇. 面向ARINC653操作系统的综合化航空电子软件代码自动生成方法[J]. 计算机科学, 2024, 51(7): 1-9.
 
 ---
 

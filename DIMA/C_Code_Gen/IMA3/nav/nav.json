@@ -1,0 +1,85 @@
+{
+  "partition": "nav",
+  "module": "M?",
+  "aadl_process": "IMA3_partitions::NAV.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskN1",
+      "period_ms": 25,
+      "priority": 2
+    },
+    {
+      "name": "taskN2",
+      "period_ms": 50,
+      "priority": 3
+    },
+    {
+      "name": "taskN3",
+      "period_ms": 100,
+      "priority": 4
+    },
+    {
+      "name": "taskN4",
+      "period_ms": 50,
+      "priority": 5
+    }
+  ],
+  "sampling_ports": [
+    {
+      "name": "pos_out",
+      "direction": "SOURCE",
+      "refresh_period_ns": 100000000,
+      "api_write": "WRITE_SAMPLING_MESSAGE"
+    },
+    {
+      "name": "status_out",
+      "direction": "SOURCE",
+      "refresh_period_ns": 100000000,
+      "api_write": "WRITE_SAMPLING_MESSAGE"
+    }
+  ],
+  "queuing_ports": [
+    {
+      "name": "cmd_out",
+      "direction": "SOURCE",
+      "max_nb": 4,
+      "api_write": "SEND_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [
+    {
+      "name": "bb_bb1"
+    },
+    {
+      "name": "bb_bb2"
+    }
+  ],
+  "buffers": [
+    {
+      "name": "buf_buf1",
+      "max_nb": 4
+    }
+  ],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 4,
+    "nb_samplings": 2,
+    "nb_queueings": 1,
+    "nb_blackboards": 2,
+    "nb_buffers": 1,
+    "stacks_size": 32768
+  }
+}

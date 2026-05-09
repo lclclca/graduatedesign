@@ -1,0 +1,66 @@
+{
+  "partition": "ctrl",
+  "module": "M?",
+  "aadl_process": "IMA3_partitions::CTRL.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskT1",
+      "period_ms": 25,
+      "priority": 2
+    },
+    {
+      "name": "taskT2",
+      "period_ms": 50,
+      "priority": 3
+    },
+    {
+      "name": "taskT3",
+      "period_ms": 100,
+      "priority": 4
+    }
+  ],
+  "sampling_ports": [],
+  "queuing_ports": [
+    {
+      "name": "nav_in",
+      "direction": "DESTINATION",
+      "max_nb": 4,
+      "api_read": "RECEIVE_QUEUING_MESSAGE"
+    },
+    {
+      "name": "ctrl_out",
+      "direction": "SOURCE",
+      "max_nb": 4,
+      "api_write": "SEND_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [],
+  "buffers": [
+    {
+      "name": "buf_ctrl",
+      "max_nb": 4
+    }
+  ],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 3,
+    "nb_samplings": 0,
+    "nb_queueings": 2,
+    "nb_blackboards": 0,
+    "nb_buffers": 1,
+    "stacks_size": 24576
+  }
+}
