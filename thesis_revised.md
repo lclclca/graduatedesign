@@ -15,7 +15,7 @@
 
 综合模块化航空电子（IMA）系统是现代民用航空的核心架构，通过在共享计算平台上隔离部署多个功能分区，实现资源高效复用与强安全隔离。其分区软件须严格遵循ARINC 653标准，涵盖进程管理、分区间采样/队列端口通信、分区内黑板/缓冲区共享等复杂APEX接口调用，每个分区须生成11个C/H源文件。手工完成这一工作不仅开发周期长，且对工程师的专业知识要求极高，亟需自动化工具的支撑。
 
-本文提出一种基于提示工程的ARINC 653分区C代码自动生成方法。该方法首先将分区的AADL架构描述转化为结构化JSON规格，再通过四种精心设计的提示词模板（零样本、思维链、少样本、组合）驱动大语言模型生成完整的分区C代码。实验在DIMA（5个分区）和IMA2（3个分区）两套真实IMA系统上进行，共完成16组实验。本文同时设计了三维评分框架（结构完整性30%、API正确性40%、语义一致性30%）和ARINC 653合规检查模块（R1–R8）对生成代码进行多层次量化评估，并实现了涵盖命令行脚本与图形化界面的自动化评估工具链。
+本文提出一种基于提示工程的ARINC 653分区C代码自动生成方法。该方法首先将分区的AADL架构描述转化为结构化JSON规格，再通过四种精心设计的提示词模板（零样本、思维链、少样本、组合）驱动大语言模型生成完整的分区C代码。实验在DIMA（5个分区）、IMA2（3个分区）和IMA3（4个分区）三套IMA系统上进行，共完成24组实验。本文同时设计了三维评分框架（结构完整性30%、API正确性40%、语义一致性30%）和ARINC 653合规检查模块（R1–R8）对生成代码进行多层次量化评估，并实现了涵盖命令行脚本与图形化界面的自动化评估工具链。
 
 实验结果表明，组合策略在三维综合得分（均值100.0）和ARINC 653合规率（均值94.4%）两项指标上均位居首位；少样本策略三维得分满分，但合规率（83.3%）低于组合策略；思维链策略因对辅助文件结构产生负面影响，综合得分最低（86.4%）。实验揭示，在规范约束密集的专业领域代码生成任务中，提供高质量参考示例是提升代码质量最有效的手段；而链式推理在缺乏示例的条件下对辅助文件生成存在干扰，需在提示设计中加以修正。
 
@@ -27,7 +27,7 @@
 
 Integrated Modular Avionics (IMA) systems isolate multiple software partitions on a shared computing platform, enabling high resource utilization and strong safety guarantees required by modern civil aviation. Partition software must strictly conform to the ARINC 653 standard, which specifies complex APEX interface calls covering process management, inter-partition sampling/queuing port communication, and intra-partition blackboard/buffer sharing. Each partition requires generating 11 C/H source files, making manual implementation both time-consuming and error-prone.
 
-This thesis proposes a prompt engineering-based approach for the automatic generation of ARINC 653 partition C code using Large Language Models (LLMs). The approach first extracts partition architecture information from AADL models into structured JSON specifications, which are then fed into four carefully designed prompt templates — Zero-Shot, Chain-of-Thought (CoT), Few-Shot, and Combined — to drive an LLM to generate complete partition code. Experiments are conducted across 16 trials on two real IMA systems: DIMA (5 partitions) and IMA2 (3 partitions). A three-dimensional quality evaluation framework (structural integrity 30%, API correctness 40%, semantic consistency 30%) and an ARINC 653 compliance check module (R1–R8) are designed for multi-level quantitative assessment, supported by an automated toolchain with both command-line scripts and a graphical user interface.
+This thesis proposes a prompt engineering-based approach for the automatic generation of ARINC 653 partition C code using Large Language Models (LLMs). The approach first extracts partition architecture information from AADL models into structured JSON specifications, which are then fed into four carefully designed prompt templates — Zero-Shot, Chain-of-Thought (CoT), Few-Shot, and Combined — to drive an LLM to generate complete partition code. Experiments are conducted across 24 trials on three IMA systems: DIMA (5 partitions), IMA2 (3 partitions), and IMA3 (4 partitions). A three-dimensional quality evaluation framework (structural integrity 30%, API correctness 40%, semantic consistency 30%) and an ARINC 653 compliance check module (R1–R8) are designed for multi-level quantitative assessment, supported by an automated toolchain with both command-line scripts and a graphical user interface.
 
 Results show that the Combined strategy achieves the highest three-dimensional score (mean 100.0) and ARINC 653 compliance rate (94.4%); the Few-Shot strategy achieves a perfect three-dimensional score but lower compliance (83.3%); the CoT strategy scores lowest (86.4%) due to its negative impact on auxiliary file generation. The study demonstrates that in domain-specific, constraint-intensive code generation tasks, providing high-quality reference examples is the most effective means of improving code quality, while chain-of-thought reasoning without examples can interfere with auxiliary file generation and requires targeted correction in prompt design.
 
@@ -840,6 +840,61 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 
 思维链策略因结构完整性的系统性失分（S7/S8在所有分区均失分），拉低了三维综合均值至86.4，低于零样本的95.4。尽管其API参考和推理链设计有助于模型理解端口语义，但对辅助文件格式的负面影响是CoT提示设计中需要改进的关键问题[4]。
 
+## 4.5 IMA3系统推广性验证
+
+上述16组实验（DIMA+IMA2）已系统验证了四种策略在两套IMA系统上的表现。为进一步检验少样本和组合策略在全新、更复杂系统上的泛化能力，本节以IMA3系统的4个分区（NAV/DISP/CTRL/MON）为目标，以ps3为in-context示例，分别运行少样本和组合策略，共增加8组实验，合计24组。
+
+### 4.5.1 三维评分结果
+
+| 策略     | 分区 | 结构(S) | API(A) | 语义(C) | 综合(T) |
+|----------|------|---------|--------|---------|---------|
+| 少样本   | NAV  | 100.0   | 100.0  | 100.0   | 100.0   |
+| 少样本   | DISP | 100.0   | 100.0  | 100.0   | 100.0   |
+| 少样本   | CTRL | 100.0   | 100.0  | 100.0   | 100.0   |
+| 少样本   | MON  | 100.0   | 100.0  | 100.0   | 100.0   |
+| **少样本均值** | — | **100.0** | **100.0** | **100.0** | **100.0** |
+| 组合     | NAV  | 100.0   | 100.0  | 100.0   | 100.0   |
+| 组合     | DISP | 100.0   | 100.0  | 100.0   | 100.0   |
+| 组合     | CTRL | 100.0   | 100.0  | 100.0   | 100.0   |
+| 组合     | MON  | 100.0   | 100.0  | 100.0   | 100.0   |
+| **组合均值** | — | **100.0** | **100.0** | **100.0** | **100.0** |
+
+**表4-8 IMA3系统三维评分结果**
+
+两种策略在IMA3全部4个分区上均取得三维满分。值得注意的是，NAV分区含2块黑板、1个缓冲区和4个任务，是本文实验中资源密度最高的分区，而少样本策略的in-context示例仍是无黑板/缓冲区的ps3——两种策略在结构、API数量和参数语义三个维度上均成功泛化，说明基于ps3示例的提示策略**不随目标分区的资源规模增大而退化**。
+
+### 4.5.2 ARINC 653合规检查
+
+| 策略     | 分区 | 通过/总计 | 合规率 | 未通过规则 |
+|----------|------|-----------|--------|------------|
+| 少样本   | NAV  | 5/7       | 71.4%  | R1（黑板未双端操作）、R2（缓冲区未双端操作） |
+| 少样本   | DISP | 5/6       | 83.3%  | R1（黑板未双端操作） |
+| 少样本   | CTRL | 6/7       | 85.7%  | R2（缓冲区未双端操作） |
+| 少样本   | MON  | 6/6       | 100.0% | — |
+| **少样本均值** | — | — | **85.1%** | — |
+| 组合     | NAV  | 6/7       | 85.7%  | R2（缓冲区未双端操作） |
+| 组合     | DISP | 6/6       | 100.0% | — |
+| 组合     | CTRL | 6/7       | 85.7%  | R2（缓冲区未双端操作） |
+| 组合     | MON  | 6/6       | 100.0% | — |
+| **组合均值** | — | — | **92.9%** | — |
+
+**表4-9 IMA3系统ARINC 653合规检查结果**
+
+IMA3的合规检查结果与IMA2实验呈现出高度一致的规律：**R1（黑板双端操作）和R2（缓冲区双端操作）失分模式完全延续**。组合策略通过补充API片段，成功修正了DISP分区的R1失分（与IMA2中修正PB的R1完全一致），但含缓冲区的NAV和CTRL分区R2仍然失分，进一步印证了§4.4.2中对缓冲区语义盲区的诊断——这是一个跨系统的系统性限制，而非特定分区的偶发问题。无资源的极简分区MON两种策略均100%通过，与IMA2的PA完全一致。
+
+将IMA3与IMA2结果横向对比：
+
+| 系统 | 策略   | 三维均值 | 合规均值 |
+|------|--------|---------|---------|
+| IMA2 | 少样本 | 100.0   | 83.3%   |
+| IMA2 | 组合   | 100.0   | 94.4%   |
+| IMA3 | 少样本 | 100.0   | 85.1%   |
+| IMA3 | 组合   | 100.0   | 92.9%   |
+
+**表4-10 IMA2与IMA3实验结果跨系统对比**
+
+两套系统的三维得分均满分，合规率高度接近（差值均在2个百分点以内）。这一结果表明，**本文提出的少样本和组合策略具有稳健的跨系统泛化能力**：即使目标系统从IMA2的3分区6任务扩展到IMA3的4分区10任务，即使最复杂分区的资源密度大幅提升，策略性能保持稳定。合规率的微小差异完全由已知的R1/R2双端API失分模式解释，无新的失效类型出现。
+
 ---
 
 # 第五章 总结与展望
@@ -848,9 +903,9 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 
 本文围绕"基于提示工程的ARINC 653 IMA系统C代码自动生成"这一核心问题，开展了系统性的研究工作，主要贡献如下：
 
-**在工程工具方面**，本文开发了AADL解析工具`aadl2c.py`，实现了从系统架构模型到结构化规格JSON的自动转换；构建了DIMA和IMA2两套完整的IMA测试系统及其AADL模型；开发了自动化评估框架，支持三维评分、ARINC 653合规检查两个维度，并实现了包含命令行脚本（`evaluate.py`、`batch_check.py`）和图形化界面（`gui.py`）的完整工具链。
+**在工程工具方面**，本文开发了AADL解析工具`aadl2c.py`，实现了从系统架构模型到结构化规格JSON的自动转换；构建了DIMA、IMA2和IMA3三套完整的IMA测试系统及其AADL模型，其中IMA3（4分区/10任务）专为验证方法推广性而设计；开发了自动化评估框架，支持三维评分、ARINC 653合规检查两个维度，并实现了包含命令行脚本（`evaluate.py`、`batch_check.py`）和图形化界面（`gui.py`）的完整工具链。
 
-**在实验研究方面**，本文完成了四类提示策略在16组实验上的系统性对比，覆盖从最简（1任务1端口）到最复杂（3任务4类资源）的分区配置。实验揭示了各策略的适用场景与失效模式：少样本策略在格式固定的专业代码生成中效果最稳定；思维链策略对固定骨架代码的辅助文件生成具有负面影响；组合策略在所有评估维度上表现最全面。
+**在实验研究方面**，本文完成了四类提示策略在24组实验上的系统性对比（DIMA+IMA2共16组主实验，IMA3共8组推广性验证实验），覆盖从最简（1任务1端口）到最复杂（4任务全资源类型）的分区配置。实验揭示了各策略的适用场景与失效模式：少样本策略在格式固定的专业代码生成中效果最稳定；思维链策略对固定骨架代码的辅助文件生成具有负面影响；组合策略在所有评估维度上表现最全面，且在IMA3推广性验证中保持了与IMA2高度一致的性能表现。
 
 **在评估方法方面**，本文提出了三维量化评估框架和ARINC 653合规检查的分层评估体系。通过少样本/PB分区"黑板创建未使用"的具体案例，证明了合规检查对三维评分的重要补充价值，为后续引入第四评估维度提供了实验依据。
 

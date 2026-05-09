@@ -32,8 +32,8 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 EXPERIMENTS = {
     "zeroshot": ["ps1", "ps2", "ps3", "ps4", "ps5"],
     "cot":      ["ps1", "ps2", "ps3", "ps4", "ps5"],
-    "fewshot":  ["pa",  "pb",  "pc"],
-    "combined": ["pa",  "pb",  "pc"],
+    "fewshot":  ["pa",  "pb",  "pc",  "nav", "disp", "ctrl", "mon"],
+    "combined": ["pa",  "pb",  "pc",  "nav", "disp", "ctrl", "mon"],
 }
 
 # ANSI 颜色（Windows cmd 可能不支持，自动降级）

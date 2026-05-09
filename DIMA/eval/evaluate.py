@@ -154,7 +154,8 @@ def main():
     parser.add_argument("--generated", "-g", required=True,
                         help="生成代码所在目录（应包含 11 个文件）")
     parser.add_argument("--partition", "-p", required=True,
-                        choices=["ps1", "ps2", "ps3", "ps4", "ps5","pa","pb","pc"],
+                        choices=["ps1", "ps2", "ps3", "ps4", "ps5","pa","pb","pc",
+                                 "nav","disp","ctrl","mon"],
                         help="要评估的分区名称")
     parser.add_argument("--save", "-s", action="store_true",
                         help="将结果保存到 results/ 目录（JSON格式）")
