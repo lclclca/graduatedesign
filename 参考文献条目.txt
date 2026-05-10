@@ -1,0 +1,9 @@
+[1]褚文奎,张凤鸣,樊晓光.综合模块化航空电子系统软件体系结构综述[J].航空学报,2009,30(10):1912-1917.
+[1]陈娟.ARINC653分区操作系统在综合模块化航空电子系统中的应用[J].电讯技术,2009,49(05):89-92.
+[1]凌仕翔,杨志斌,周勇.面向ARINC653操作系统的综合化航空电子软件代码自动生成方法[J].计算机科学,2024,51(07):10-21.
+[1]王东清,芦飞,张炳会,等.大语言模型中提示词工程综述[J].计算机系统应用,2025,34(01):1-10.DOI:10.15888/j.cnki.csa.009782.
+[1]张杨,范梓硕,武少广.自动化代码重构：基于大语言模型的提示演化方法[J/OL].计算机科学,1-19[2026-05-10].https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029.
+[1]Wang L ,Zhang H ,Zhang Q , et al.CodeBC: A more secure large language model for smart contract code generation in blockchain[J].Neurocomputing,2026,688133741-133741.DOI:10.1016/J.NEUCOM.2026.133741.
+[1]Ghorbian M ,Arani G M ,Shakarami A .Large language models for code generation: A survey[J].Computer Standards & Interfaces,2026,98104165-104165.DOI:10.1016/J.CSI.2026.104165.
+[1]郑明琪,陈晓慧,刘冰,等.提示学习中思维链生成和增强方法综述[J].计算机科学,2025,52(01):56-64.
+[1]杜家乐,陈曙东,叶亮,等.大语言模型中的思维链技术综述[J].无线电通信技术,2025,51(05):877-887.
