@@ -1,20 +1,120 @@
 ================================================================================
-  参考文献整理（共 25 篇）—— 含完整链接 / 文件路径 / 插入位置
+  参考文献整理（共 25 篇）—— 新排布版
   生成时间：2026-05-10   基准文件：thesis_revised.md
-  来源：参考文献条目.txt（用户上传）+ 毕业论文/ 目录文件
+  排布原则：[1]–[8] 用户上传条目（中文优先），[9]–[25] 英文文献
 ================================================================================
 
 图例
   ✅ 文件已在仓库 毕业论文/ 目录
-  🔗 可免费访问的 URL（arxiv / MDPI / DLR / NeurIPS 官方）
-  🔒 需机构访问（IEEE Xplore / ACM DL / Springer / CNKI）
+  🔗 可免费访问的 URL（arxiv / MDPI / DLR / CNKI 开放 / NeurIPS 官方）
+  🔒 需机构访问（IEEE Xplore / ACM DL / Springer / CNKI 付费）
   ⚠  原条目存在信息偏差，已在本文件中订正
 
-★ 醒目标注：4 篇新增文献 [22]–[25]（第一次出现后标注插入位置）
-🔧 醒目标注：原有条目需要订正的信息
+旧→新编号对照（快速查阅）
+  旧[1]Wei CoT      → 新[9]     旧[2]Kojima       → 新[10]
+  旧[3]Plan-Solve   → 新[11]    旧[4]SCoT          → 新[12]
+  旧[5]Lukić 2018   → 新[13]    旧[6]Lukić 2019    → 新[14]
+  旧[7]Hugues AADL  → 新[15]    旧[8]AADL653       → 已删除
+  旧[9]Englhardt    → 新[16]    旧[10]Fakih        → 新[17]
+  旧[11]Babiuch     → 已删除    旧[12]He Aerospace → 新[18]
+  旧[13]Jiang Surv. → 新[21]    旧[14]陈娟         → 新[2]
+  旧[15]Gu Domain   → 新[22]    旧[16]Tony Secure  → 新[23]
+  旧[17]Li ICL      → 新[24]    旧[18]Weyssow PEFT → 已删除
+  旧[19]CodeScore   → 新[25]    旧[20]Yang RAG     → 已删除
+  旧[21]凌仕翔      → 新[3]     旧[22]褚文奎       → 新[1]
+  旧[23]郑明琪      → 新[6]     旧[24]陈晓阳       → 新[8]
+  旧[25]王东清      → 新[4]
+  新增：张杨[5]  杜家乐[7]  Ghorbian[19]  CodeBC[20]
 
 ================================================================================
-  [1]  Wei 等. Chain-of-Thought Prompting（CoT）
+  ★ 中文文献 [1]–[8]（用户上传条目）
+================================================================================
+
+================================================================================
+  [1]  褚文奎, 张凤鸣, 樊晓光. 综合模块化航空电子系统软件体系结构综述
+================================================================================
+褚文奎, 张凤鸣, 樊晓光. 综合模块化航空电子系统软件体系结构综述[J].
+航空学报, 2009, 30(10): 1912-1917.
+
+  ✅ 毕业论文/综合模块化航空电子系统软件体系结构综述_褚文奎.caj
+  ✅ 毕业论文/综合模块化航空电子体系结构研究_张凤鸣.pdf （张凤鸣另有单独论文）
+  🔒 CNKI: 以期刊代码 HKXB200910019 或作者"褚文奎"+"航空学报"搜索
+  引用位置：§1.1（line 77），"核心软件平台[1]"
+
+================================================================================
+  [2]  陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用
+================================================================================
+陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用[J].
+电讯技术, 2009, 49(05): 89-92.
+
+  ✅ 毕业论文/ARINC653分区操作系统在综合模块化航空电子系统中的应用_陈娟.pdf
+  ⚠ 原条目期刊名"电信工程技术与标准化"、页码"1-4"均有误，已按用户上传条目订正。
+  引用位置：§1.1（line 79）；§2.1.1（line 139）
+
+================================================================================
+  [3]  凌仕翔, 杨志斌, 周勇. 面向ARINC653操作系统的综合化航空电子软件代码自动生成方法
+================================================================================
+凌仕翔, 杨志斌, 周勇. 面向ARINC653操作系统的综合化航空电子软件代码
+自动生成方法[J]. 计算机科学, 2024, 51(07): 10-21.
+
+  ✅ 毕业论文/面向ARINC653操作系统的综合化航空电子软件代码自动生成方法_凌仕翔__.pdf
+  ⚠ 原条目第二作者"杨之彬"、第三作者"周宇"、页码"1-9"均有误，已按用户上传条目订正。
+  引用位置：§1.1（line 81）；§1.2.2（line 97）；§3.2.1（line 229）
+
+================================================================================
+  [4]  王东清, 芦飞, 张炳会, 等. 大语言模型中提示词工程综述
+================================================================================
+王东清, 芦飞, 张炳会, 等. 大语言模型中提示词工程综述[J].
+计算机系统应用, 2025, 34(01): 1-10. DOI: 10.15888/j.cnki.csa.009782.
+
+  ✅ 毕业论文/大语言模型中提示词工程综述.pdf
+  🔒 CNKI DOI: https://doi.org/10.15888/j.cnki.csa.009782
+  引用位置：§1.2.1（line 91），"国内学者对提示词工程方法进行了系统综述[4]"
+
+================================================================================
+  [5]  张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示演化方法
+================================================================================
+张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示演化方法[J/OL].
+计算机科学, 1-19[2026-05-10].
+https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029.
+
+  🔗 CNKI 链接: https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029
+  引用位置：§1.2.1（line 91），"基于提示演化的代码重构自动化方法[5]"
+
+================================================================================
+  [6]  郑明琪, 陈晓慧, 刘冰, 等. 提示学习中思维链生成和增强方法综述
+================================================================================
+郑明琪, 陈晓慧, 刘冰, 等. 提示学习中思维链生成和增强方法综述[J].
+计算机科学, 2025, 52(01): 56-64.
+
+  🔒 CNKI: 以题名"提示学习中思维链"搜索；计算机科学杂志: http://www.jsjkx.com
+  引用位置：§1.2.1（line 91），"思维链技术的相关综述见[6][7]"
+
+================================================================================
+  [7]  杜家乐, 陈曙东, 叶亮, 等. 大语言模型中的思维链技术综述
+================================================================================
+杜家乐, 陈曙东, 叶亮, 等. 大语言模型中的思维链技术综述[J].
+无线电通信技术, 2025, 51(05): 877-887.
+
+  🔒 CNKI: 以题名"大语言模型中的思维链"搜索
+  引用位置：§1.2.1（line 91），"思维链技术的相关综述见[6][7]"
+
+================================================================================
+  [8]  陈晓阳. 大模型代码生成技术及航天领域潜在应用
+================================================================================
+陈晓阳. 大模型代码生成技术及航天领域潜在应用[J].
+航天控制, 2025, 43(1). DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006.
+
+  ✅ 毕业论文/大模型代码生成技术及航天领域潜在应用_陈晓阳.caj
+  🔒 CNKI: https://doi.org/10.16804/j.cnki.issn1006-3242.2025.01.006（需访问）
+  引用位置：§1.2.2（line 99），"需要专业提示策略的支撑[18][8]"
+
+================================================================================
+  英文文献 [9]–[25]
+================================================================================
+
+================================================================================
+  [9]  Wei 等. Chain-of-Thought Prompting（CoT）
 ================================================================================
 Wei J, Wang X, Schuurmans D, et al. Chain-of-Thought Prompting Elicits
 Reasoning in Large Language Models[C]//Advances in Neural Information
@@ -25,9 +125,10 @@ Processing Systems 35. NeurIPS, 2022: 24824-24837.
   🔗 NeurIPS 官方: https://proceedings.neurips.cc/paper/2022/hash/
                     9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html
   许可证: CC BY 4.0
+  引用位置：§1.2.1[9]; §2.4[9]; §3.3.2[9][12]; §3.3.4[9][12][24]
 
 ================================================================================
-  [2]  Kojima 等. Zero-Shot Reasoners
+  [10] Kojima 等. Zero-Shot Reasoners
 ================================================================================
 Kojima T, Gu S S, Reid M, et al. Large Language Models are Zero-Shot
 Reasoners[C]//Advances in Neural Information Processing Systems 35.
@@ -35,9 +136,10 @@ NeurIPS, 2022: 22199-22213.
 
   🔗 arxiv PDF:   https://arxiv.org/pdf/2205.11916
   🔗 arxiv 摘要:  https://arxiv.org/abs/2205.11916
+  引用位置：§1.2.1[10]; §2.4[10]; §3.3.1[10]
 
 ================================================================================
-  [3]  Wang 等. Plan-and-Solve Prompting
+  [11] Wang 等. Plan-and-Solve Prompting
 ================================================================================
 Wang L, Xu W, Lan Y, et al. Plan-and-Solve Prompting: Improving Zero-Shot
 Chain-of-Thought Reasoning by Large Language Models[C]//Proceedings of the
@@ -46,33 +148,33 @@ ACL, 2023: 2609-2634.
 
   🔗 arxiv PDF:   https://arxiv.org/pdf/2305.04091
   🔗 arxiv 摘要:  https://arxiv.org/abs/2305.04091
+  引用位置：§1.2.1[11]
 
 ================================================================================
-  [4]  Li 等. Structured CoT for Code Generation（SCoT）
+  [12] Li 等. Structured CoT for Code Generation（SCoT）
 ================================================================================
 Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for Code
 Generation[J]. ACM Transactions on Software Engineering and Methodology,
-2025, 34(2). Article 50.
+2025, 34(2). DOI: 10.1145/3690635.
 
   ✅ 毕业论文/Structured Chain-of-Thought Prompting for Code Generation.pdf
   🔗 arxiv 预印本: https://arxiv.org/abs/2305.06599
   🔒 ACM DOI:      https://doi.org/10.1145/3690635
+  引用位置：§1.2.1[12]; §2.4[12]; §3.3.2[9][12]; §3.3.4[9][12][24]; §4.x[12]; §5.x[12]
 
 ================================================================================
-  [5]  Lukić 等. Automated ARINC 653 Configuration（DASC 2018）
+  [13] Lukić 等. Automated ARINC 653 Configuration（DASC 2018）
 ================================================================================
 Lukić B, Friedrich S, Schubert T, et al. Automated Configuration of
 ARINC 653-Compliant Avionics Architectures[C]//AIAA/IEEE Digital Avionics
 Systems Conference (DASC). IEEE, 2018.
 
-  🔗 DLR elib（作者机构库）: https://elib.dlr.de/209380/
-  🔒 IEEE Xplore: https://ieeexplore.ieee.org
-       （以标题搜索，DASC 2018 会议 DOI 未能公开确认）
-  📌 参考：同组 AIAA SciTech 2024 更新版 DOI:
-       https://doi.org/10.2514/6.2024-1856
+  🔗 DLR elib: https://elib.dlr.de/209380/
+  🔒 IEEE Xplore（以标题搜索，DASC 2018）
+  引用位置：§1.1[13]; §1.2.2[13]
 
 ================================================================================
-  [6]  Lukić 等. Streamlined ARINC 653 Code Generation（DASC 2019）
+  [14] Lukić 等. Streamlined ARINC 653 Code Generation（DASC 2019）
 ================================================================================
 Lukić B, et al. A Streamlined Approach Toward Automated Generation and
 Validation of ARINC 653-Compliant Avionics Code[C]//AIAA/IEEE Digital
@@ -81,9 +183,10 @@ Avionics Systems Conference (DASC). IEEE, 2019.
   🔗 开放 PDF（DLR elib 期刊扩展版）:
        https://elib.dlr.de/221047/1/luki%C4%87-et-al-2025-a-streamlined-approach-toward-automated-generation-and-validation-of-arinc-653-compliant-avionics-2.pdf
   🔒 AIAA JAIS 期刊版 DOI: https://doi.org/10.2514/1.I011439
+  引用位置：§1.1[14]; §1.2.2[14]
 
 ================================================================================
-  [7]  Hugues & Delange. Model-Based AADL/ARINC653（Springer 2017）
+  [15] Hugues & Delange. Model-Based AADL/ARINC653（Springer 2017）
 ================================================================================
 Hugues J, Delange J. Model-Based Design and Automated Validation of
 ARINC653 Architectures Using the AADL[M]//Nakajima S, et al. (Eds.)
@@ -92,343 +195,150 @@ Springer, Singapore, 2017: 33-52.
 
   🔗 开放预印本（OATAO）: https://oatao.univ-toulouse.fr/15713/
   🔒 Springer DOI: https://doi.org/10.1007/978-981-10-4436-6_2
+  引用位置：§1.1[15]; §1.2.2[15]
 
 ================================================================================
-  [8]  AADL653: AADL-Based Formal Language for ARINC653（IEEE 2017）
-================================================================================
-[作者待补全] AADL653: An AADL-Based Formal Language for Modeling and
-Validation of ARINC653-Based Avionics Software[C]//IEEE, 2017.
-
-  🔗 ResearchGate（摘要可见）:
-       https://www.researchgate.net/publication/292061665
-  🔒 IEEE Xplore（以标题搜索）: https://ieeexplore.ieee.org
-  ⚠  原条目缺作者，建议通过 IEEE Xplore 查全作者和 DOI。
-
-================================================================================
-  [9]  Englhardt 等. LLM for Embedded System Development（CHI 2024）
+  [16] Englhardt 等. LLM for Embedded System Development（CHI EA 2024）
 ================================================================================
 Englhardt Z, Li R, Nissanka D, et al. Exploring and Characterizing Large
 Language Models for Embedded System Development and Debugging[C]//Extended
 Abstracts of the CHI Conference on Human Factors in Computing Systems.
-ACM, 2024.
+ACM, 2024. DOI: 10.1145/3613905.3650764.
 
   🔗 arxiv PDF:   https://arxiv.org/pdf/2307.03817
   🔗 arxiv 摘要:  https://arxiv.org/abs/2307.03817
   🔒 ACM DOI:     https://doi.org/10.1145/3613905.3650764
-  🔧 原条目会议名有误，已订正：
-       原: "61st Design Automation Conference (DAC)"
-       正: "CHI Conference on Human Factors in Computing Systems, 2024"
+  ⚠ 原条目会议名"DAC"有误，已订正为"CHI EA 2024"。
+  引用位置：§1.2.2[16]
 
 ================================================================================
-  [10] Fakih 等. LLM4PLC（ICSE-SEIP 2024）
+  [17] Fakih 等. LLM4PLC（ICSE-SEIP 2024）
 ================================================================================
 Fakih M, Dharmaji R, Moghaddas Y, et al. LLM4PLC: Harnessing Large
 Language Models for Verifiable Programming of PLCs in Industrial Control
 Systems[C]//Proceedings of the 46th International Conference on Software
 Engineering: Software Engineering in Practice. ACM, 2024.
+DOI: 10.1145/3639477.3639743.
 
   🔗 arxiv PDF:   https://arxiv.org/pdf/2401.05443
   🔗 arxiv 摘要:  https://arxiv.org/abs/2401.05443
   🔒 ACM DOI:     https://doi.org/10.1145/3639477.3639743
+  引用位置：§1.2.2[17]
 
 ================================================================================
-  [11] Babiuch & Smutný. LLM for Embedded Systems Programming
-================================================================================
-Babiuch M, Smutný P. Benchmarking Large Language Models for Embedded
-Systems Programming in Microcontroller-Driven IoT Applications[J].
-Future Internet (MDPI), 2026, 18(2): 94.
-
-  🔗 MDPI 页面（开放获取）: https://www.mdpi.com/1999-5903/18/2/94
-  🔗 直接 PDF:  https://www.mdpi.com/1999-5903/18/2/94/pdf
-  🔒 DOI:       https://doi.org/10.3390/fi18020094
-  🔧 原条目期刊名有误，已订正：
-       原: "Electronics, 2024"
-       正: "Future Internet (MDPI), 2026, 18(2): 94"
-
-================================================================================
-  [12] He 等. LLM for Aerospace Code Generation
+  [18] He 等. LLM for Aerospace Code Generation（Aerospace MDPI 2025）
 ================================================================================
 He R, Zhang L, Lyu M, et al. Using Large Language Models for Aerospace
 Code Generation: Methods, Benchmarks, and Potential Values[J].
-Aerospace (MDPI), 2025, 12(6): 498.
+Aerospace (MDPI), 2025, 12(6): 498. DOI: 10.3390/aerospace12060498.
 
   🔗 MDPI 页面（开放获取）: https://www.mdpi.com/2226-4310/12/6/498
   🔗 直接 PDF:  https://www.mdpi.com/2226-4310/12/6/498/pdf
   🔒 DOI:       https://doi.org/10.3390/aerospace12060498
-  🔧 原条目缺作者且年份有误，已订正：
-       原: 无作者，"Aerospace, 2024"
-       正: He R, Zhang L, Lyu M, Lyu L, Xue C（中国科学院国家空间
-           科学中心），"Aerospace, 2025, 12(6)"
+  ⚠ 原条目缺作者，年份"2024"有误，已订正为 He R 等，2025。
+  引用位置：§1.2.2[18]
 
 ================================================================================
-  [13] Jiang 等. Survey on LLMs for Code Generation（TOSEM）
+  [19] Ghorbian 等. Large language models for code generation: A survey
+================================================================================
+Ghorbian M, Arani G M, Shakarami A. Large language models for code
+generation: A survey[J]. Computer Standards & Interfaces, 2026, 98: 104165.
+DOI: 10.1016/J.CSI.2026.104165.
+
+  🔒 Elsevier DOI: https://doi.org/10.1016/J.CSI.2026.104165
+  来源: 用户参考文献条目.txt 第7条
+  引用位置：§1.2.1（line 89）；§1.2.1（line 93）
+
+================================================================================
+  [20] Wang L 等. CodeBC: Secure LLM for smart contract code generation
+================================================================================
+Wang L, Zhang H, Zhang Q, et al. CodeBC: A more secure large language
+model for smart contract code generation in blockchain[J].
+Neurocomputing, 2026, 688: 133741. DOI: 10.1016/J.NEUCOM.2026.133741.
+
+  🔒 Elsevier DOI: https://doi.org/10.1016/J.NEUCOM.2026.133741
+  来源: 用户参考文献条目.txt 第6条
+  引用位置：§1.2.1（line 93），区块链智能合约代码生成示例
+
+================================================================================
+  [21] Jiang 等. Survey on LLMs for Code Generation（TOSEM）
 ================================================================================
 Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for
 Code Generation[J]. ACM Transactions on Software Engineering and
-Methodology, 2024/2025.
+Methodology, 2024. DOI: 10.1145/3747588.
 
   🔗 arxiv PDF:   https://arxiv.org/pdf/2406.00515
   🔗 arxiv 摘要:  https://arxiv.org/abs/2406.00515
   🔒 ACM DOI:     https://doi.org/10.1145/3747588
+  引用位置：§1.2.1[21]; §2.4[21]
 
 ================================================================================
-  [14] 陈娟. ARINC653分区操作系统在IMA系统中的应用
-================================================================================
-陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用[J].
-电讯技术, 2009, 49(05): 89-92.
-
-  ✅ 毕业论文/ARINC653分区操作系统在综合模块化航空电子系统中的应用_陈娟.pdf
-  🔧 原条目存在偏差，用户参考文献条目.txt 提供了准确版本：
-       原期刊: "电信工程技术与标准化"  → 正: "电讯技术"
-       原页码: "1-4"                    → 正: "89-92"
-
-================================================================================
-  [15] Gu 等. LLM for Domain-Specific Code Generation（TOSEM）
+  [22] Gu 等. LLM for Domain-Specific Code Generation（TOSEM）
 ================================================================================
 Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language Models
 in Domain-Specific Code Generation[J]. ACM Transactions on Software
-Engineering and Methodology, 2025, 34(3).
+Engineering and Methodology, 2025, 34(3). DOI: 10.1145/3697012.
 
   ✅ 毕业论文/On the Effectiveness of Large Language Models in
       Domain-Specific Code Generation.pdf
   🔒 ACM DOI: https://doi.org/10.1145/3697012
+  引用位置：§1.2.1[22]; §4.x[22]; §5.4[22]
 
 ================================================================================
-  [16] Tony 等. Prompting Techniques for Secure Code Generation（TOSEM）
+  [23] Tony 等. Prompting Techniques for Secure Code Generation（TOSEM）
 ================================================================================
 Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for
 Secure Code Generation: A Systematic Investigation[J]. ACM Transactions
-on Software Engineering and Methodology, 2025, 34(8).
+on Software Engineering and Methodology, 2025, 34(8). DOI: 10.1145/3722108.
 
   🔒 ACM DOI: https://doi.org/10.1145/3722108
-  ⚠  毕业论文/ 目录中未找到此文件，建议从上方 DOI 下载（需机构访问）。
+  ⚠ 毕业论文/ 目录中未找到此文件，建议从上方 DOI 下载（需机构访问）。
+  引用位置：§1.2.1[23]; §4.x[23]
 
 ================================================================================
-  [17] Li 等. LLM-Aware In-Context Learning（TOSEM）
+  [24] Li 等. LLM-Aware In-Context Learning（TOSEM）
 ================================================================================
 Li J, Tao C, Li J, et al. Large Language Model-Aware In-Context Learning
 for Code Generation[J]. ACM Transactions on Software Engineering and
-Methodology, 2025, 34(7).
+Methodology, 2025, 34(7). DOI: 10.1145/3715908.
 
   ✅ 毕业论文/Large Language Model-Aware In-Context Learning for
       Code Generation.pdf
   🔒 ACM DOI: https://doi.org/10.1145/3715908
+  引用位置：§1.2.1[24]; §2.4[24]; §3.3.3[24]; §3.3.4[24]
 
 ================================================================================
-  [18] Weyssow 等. PEFT for Code Generation（TOSEM）
-================================================================================
-Weyssow M, Sahraoui H, Zhou X, et al. Exploring Parameter-Efficient
-Fine-Tuning Techniques for Code Generation with Large Language Models[J].
-ACM Transactions on Software Engineering and Methodology, 2025, 34(7).
-
-  ✅ 毕业论文/Exploring Parameter-Efficient Fine-Tuning Techniques for
-      Code Generation with Large Language Models.pdf
-  🔒 ACM DOI: https://doi.org/10.1145/3714461
-
-================================================================================
-  [19] Dong 等. CodeScore（TOSEM）
+  [25] Dong 等. CodeScore（TOSEM）
 ================================================================================
 Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by
 Learning Code Execution[J]. ACM Transactions on Software Engineering and
-Methodology, 2025, 34(3).
+Methodology, 2025, 34(3). DOI: 10.1145/3695991.
 
   ✅ 毕业论文/Evaluating Code Generation by Learning Code Execution.pdf
   🔒 ACM DOI: https://doi.org/10.1145/3695991
+  引用位置：§2.4[25]; §4.1[25]; §4.4[25]; §5.4[25]
 
 ================================================================================
-  [20] Yang 等. Retrieval-Augmented Code Generation（TOSEM）
-================================================================================
-Yang Z, Chen S, Gao C, et al. An Empirical Study of Retrieval-Augmented
-Code Generation: Challenges and Opportunities[J]. ACM Transactions on
-Software Engineering and Methodology, 2025, 34(7).
-
-  ✅ 毕业论文/An Empirical Study of Retrieval-Augmented Code Generation
-      Challenges and Opportunities.pdf
-  🔒 ACM DOI: https://doi.org/10.1145/3717061
-
-================================================================================
-  [21] 凌仕翔等. ARINC653自动代码生成（计算机科学 2024）
-================================================================================
-凌仕翔, 杨志斌, 周勇. 面向ARINC653操作系统的综合化航空电子软件代码
-自动生成方法[J]. 计算机科学, 2024, 51(07): 10-21.
-
-  ✅ 毕业论文/面向ARINC653操作系统的综合化航空电子软件代码自动
-      生成方法_凌仕翔__.pdf
-  🔧 原条目存在偏差，用户参考文献条目.txt 提供了准确版本：
-       原第二作者: "杨之彬"  → 正: "杨志斌"（导师，同一人）
-       原第三作者: "周宇"    → 正: "周勇"
-       原页码:     "1-9"     → 正: "10-21"
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ★ 新增文献 [22]–[25]（来自参考文献条目.txt 和 毕业论文/）
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-================================================================================
-  ★ [22] 褚文奎等. IMA软件体系结构综述（航空学报 2009）
-================================================================================
-褚文奎, 张凤鸣, 樊晓光. 综合模块化航空电子系统软件体系结构综述[J].
-航空学报, 2009, 30(10): 1912-1917.
-
-  来源: 参考文献条目.txt 第1条（用户上传，完整页码已核实）
-  ✅ 毕业论文/综合模块化航空电子系统软件体系结构综述_褚文奎.caj
-  ✅ 毕业论文/综合模块化航空电子体系结构研究_张凤鸣.pdf
-       （张凤鸣另有单独论文，但与褚文奎合作的这篇是本条目）
-  🔒 CNKI: https://www.cnki.net
-       以期刊代码 HKXB200910019 或作者"褚文奎"+"航空学报"搜索
-
-  ┌─ 插入位置 ─────────────────────────────────────────────────────────────┐
-  │ thesis_revised.md 约第 75 行，§1.1 研究背景                           │
-  │                                                                         │
-  │ 原文末尾：                                                              │
-  │   "...已成为波音787、空客A380等现代民航客机的核心软件平台。"           │
-  │                                                                         │
-  │ → 改为：                                                                │
-  │   "...已成为波音787、空客A380等现代民航客机的核心软件平台[22]。"       │
-  └─────────────────────────────────────────────────────────────────────────┘
-
-================================================================================
-  ★ [23] 郑明琪等. 提示学习中思维链生成和增强方法综述
-================================================================================
-郑明琪, 陈晓慧, 刘冰, 等. 提示学习中思维链生成和增强方法综述[J].
-计算机科学, 2025, 52(01): 56-64.
-
-  来源: 参考文献条目.txt 第8条（用户上传）
-  🔒 CNKI: https://www.cnki.net（以题名"提示学习中思维链"搜索）
-       计算机科学杂志网站: http://www.jsjkx.com
-
-  ┌─ 插入位置 ─────────────────────────────────────────────────────────────┐
-  │ thesis_revised.md 约第 91 行，§1.2.1 大语言模型代码生成               │
-  │                                                                         │
-  │ 在"少样本情境学习..."段落末尾（[17]引用之后）追加：                   │
-  │   "思维链生成与增强方法的系统综述见[23]。"                            │
-  │                                                                         │
-  │ 或在 CoT 提示技术相关句（[1]引用处）末追加 [23]：                     │
-  │   "...引导模型逐步推理来提升复杂任务的完成质量[1][23]"               │
-  └─────────────────────────────────────────────────────────────────────────┘
-
-================================================================================
-  ★ [24] 陈晓阳. 大模型代码生成技术及航天领域潜在应用
-================================================================================
-陈晓阳. 大模型代码生成技术及航天领域潜在应用[J].
-航天控制, 2025, 43(1).
-DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006
-
-  ✅ 毕业论文/大模型代码生成技术及航天领域潜在应用_陈晓阳.caj
-  🔒 CNKI: https://www.cnki.net（以 DOI 或题名搜索，ISSN 1006-3242）
-
-  ┌─ 插入位置 ─────────────────────────────────────────────────────────────┐
-  │ thesis_revised.md 约第 99 行，§1.2.2 末句                             │
-  │                                                                         │
-  │ 原文："...LLM在结构化规范翻译任务中具有应用潜力，但需要专业提示       │
-  │        策略的支撑[12]。"                                               │
-  │                                                                         │
-  │ → 改为："...LLM在结构化规范翻译任务中具有应用潜力，但需要专业提示     │
-  │          策略的支撑[12][24]。"                                          │
-  └─────────────────────────────────────────────────────────────────────────┘
-
-================================================================================
-  ★ [25] 王东清等. 大语言模型中提示词工程综述
-================================================================================
-王东清, 芦飞, 张炳会, 等. 大语言模型中提示词工程综述[J].
-计算机系统应用, 2025, 34(01): 1-10.
-DOI: 10.15888/j.cnki.csa.009782
-
-  来源: 参考文献条目.txt 第4条（用户上传，含完整页码和 DOI）
-  ✅ 毕业论文/大语言模型中提示词工程综述.pdf
-  🔒 CNKI: https://doi.org/10.15888/j.cnki.csa.009782
-
-  ┌─ 插入位置 ─────────────────────────────────────────────────────────────┐
-  │ thesis_revised.md 约第 91 行，§1.2.1 提示工程方法段落末               │
-  │                                                                         │
-  │ 在"面向安全性的提示技术..."句（[16]处）之后追加：                     │
-  │   "提示词工程方法的系统综述与分类见[25]。"                            │
-  └─────────────────────────────────────────────────────────────────────────┘
-
-================================================================================
-  参考文献条目.txt 中其余条目说明（供后续扩充用）
+  用户参考文献条目.txt 中未纳入本次 25 篇的条目（可在下一版扩充时使用）
 ================================================================================
 
-以下条目来自用户上传的参考文献条目.txt，未纳入本次 25 篇（额度已满），
-可在下一版扩充时优先考虑：
-
-  条目5: 张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示
-         演化方法[J/OL]. 计算机科学, 2026.
-         🔗 https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029
-
-  条目6: Wang L, Zhang H, Zhang Q, et al. CodeBC: A more secure large
-         language model for smart contract code generation in
-         blockchain[J]. Neurocomputing, 2026, 688: 133741.
-         🔒 DOI: https://doi.org/10.1016/J.NEUCOM.2026.133741
-
-  条目7: Ghorbian M, Arani G M, Shakarami A. Large language models for
-         code generation: A survey[J]. Computer Standards & Interfaces,
-         2026, 98: 104165.
-         🔒 DOI: https://doi.org/10.1016/J.CSI.2026.104165
-
-  条目9: 杜家乐, 陈曙东, 叶亮, 等. 大语言模型中的思维链技术综述[J].
-         无线电通信技术, 2025, 51(05): 877-887.
-         🔒 CNKI（以题名搜索）
+  已全部纳入：褚文奎[1], 陈娟[2], 凌仕翔[3], 王东清[4], 张杨[5],
+              郑明琪[6], 杜家乐[7], Ghorbian[19], CodeBC[20]
+  用户上传9条已全部收录。
 
 ================================================================================
-  汇总表（论文修改速查）
+  汇总统计
 ================================================================================
 
-编号  类别    引用位置（行）   文件/链接状态          需要的操作
-----  ------  ---------------  ---------------------  -------------------------
-[1]   现有    91               🔗 arxiv 2201.11903    —
-[2]   现有    91               🔗 arxiv 2205.11916    —
-[3]   现有    91               🔗 arxiv 2305.04091    —
-[4]   现有    91               ✅ 仓库有文件          —
-[5]   现有    81               🔗 elib.dlr.de/209380  —
-[6]   现有    81               🔗 elib.dlr.de/221047  —
-[7]   现有    81               🔗 oatao.univ-toulouse —
-[8]   现有    81               🔗 researchgate        ⚠ 补全作者
-[9]   现有    99               🔗 arxiv 2307.03817    🔧 更正会议名称
-[10]  现有    99               🔗 arxiv 2401.05443    —
-[11]  现有    99               🔗 mdpi.com/1999-5903  🔧 更正期刊名+年份
-[12]  现有    99               🔗 mdpi.com/2226-4310  🔧 补全作者+更正年份
-[13]  现有    89               🔗 arxiv 2406.00515    —
-[14]  现有    79               ✅ 仓库有文件          🔧 更正期刊名+页码
-[15]  现有    89               ✅ 仓库有文件          —
-[16]  现有    91               🔒 doi/10.1145/3722108  ⚠ 下载文件
-[17]  现有    91               ✅ 仓库有文件          —
-[18]  现有    93               ✅ 仓库有文件          —
-[19]  现有    193              ✅ 仓库有文件          —
-[20]  现有    93               ✅ 仓库有文件          —
-[21]  现有    81               ✅ 仓库有文件          🔧 更正作者+页码
-[22]  ★新增  75（§1.1）       ✅ 仓库有文件(.caj)   在"平台"后加[22]
-[23]  ★新增  91（§1.2.1）     🔒 CNKI               追加句子引用[23]
-[24]  ★新增  99（§1.2.2）     ✅ 仓库有文件(.caj)   [12]改[12][24]
-[25]  ★新增  91（§1.2.1）     ✅ 仓库有文件(.pdf)   追加句子引用[25]
+  中文文献：[1]–[8]  共 8 篇（32%）
+  英文文献：[9]–[25] 共 17 篇（68%）
+  总计：25 篇
 
-================================================================================
-  需要在 thesis_revised.md 中修正的原有引用条目（第 944–984 行）
-================================================================================
-
-[14] 第 970 行 — 期刊名和页码需更正：
-     原: 电信工程技术与标准化, 2009, 49(5): 1-4.
-     正: 电讯技术, 2009, 49(05): 89-92.
-
-[21] 第 984 行 — 作者和页码需更正：
-     原: 凌仕翔, 杨之彬, 周宇. ...计算机科学, 2024, 51(7): 1-9.
-     正: 凌仕翔, 杨志斌, 周勇. ...计算机科学, 2024, 51(07): 10-21.
-
-[9]  第 960 行 — 会议名需更正：
-     原: "61st Design Automation Conference (DAC)"
-     正: Extended Abstracts of the CHI Conference on Human Factors in
-         Computing Systems (CHI EA 2024). ACM, 2024.
-
-[11] 第 964 行 — 期刊名和年份需更正：
-     原: Electronics, 2024.
-     正: Future Internet (MDPI), 2026, 18(2): 94.
-     DOI: 10.3390/fi18020094
-
-[12] 第 966 行 — 补全作者和更正年份：
-     原: Using Large Language Models for Aerospace Code Generation...
-         Aerospace, 2024.（无作者）
-     正: He R, Zhang L, Lyu M, et al. Using Large Language Models for
-         Aerospace Code Generation...Aerospace (MDPI), 2025, 12(6): 498.
-     DOI: 10.3390/aerospace12060498
+  删除的原有条目（与正文引用保持一致，已从正文移除）：
+    原[8]  AADL653匿名论文（缺作者、信息不完整）
+    原[11] Babiuch IoT嵌入式（与本文主题偏离）
+    原[18] Weyssow PEFT（已被综述文献覆盖）
+    原[20] Yang RAG（已被综述文献覆盖）
 
 ================================================================================
   end

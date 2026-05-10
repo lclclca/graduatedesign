@@ -74,11 +74,11 @@ Results show that the Combined strategy achieves the highest three-dimensional s
 
 ## 1.1 研究背景
 
-航空电子系统是现代民用飞机的核心组成部分，其可靠性和安全性直接关系到飞行安全。随着飞机功能的不断扩展和集成需求的增加，传统的联合式航空电子架构（Federated Avionics）因资源利用率低、扩展性差等问题，逐渐被综合模块化航空电子（Integrated Modular Avionics，IMA）架构所取代。IMA架构通过共享通用计算平台承载多个功能分区，在降低硬件成本的同时提供更强的系统集成能力，已成为波音787、空客A380等现代民航客机的核心软件平台。
+航空电子系统是现代民用飞机的核心组成部分，其可靠性和安全性直接关系到飞行安全。随着飞机功能的不断扩展和集成需求的增加，传统的联合式航空电子架构（Federated Avionics）因资源利用率低、扩展性差等问题，逐渐被综合模块化航空电子（Integrated Modular Avionics，IMA）架构所取代。IMA架构通过共享通用计算平台承载多个功能分区，在降低硬件成本的同时提供更强的系统集成能力，已成为波音787、空客A380等现代民航客机的核心软件平台[1]。
 
-ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线电技术委员会（AERONAUTICAL RADIO, INCORPORATED）制定。该标准定义了应用程序执行环境（Application EXecutive，APEX）服务接口，包括进程管理、分区间通信（采样端口、队列端口）、分区内通信（黑板、缓冲区）和分区模式管理等核心功能，是保证多功能分区在同一物理平台上安全隔离运行的技术基础[14]。
+ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线电技术委员会（AERONAUTICAL RADIO, INCORPORATED）制定。该标准定义了应用程序执行环境（Application EXecutive，APEX）服务接口，包括进程管理、分区间通信（采样端口、队列端口）、分区内通信（黑板、缓冲区）和分区模式管理等核心功能，是保证多功能分区在同一物理平台上安全隔离运行的技术基础[2]。
 
-然而，手工编写符合ARINC 653标准的C代码面临显著挑战。首先，APEX API数量庞大且参数复杂，工程师需要深入理解标准细节；其次，分区代码结构固定但冗长，每个分区通常需要编写包括main.c、activity.c、deployment.h等在内的11个C/H源文件；再者，AADL架构描述与C代码实现之间存在大量需要人工对应的映射关系，极易产生遗漏或不一致。国内外研究者已尝试基于模型驱动工程（MDE）实现从AADL模型到ARINC 653代码的自动生成[5][6][7][8][21]，但这类方法依赖专用工具链，对模型的形式化程度要求高，在工程实践中推广受限。
+然而，手工编写符合ARINC 653标准的C代码面临显著挑战。首先，APEX API数量庞大且参数复杂，工程师需要深入理解标准细节；其次，分区代码结构固定但冗长，每个分区通常需要编写包括main.c、activity.c、deployment.h等在内的11个C/H源文件；再者，AADL架构描述与C代码实现之间存在大量需要人工对应的映射关系，极易产生遗漏或不一致。国内外研究者已尝试基于模型驱动工程（MDE）实现从AADL模型到ARINC 653代码的自动生成[13][14][15][3]，但这类方法依赖专用工具链，对模型的形式化程度要求高，在工程实践中推广受限。
 
 近年来，大语言模型（Large Language Model，LLM）在代码生成领域展现出前所未有的能力，为ARINC 653分区代码的自动生成提供了新的技术路径。利用提示工程（Prompt Engineering）引导LLM生成结构化、规范化代码，有望在不依赖专用工具链的情况下实现高质量的ARINC 653代码自动生成。
 
@@ -86,17 +86,17 @@ ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线�
 
 ### 1.2.1 大语言模型代码生成
 
-大语言模型在代码生成领域展现出了显著能力。以GPT-4、Claude、Gemini为代表的通用大语言模型，在HumanEval、MBPP等代码基准测试上的通过率已超过人类平均水平[13]。研究表明，LLM在开放领域代码生成中表现优异，但在领域专有代码生成场景下面临显著挑战，特别是当目标代码需遵循特定API规范和隐式约定时，模型的表现会大幅下降[15]。
+大语言模型在代码生成领域展现出了显著能力。以GPT-4、Claude、Gemini为代表的通用大语言模型，在HumanEval、MBPP等代码基准测试上的通过率已超过人类平均水平[21]；大语言模型代码生成能力的综述研究见[19]。研究表明，LLM在开放领域代码生成中表现优异，但在领域专有代码生成场景下面临显著挑战，特别是当目标代码需遵循特定API规范和隐式约定时，模型的表现会大幅下降[22]。
 
-在提示工程方法方面，Wei等人提出的思维链（Chain-of-Thought，CoT）提示技术通过引导模型逐步推理来提升复杂任务的完成质量[1]；Kojima等人发现仅凭"让我们一步一步思考"这样的零样本触发词即可激发模型的推理能力[2]；Wang等人在此基础上提出了计划-求解（Plan-and-Solve）提示框架，进一步提升零样本推理质量[3]。针对代码生成的结构化思维链（SCoT）方法通过显式引入编程结构（顺序/分支/循环）来指导代码推理，在HumanEval等基准上超越CoT方法达13.79%[4]。少样本情境学习（In-Context Learning）通过选取高质量示例引导LLM生成目标格式代码，示例质量对性能影响显著[17]。面向安全性的提示技术研究表明，不同提示策略对生成代码的安全性和规范符合度有系统性影响，递归批评改进（RCI）等技术可显著减少安全弱点[16]。
+在提示工程方法方面，Wei等人提出的思维链（Chain-of-Thought，CoT）提示技术通过引导模型逐步推理来提升复杂任务的完成质量[9]；Kojima等人发现仅凭"让我们一步一步思考"这样的零样本触发词即可激发模型的推理能力[10]；Wang等人在此基础上提出了计划-求解（Plan-and-Solve）提示框架，进一步提升零样本推理质量[11]。针对代码生成的结构化思维链（SCoT）方法通过显式引入编程结构（顺序/分支/循环）来指导代码推理，在HumanEval等基准上超越CoT方法达13.79%[12]。少样本情境学习（In-Context Learning）通过选取高质量示例引导LLM生成目标格式代码，示例质量对性能影响显著[24]。面向安全性的提示技术研究表明，不同提示策略对生成代码的安全性和规范符合度有系统性影响，递归批评改进（RCI）等技术可显著减少安全弱点[23]。国内学者对提示词工程方法进行了系统综述[4]，并探索了基于提示演化的代码重构自动化方法[5]；思维链技术的相关综述见[6][7]。
 
-除提示工程外，参数高效微调（PEFT）和检索增强代码生成（RAG）也是当前LLM代码生成的两条主要路线。PEFT方法（如LoRA、Adapter）通过仅调整少量参数对LLM进行领域适应，在多个代码生成数据集上超越基于提示的方法[18]；RAG方法通过检索相关代码片段并注入提示来增强代码生成能力，在语义差距较大的领域任务中效果显著[20]。然而，这两类方法均需要领域训练数据或代码库，在ARINC 653这类代码样本极为稀少的专业领域中，构建此类数据集的代价远高于设计提示词模板。
+除提示工程外，参数高效微调（PEFT）和检索增强代码生成（RAG）也是当前LLM代码生成的两条主要路线。PEFT方法（如LoRA、Adapter）通过仅调整少量参数对LLM进行领域适应，在多个代码生成数据集上超越基于提示的方法；RAG方法通过检索相关代码片段并注入提示来增强代码生成能力，在语义差距较大的领域任务中效果显著；此外，面向特定领域（如区块链智能合约）的专用安全代码生成研究[20]也验证了LLM在约束性代码生成场景中的应用潜力[19]。然而，这两类方法均需要领域训练数据或代码库，在ARINC 653这类代码样本极为稀少的专业领域中，构建此类数据集的代价远高于设计提示词模板。
 
 ### 1.2.2 领域专用代码自动生成
 
-在航空领域，基于模型驱动工程的代码生成方法已有较成熟的研究。Hugues和Delange提出利用AADL模型和Ocarina工具链自动生成ARINC 653分区代码[7]；Lukić等人则提出了基于系统架构模型自动生成和验证ARINC 653合规航空代码的流水线方法[5][6]；AADL653形式化语言提供了专门针对ARINC 653建模和验证的语言扩展[8]。国内，南京航空航天大学安全关键软件研究课题组提出HMC\ARINC653 AADL属性集扩展和从IMA模型到C代码的映射规则，实现了基于Eclipse插件的IMACGT工具（约8800行Java代码），生成代码经Cppcheck静态分析满足MISRA C安全编码规范，并在包含18个分区、70个线程的飞行管理系统上完成了验证[21]。然而，该方法依赖专用Java工具链和形式化AADL扩展建模，对工程师的领域建模能力要求较高；本文的LLM提示工程路径以结构化JSON规格为输入，无需构建专用工具链，探索了一条零工具依赖的ARINC 653代码自动生成方案。
+在航空领域，基于模型驱动工程的代码生成方法已有较成熟的研究。Hugues和Delange提出利用AADL模型和Ocarina工具链自动生成ARINC 653分区代码[15]；Lukić等人则提出了基于系统架构模型自动生成和验证ARINC 653合规航空代码的流水线方法[13][14]。国内，南京航空航天大学安全关键软件研究课题组提出HMC\ARINC653 AADL属性集扩展和从IMA模型到C代码的映射规则，实现了基于Eclipse插件的IMACGT工具（约8800行Java代码），生成代码经Cppcheck静态分析满足MISRA C安全编码规范，并在包含18个分区、70个线程的飞行管理系统上完成了验证[3]。然而，该方法依赖专用Java工具链和形式化AADL扩展建模，对工程师的领域建模能力要求较高；本文的LLM提示工程路径以结构化JSON规格为输入，无需构建专用工具链，探索了一条零工具依赖的ARINC 653代码自动生成方案。
 
-在嵌入式和航天领域LLM应用方面，Englhardt等人系统考察了LLM在嵌入式系统开发中的能力边界[9]；Fakih等人提出了LLM4PLC方法，将LLM与形式化验证相结合用于工业控制代码生成[10]；Babiuch等人对多个LLM在微控制器驱动应用编程任务上进行了系统基准测试[11]；面向航天领域的LLM代码生成研究表明，LLM在结构化规范翻译任务中具有应用潜力，但需要专业提示策略的支撑[12]。
+在嵌入式和航天领域LLM应用方面，Englhardt等人系统考察了LLM在嵌入式系统开发中的能力边界[16]；Fakih等人提出了LLM4PLC方法，将LLM与形式化验证相结合用于工业控制代码生成[17]；面向航天领域的LLM代码生成研究表明，LLM在结构化规范翻译任务中具有应用潜力，但需要专业提示策略的支撑[18][8]。
 
 现有研究在面向ARINC 653这类对规范符合性要求极高的安全关键代码生成方面尚缺乏系统性研究，特别是针对不同提示策略的定量比较和面向ARINC 653标准的专用评估框架设计方面存在空白，这正是本文的研究切入点。
 
@@ -136,7 +136,7 @@ ARINC 653是规范IMA系统分区软件接口的核心标准，由航空无线�
 
 ### 2.1.1 分区模型
 
-ARINC 653将一个物理计算节点划分为若干分区（Partition），每个分区拥有独占的内存空间和周期性的CPU时间窗口。分区调度由操作系统根据主帧（Major Frame，MAF）配置循环执行，每个分区在每个MAF周期内获得固定的时间片，分区之间在时间和空间上完全隔离，任何分区的故障均不会直接影响其他分区的运行状态。这种强隔离机制是IMA架构实现安全关键系统混合部署的基础[14]。
+ARINC 653将一个物理计算节点划分为若干分区（Partition），每个分区拥有独占的内存空间和周期性的CPU时间窗口。分区调度由操作系统根据主帧（Major Frame，MAF）配置循环执行，每个分区在每个MAF周期内获得固定的时间片，分区之间在时间和空间上完全隔离，任何分区的故障均不会直接影响其他分区的运行状态。这种强隔离机制是IMA架构实现安全关键系统混合部署的基础[2]。
 
 ### 2.1.2 APEX服务接口
 
@@ -190,15 +190,15 @@ AADL模型作为系统架构的权威描述，其中包含了生成分区代码�
 
 ### 2.4.1 大语言模型
 
-大语言模型是基于Transformer架构在海量文本语料上预训练的语言模型，具有强大的文本理解和生成能力。当前主流的大语言模型（如GPT-4、Claude 3.5等）在代码生成、逻辑推理、知识问答等任务上已达到甚至超越人类平均水平[13]。近年来，LLM的代码生成能力成为重要研究方向，代码评估方法也在不断演进——从基于文本匹配的方法（如BLEU）到基于执行语义的方法（如CodeScore[19]），评估粒度不断向功能正确性靠近。
+大语言模型是基于Transformer架构在海量文本语料上预训练的语言模型，具有强大的文本理解和生成能力。当前主流的大语言模型（如GPT-4、Claude 3.5等）在代码生成、逻辑推理、知识问答等任务上已达到甚至超越人类平均水平[21]。近年来，LLM的代码生成能力成为重要研究方向，代码评估方法也在不断演进——从基于文本匹配的方法（如BLEU）到基于执行语义的方法（如CodeScore[25]），评估粒度不断向功能正确性靠近。
 
 ### 2.4.2 四类提示策略
 
-**零样本提示（Zero-Shot，ZS）**：仅向模型提供任务描述和输入数据，不提供任何示例。模型依赖预训练知识直接生成输出。零样本提示实现简单，但对模型的领域知识储备要求较高，在专业领域任务中效果往往不稳定[2]。
+**零样本提示（Zero-Shot，ZS）**：仅向模型提供任务描述和输入数据，不提供任何示例。模型依赖预训练知识直接生成输出。零样本提示实现简单，但对模型的领域知识储备要求较高，在专业领域任务中效果往往不稳定[10]。
 
-**思维链提示（Chain-of-Thought，CoT）**：在提示词中要求模型在给出最终答案前进行逐步推理，将复杂问题分解为多个子步骤[1]。研究表明，思维链显著提升了模型在数学推理和逻辑推理任务上的表现。针对代码生成，结构化思维链（SCoT）通过显式引入编程结构指导推理过程，进一步提升了CoT的代码生成效果[4]。
+**思维链提示（Chain-of-Thought，CoT）**：在提示词中要求模型在给出最终答案前进行逐步推理，将复杂问题分解为多个子步骤[9]。研究表明，思维链显著提升了模型在数学推理和逻辑推理任务上的表现。针对代码生成，结构化思维链（SCoT）通过显式引入编程结构指导推理过程，进一步提升了CoT的代码生成效果[12]。
 
-**少样本提示（Few-Shot，FS）**：在提示词中提供若干输入-输出示例对，引导模型学习目标格式和风格。LLM感知的示例质量对少样本性能有决定性影响，高质量示例的选取策略是In-Context Learning研究的核心问题[17]。少样本提示能够有效传递领域特定的代码风格和约束，对于格式固定的代码生成任务尤为有效。
+**少样本提示（Few-Shot，FS）**：在提示词中提供若干输入-输出示例对，引导模型学习目标格式和风格。LLM感知的示例质量对少样本性能有决定性影响，高质量示例的选取策略是In-Context Learning研究的核心问题[24]。少样本提示能够有效传递领域特定的代码风格和约束，对于格式固定的代码生成任务尤为有效。
 
 **组合策略（Combined）**：将少样本示例与思维链推理步骤相结合，同时利用示例的格式引导和推理链的逻辑分析优势。理论上，组合策略能够在继承少样本格式学习能力的同时，通过逐步分析减少因模型"直接套用"示例而产生的错误。
 
@@ -226,7 +226,7 @@ AADL模型作为系统架构的权威描述，其中包含了生成分区代码�
 
 AADL模型文件包含大量形式化语言噪声（关键字、括号、缩进、注释、属性单位换算等），直接将AADL原文作为提示词输入会给LLM带来额外的语法解析负担，增加数值解读错误的概率（例如将"50ms"解读为毫秒而非将其换算为纳秒后写入代码）。为此，本文在LLM调用之前设计了一个中间表示层：将AADL模型提炼为精简的JSON规格，去除所有语法噪声，以扁平的键值结构呈现所有生成代码所需的语义信息。
 
-实验也证实了这一决策的价值：在少样本和组合策略中，LLM通过JSON规格直接读取`period_ms`字段，在代码中正确写出纳秒数值（如`25 × 1000000 = 25000000ll`）；而在零样本和思维链策略中，偶有分区出现`deployment.h`数量宏取值错误，分析原因之一即是模型对JSON字段与宏常量的对应关系存在误判。这种轻量级预处理与凌仕翔等人[21]采用HMC\ARINC653 AADL扩展属性集传递IMA语义的思路异曲同工，区别在于本文的JSON中间层专为LLM上下文格式设计，以最小信息量满足提示词需求，避免了形式化AADL工具链的引入。
+实验也证实了这一决策的价值：在少样本和组合策略中，LLM通过JSON规格直接读取`period_ms`字段，在代码中正确写出纳秒数值（如`25 × 1000000 = 25000000ll`）；而在零样本和思维链策略中，偶有分区出现`deployment.h`数量宏取值错误，分析原因之一即是模型对JSON字段与宏常量的对应关系存在误判。这种轻量级预处理与凌仕翔等人[3]采用HMC\ARINC653 AADL扩展属性集传递IMA语义的思路异曲同工，区别在于本文的JSON中间层专为LLM上下文格式设计，以最小信息量满足提示词需求，避免了形式化AADL工具链的引入。
 
 ### 3.2.2 规格JSON的结构设计
 
@@ -405,7 +405,7 @@ JSON规格清晰呈现了NAV分区的全部语义：4个任务的周期与优先
 
 ### 3.4.1 零样本提示词模板
 
-零样本模板（Zero-Shot Template）针对**难点C**做了专项设计：在通用角色定义基础上增加了两项ARINC 653专属约束。第一，角色声明中明确指出"ACoreOS653实时操作系统"，引导模型进入正确的知识检索范围而非泛化到其他RTOS。第二，输出要求部分逐一列举11个目标文件（`deployment.h`、`globals.h`、`gtypes.h`等）并对每个文件给出具体规范，防止模型只生成功能核心文件（`activity.c`、`main.c`）而遗漏辅助文件。该模板不包含对难点A（双端API）和难点B（平台隐式约定）的专门引导，因此以它为基线可以准确测出LLM在没有额外支持时对ARINC 653规范的内化程度[2]。
+零样本模板（Zero-Shot Template）针对**难点C**做了专项设计：在通用角色定义基础上增加了两项ARINC 653专属约束。第一，角色声明中明确指出"ACoreOS653实时操作系统"，引导模型进入正确的知识检索范围而非泛化到其他RTOS。第二，输出要求部分逐一列举11个目标文件（`deployment.h`、`globals.h`、`gtypes.h`等）并对每个文件给出具体规范，防止模型只生成功能核心文件（`activity.c`、`main.c`）而遗漏辅助文件。该模板不包含对难点A（双端API）和难点B（平台隐式约定）的专门引导，因此以它为基线可以准确测出LLM在没有额外支持时对ARINC 653规范的内化程度[10]。
 
 模板核心结构：角色声明（含RTOS信息）→ JSON规格块 → 11文件输出规范（含命名规则、头文件保护、API调用要求）。
 
@@ -422,11 +422,11 @@ JSON规格清晰呈现了NAV分区的全部语义：4个任务的周期与优先
 3. **分析每个任务的通信行为**：确定各任务读写哪些资源（专门应对双端API遗漏）；
 4. **生成11个文件的完整代码**。
 
-API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推理引导则有助于减少资源遗漏和任务通信逻辑错误。然而，CoT模板要求更长的输出，且实验发现模型有时在推理阶段产生正确分析但在代码阶段遗漏部分约束（如`deployment.h`中的宏值），说明CoT对难点B（平台隐式约定）的覆盖仍不充分[1][4]。
+API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推理引导则有助于减少资源遗漏和任务通信逻辑错误。然而，CoT模板要求更长的输出，且实验发现模型有时在推理阶段产生正确分析但在代码阶段遗漏部分约束（如`deployment.h`中的宏值），说明CoT对难点B（平台隐式约定）的覆盖仍不充分[9][12]。
 
 ### 3.4.3 少样本提示词模板
 
-少样本模板（Few-Shot Template）以DIMA系统ps3分区的完整规格JSON和对应的11个参考C文件作为in-context示例嵌入提示词，专门针对**难点B**（平台隐式约定）进行设计。ps3的选取不是随机的：ps3是DIMA中资源组合最简单的分区（3个任务、2个队列接收端口、无黑板/缓冲区），这保证了示例代码简洁（不引入资源操作偏置），同时又完整展示了所有分区共有的必需结构——11文件骨架、`appMain`初始化序列、任务`while(1)`循环、`PERIODIC_WAIT`调用、`module_HM_callback`和`partition_HM_callback`两个HM回调。对LLM而言，ps3示例直接"展示"了`deployment.h`的`ACoreOS653_CONFIG_NB_*`宏命名格式、全局变量的分区名前缀规则、`CHECK_CODE`宏的else分支写法等隐式约定，这些用文字难以精确描述，但示例一看即懂[17]。
+少样本模板（Few-Shot Template）以DIMA系统ps3分区的完整规格JSON和对应的11个参考C文件作为in-context示例嵌入提示词，专门针对**难点B**（平台隐式约定）进行设计。ps3的选取不是随机的：ps3是DIMA中资源组合最简单的分区（3个任务、2个队列接收端口、无黑板/缓冲区），这保证了示例代码简洁（不引入资源操作偏置），同时又完整展示了所有分区共有的必需结构——11文件骨架、`appMain`初始化序列、任务`while(1)`循环、`PERIODIC_WAIT`调用、`module_HM_callback`和`partition_HM_callback`两个HM回调。对LLM而言，ps3示例直接"展示"了`deployment.h`的`ACoreOS653_CONFIG_NB_*`宏命名格式、全局变量的分区名前缀规则、`CHECK_CODE`宏的else分支写法等隐式约定，这些用文字难以精确描述，但示例一看即懂[24]。
 
 少样本模板的核心机制是模式迁移：LLM通过示例学习全局变量命名规则（分区名前缀）、`extern`声明模式、`CHECK_CODE`宏的定义和使用、`deployment.h`的宏命名约定等隐式规范，这些细节在零样本和CoT模板中均需通过文字描述传达，而示例可以直接呈现。其局限在于：ps3不含黑板/缓冲区，对难点A（双端API）的覆盖存在盲区，这一缺陷直接导致了少样本策略在PB/PC分区出现黑板单端实现问题。
 
@@ -438,7 +438,7 @@ API参考的嵌入使模型无需依赖记忆即可正确填写API签名，推�
 
 五步推理序列在CoT四步基础上增加了"**对照示例列出差异**"步骤，引导模型先识别目标分区与示例的异同，再进行资源规划和代码生成。这一设计使模型能以示例为锚点，有针对性地调整生成内容，而非从零推理完整框架。
 
-组合模板是四种策略中信息量最丰富的，也是设计最复杂的，其目标是通过示例、API参考和推理链对三类领域难点（难点A/B/C）的协同覆盖，最大化代码生成的完整性和规范符合度[1][4][17]。
+组合模板是四种策略中信息量最丰富的，也是设计最复杂的，其目标是通过示例、API参考和推理链对三类领域难点（难点A/B/C）的协同覆盖，最大化代码生成的完整性和规范符合度[9][12][24]。
 
 ## 3.5 实验结果展示
 
@@ -507,7 +507,7 @@ ARINC 653 C代码的核心结构直接映射自AADL分区模型中的三类设�
 
 ### 4.1.1 三维评分框架
 
-三维评分框架从三个相互独立、互为补充的维度对生成代码进行评分，每个维度均有明确的权重和检查项集合，最终加权得到综合得分。这一分层评估思路借鉴了代码功能正确性与形式特征相结合的评估方法[19]。
+三维评分框架从三个相互独立、互为补充的维度对生成代码进行评分，每个维度均有明确的权重和检查项集合，最终加权得到综合得分。这一分层评估思路借鉴了代码功能正确性与形式特征相结合的评估方法[25]。
 
 **维度一：结构完整性（权重30%）**
 
@@ -735,7 +735,7 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 
 从综合得分来看，少样本（100.0）和组合（100.0）策略以满分领先，零样本（95.4）次之，思维链（86.4）最低。这一结果揭示了一个反直觉的规律：引入参考示例（少样本/组合）的提升效果远大于引入推理引导（CoT），而CoT策略甚至因为影响了辅助文件的生成质量而导致综合得分低于零样本。
 
-该结论表明，对于ARINC 653这类规范约束密集、隐式约定多的领域代码生成任务，**提供高质量的代码示例是提升生成质量最有效的手段**；而链式推理在缺少示例的情况下，对提升较简单分区的效果有限，且可能对辅助文件的格式产生干扰[4][15][16]。
+该结论表明，对于ARINC 653这类规范约束密集、隐式约定多的领域代码生成任务，**提供高质量的代码示例是提升生成质量最有效的手段**；而链式推理在缺少示例的情况下，对提升较简单分区的效果有限，且可能对辅助文件的格式产生干扰[12][22][23]。
 
 ### 4.3.6 分区资源复杂度对生成质量的影响
 
@@ -814,7 +814,7 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 
 **表4-7 三维评分与合规检查的典型背离案例**
 
-零样本/ps1和少样本/PB的案例说明，三维评分中的语义一致性检查（C6/C7）存在一个设计局限：它检查资源名称的出现，而非资源的实际使用。ARINC 653合规检查正是为填补这一空白而设计的补充评估维度[19]。
+零样本/ps1和少样本/PB的案例说明，三维评分中的语义一致性检查（C6/C7）存在一个设计局限：它检查资源名称的出现，而非资源的实际使用。ARINC 653合规检查正是为填补这一空白而设计的补充评估维度[25]。
 
 思维链/ps1的案例则说明，当端口API方向错误时，三维评分的A10/A11和合规检查的R3/R6所捕获的是同一类错误，两者的失分具有一致性，相互印证了问题的真实存在。
 
@@ -838,7 +838,7 @@ API正确性是四种策略差异最显著的维度。零样本策略在ps4上�
 
 零样本策略综合表现稳健（三维均值95.4%，合规率79.2%），在没有示例的条件下表现优于思维链，说明对于DIMA这类资源组合丰富的分区，简洁的提示加上完整的规格JSON足以引导模型生成主体正确的代码框架。
 
-思维链策略因结构完整性的系统性失分（S7/S8在所有分区均失分），拉低了三维综合均值至86.4，低于零样本的95.4。尽管其API参考和推理链设计有助于模型理解端口语义，但对辅助文件格式的负面影响是CoT提示设计中需要改进的关键问题[4]。
+思维链策略因结构完整性的系统性失分（S7/S8在所有分区均失分），拉低了三维综合均值至86.4，低于零样本的95.4。尽管其API参考和推理链设计有助于模型理解端口语义，但对辅助文件格式的负面影响是CoT提示设计中需要改进的关键问题[12]。
 
 ## 4.5 IMA3系统推广性验证
 
@@ -931,57 +931,65 @@ IMA3的合规检查结果与IMA2实验呈现出高度一致的规律：**R1（�
 
 **运行时验证**：计划在POK开源ARINC 653 RTOS或ACoreOS653真实环境上对生成代码进行运行时验证，测试分区调度、端口通信和健康监控回调的实际行为，构建完整的从代码生成到运行验证的端到端流水线。
 
-**多模型对比**：计划扩展实验至GPT-4o、Gemini等主流模型，基于相同的提示策略和评估框架进行横向比较，分析不同模型在ARINC 653专业代码生成任务上的能力差异[15]。
+**多模型对比**：计划扩展实验至GPT-4o、Gemini等主流模型，基于相同的提示策略和评估框架进行横向比较，分析不同模型在ARINC 653专业代码生成任务上的能力差异[22]。
 
 **输入格式对比**：计划完成自然语言输入、AADL原文输入与结构化JSON输入的系统性对比实验，量化分析输入格式的结构化程度对生成代码质量的影响。
 
-**评估体系扩展**：将ARINC 653合规检查正式纳入评估框架的第四维度，进一步完善分层评估体系，并探索将编译检查结果（错误数量和类型）量化为可比较的评分指标[19][20]。
+**评估体系扩展**：将ARINC 653合规检查正式纳入评估框架的第四维度，进一步完善分层评估体系，并探索将编译检查结果（错误数量和类型）量化为可比较的评分指标[25]。
 
 ---
 
 ## 参考文献
 
-[1] Wei J, Wang X, Schuurmans D, et al. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models[C]//Advances in Neural Information Processing Systems 35, 2022: 24824-24837.
+[1] 褚文奎, 张凤鸣, 樊晓光. 综合模块化航空电子系统软件体系结构综述[J]. 航空学报, 2009, 30(10): 1912-1917.
 
-[2] Kojima T, Gu S S, Reid M, et al. Large Language Models are Zero-Shot Reasoners[C]//Advances in Neural Information Processing Systems 35, 2022: 22199-22213.
+[2] 陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用[J]. 电讯技术, 2009, 49(05): 89-92.
 
-[3] Wang L, Xu W, Lan Y, et al. Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models[C]//Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics, 2023: 2609-2634.
+[3] 凌仕翔, 杨志斌, 周勇. 面向ARINC653操作系统的综合化航空电子软件代码自动生成方法[J]. 计算机科学, 2024, 51(07): 10-21.
 
-[4] Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(2).
+[4] 王东清, 芦飞, 张炳会, 等. 大语言模型中提示词工程综述[J]. 计算机系统应用, 2025, 34(01): 1-10. DOI: 10.15888/j.cnki.csa.009782.
 
-[5] Lukić B, Friedrich S, Schubert T, et al. Automated Configuration of ARINC 653-Compliant Avionics Architectures[C]//AIAA/IEEE Digital Avionics Systems Conference (DASC), 2018.
+[5] 张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示演化方法[J/OL]. 计算机科学, 1-19[2026-05-10]. https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029.
 
-[6] Lukić B, et al. A Streamlined Approach Toward Automated Generation and Validation of ARINC 653-Compliant Avionics Code[C]//AIAA/IEEE Digital Avionics Systems Conference (DASC), 2019.
+[6] 郑明琪, 陈晓慧, 刘冰, 等. 提示学习中思维链生成和增强方法综述[J]. 计算机科学, 2025, 52(01): 56-64.
 
-[7] Hugues J, Delange J. Model-Based Design and Automated Validation of ARINC653 Architectures Using the AADL[M]//Cyber-Physical Systems: Foundations, Principles and Applications. Elsevier, 2017.
+[7] 杜家乐, 陈曙东, 叶亮, 等. 大语言模型中的思维链技术综述[J]. 无线电通信技术, 2025, 51(05): 877-887.
 
-[8] AADL653: An AADL-Based Formal Language for Modeling and Validation of ARINC653-Based Avionics Software[C]//IEEE, 2017.
+[8] 陈晓阳. 大模型代码生成技术及航天领域潜在应用[J]. 航天控制, 2025, 43(1). DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006.
 
-[9] Englhardt Z, Li R, Nissanka D, et al. Exploring and Characterizing Large Language Models for Embedded System Development[C]//Proceedings of the 61st Design Automation Conference, 2024.
+[9] Wei J, Wang X, Schuurmans D, et al. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models[C]//Advances in Neural Information Processing Systems 35. NeurIPS, 2022: 24824-24837.
 
-[10] Fakih M, Dharmaji R, Moghaddas Y, et al. LLM4PLC: Harnessing Large Language Models for Verifiable Programming of PLCs in Industrial Control Systems[C]//ICSE, 2024.
+[10] Kojima T, Gu S S, Reid M, et al. Large Language Models are Zero-Shot Reasoners[C]//Advances in Neural Information Processing Systems 35. NeurIPS, 2022: 22199-22213.
 
-[11] Babiuch M, Smutný P. Benchmarking Large Language Models for Embedded Systems Programming in Microcontroller-Driven Applications[J]. Electronics, 2024.
+[11] Wang L, Xu W, Lan Y, et al. Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models[C]//Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics. ACL, 2023: 2609-2634.
 
-[12] Using Large Language Models for Aerospace Code Generation: Methods, Benchmarks, and Potential Values[J]. Aerospace, 2024.
+[12] Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(2). DOI: 10.1145/3690635.
 
-[13] Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2024.
+[13] Lukić B, Friedrich S, Schubert T, et al. Automated Configuration of ARINC 653-Compliant Avionics Architectures[C]//AIAA/IEEE Digital Avionics Systems Conference (DASC). IEEE, 2018.
 
-[14] 陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用[J]. 电信工程技术与标准化, 2009, 49(5): 1-4.
+[14] Lukić B, et al. A Streamlined Approach Toward Automated Generation and Validation of ARINC 653-Compliant Avionics Code[C]//AIAA/IEEE Digital Avionics Systems Conference (DASC). IEEE, 2019.
 
-[15] Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language Models in Domain-Specific Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3).
+[15] Hugues J, Delange J. Model-Based Design and Automated Validation of ARINC653 Architectures Using the AADL[M]//Nakajima S, et al. (Eds.) Cyber-Physical System Design from an Architecture Analysis Viewpoint. Springer, Singapore, 2017: 33-52.
 
-[16] Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for Secure Code Generation: A Systematic Investigation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(8).
+[16] Englhardt Z, Li R, Nissanka D, et al. Exploring and Characterizing Large Language Models for Embedded System Development and Debugging[C]//Extended Abstracts of the CHI Conference on Human Factors in Computing Systems. ACM, 2024. DOI: 10.1145/3613905.3650764.
 
-[17] Li J, Li G, Li Y, et al. Large Language Model-Aware In-Context Learning for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7).
+[17] Fakih M, Dharmaji R, Moghaddas Y, et al. LLM4PLC: Harnessing Large Language Models for Verifiable Programming of PLCs in Industrial Control Systems[C]//Proceedings of the 46th International Conference on Software Engineering: Software Engineering in Practice. ACM, 2024. DOI: 10.1145/3639477.3639743.
 
-[18] Weyssow M, Sahraoui H, Zhou X, et al. Exploring Parameter-Efficient Fine-Tuning Techniques for Code Generation with Large Language Models[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7).
+[18] He R, Zhang L, Lyu M, et al. Using Large Language Models for Aerospace Code Generation: Methods, Benchmarks, and Potential Values[J]. Aerospace (MDPI), 2025, 12(6): 498. DOI: 10.3390/aerospace12060498.
 
-[19] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by Learning Code Execution[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3).
+[19] Ghorbian M, Arani G M, Shakarami A. Large language models for code generation: A survey[J]. Computer Standards & Interfaces, 2026, 98: 104165. DOI: 10.1016/J.CSI.2026.104165.
 
-[20] Yang Z, Chen S, Gao C, et al. An Empirical Study of Retrieval-Augmented Code Generation: Challenges and Opportunities[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7).
+[20] Wang L, Zhang H, Zhang Q, et al. CodeBC: A more secure large language model for smart contract code generation in blockchain[J]. Neurocomputing, 2026, 688: 133741. DOI: 10.1016/J.NEUCOM.2026.133741.
 
-[21] 凌仕翔, 杨之彬, 周宇. 面向ARINC653操作系统的综合化航空电子软件代码自动生成方法[J]. 计算机科学, 2024, 51(7): 1-9.
+[21] Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2024. DOI: 10.1145/3747588.
+
+[22] Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language Models in Domain-Specific Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3). DOI: 10.1145/3697012.
+
+[23] Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for Secure Code Generation: A Systematic Investigation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(8). DOI: 10.1145/3722108.
+
+[24] Li J, Tao C, Li J, et al. Large Language Model-Aware In-Context Learning for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7). DOI: 10.1145/3715908.
+
+[25] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by Learning Code Execution[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3). DOI: 10.1145/3695991.
 
 ---
 
