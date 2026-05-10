@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""IMA3系统拓扑结构图 — 简洁重绘版"""
+"""IMA3系统拓扑结构图 — 端口边缘版"""
 
 import os
 import matplotlib.pyplot as plt
@@ -13,7 +13,6 @@ rcParams['axes.unicode_minus'] = False
 OUT_DIR = os.path.join(os.path.dirname(__file__), "results", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-C_BG     = "#F5F7FA"
 C_BORDER = "#2E4057"
 C_TITLE  = "#2E4057"
 C_TTXT   = "#FFFFFF"
@@ -22,7 +21,17 @@ C_BB     = "#FDEBD0"
 C_BUF    = "#E8DAEF"
 C_SAMPLE = "#2471A3"
 C_QUEUE  = "#C0392B"
-C_MC     = "#ECF0F1"
+C_MC     = "#EAECEE"
+
+TITLE_H      = 0.38
+ITEM_H       = 0.38
+ITEM_G       = 0.10
+PAD          = 0.20
+PORT_W       = 0.76   # 端口框宽
+PORT_H       = 0.26   # 端口框高
+COL_W        = 1.55   # 内容列宽
+COL_G        = 0.28   # 内容列间距
+PORT_OFFSET  = PORT_W / 2 + 0.16   # 左边缘端口框→任务列左边距
 
 fig, ax = plt.subplots(figsize=(14, 9))
 ax.set_xlim(0, 14)
@@ -30,10 +39,11 @@ ax.set_ylim(0, 9)
 ax.axis('off')
 fig.patch.set_facecolor('white')
 
-TITLE_H = 0.38
-ITEM_H  = 0.38
-ITEM_G  = 0.10
-PAD     = 0.18
+# ── 分区坐标 ─────────────────────────────────────────────────────────────────
+NX, NY, NW, NH = 0.50, 4.75, 5.80, 3.65   # NAV  左上
+DX, DY, DW, DH = 7.70, 4.75, 5.80, 3.65   # DISP 右上
+MX, MY, MW, MH = 0.50, 0.50, 5.80, 3.70   # MON  左下
+TX, TY, TW, TH = 7.70, 0.50, 5.80, 3.70   # CTRL 右下
 
 
 def partition(ax, x, y, w, h, title, tc=C_TITLE):
@@ -42,9 +52,8 @@ def partition(ax, x, y, w, h, title, tc=C_TITLE):
     ax.add_patch(FancyBboxPatch((x, y+h-TITLE_H), w, TITLE_H,
                                 boxstyle="round,pad=0.03",
                                 lw=0, edgecolor='none', facecolor=tc, zorder=3))
-    ax.text(x+w/2, y+h-TITLE_H/2, title,
-            ha='center', va='center', fontsize=10, fontweight='bold',
-            color=C_TTXT, zorder=4)
+    ax.text(x+w/2, y+h-TITLE_H/2, title, ha='center', va='center',
+            fontsize=10, fontweight='bold', color=C_TTXT, zorder=4)
 
 
 def items_col(ax, col_x, top_y, col_w, labels, color):
@@ -54,47 +63,61 @@ def items_col(ax, col_x, top_y, col_w, labels, color):
         ax.add_patch(FancyBboxPatch((col_x, cy), col_w, ITEM_H,
                                     boxstyle="round,pad=0.04",
                                     lw=0.7, edgecolor='#AAAAAA', facecolor=color, zorder=3))
-        ax.text(col_x+col_w/2, cy+ITEM_H/2, lbl,
+        ax.text(col_x + col_w/2, cy + ITEM_H/2, lbl,
                 ha='center', va='center', fontsize=7.5, color='#222222', zorder=4)
         cy -= ITEM_G
     return cy
 
 
-def arrow(ax, x1, y1, x2, y2, color, lbl, rad=0.0, lbl_offset=(0, 0.26)):
-    ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
+def port_box(ax, cx, cy, label, color):
+    """端口框，中心锚定在分区边界点 (cx, cy)"""
+    ax.add_patch(FancyBboxPatch((cx - PORT_W/2, cy - PORT_H/2), PORT_W, PORT_H,
+                                boxstyle="round,pad=0.03",
+                                lw=1.3, edgecolor=color, facecolor='white', zorder=6))
+    ax.text(cx, cy, label, ha='center', va='center',
+            fontsize=7.0, color=color, fontweight='bold', zorder=7)
+    return (cx, cy)
+
+
+def connect(ax, p1, p2, color, label, rad=0.0, lbl_offset=None):
+    """从端口框 p1 向端口框 p2 画箭头，label 偏移自动计算（垂直方向偏移）"""
+    ax.annotate("", xy=p2, xytext=p1,
                 arrowprops=dict(arrowstyle="-|>", color=color, lw=2.0,
                                 connectionstyle=f"arc3,rad={rad}"),
                 zorder=5)
-    mx = (x1+x2)/2 + lbl_offset[0]
-    my = (y1+y2)/2 + lbl_offset[1]
-    ax.text(mx, my, lbl, ha='center', va='center', fontsize=7.5,
+    mx, my = (p1[0]+p2[0])/2, (p1[1]+p2[1])/2
+    if lbl_offset is not None:
+        ox, oy = lbl_offset
+    else:
+        dx, dy = p2[0]-p1[0], p2[1]-p1[1]
+        L = (dx**2 + dy**2)**0.5 + 1e-9
+        # 左法向量（从 p1 看向 p2 的左侧）
+        ox, oy = -dy/L * 0.42, dx/L * 0.42
+    ax.text(mx+ox, my+oy, label, ha='center', va='center', fontsize=8.5,
             color=color, fontweight='bold',
-            bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='none', alpha=0.9),
-            zorder=6)
+            bbox=dict(boxstyle='round,pad=0.18', fc='white', ec='none', alpha=0.93),
+            zorder=8)
 
 
-# 模块 MC 外框
-ax.add_patch(FancyBboxPatch((0.25, 0.35), 13.5, 8.2, boxstyle="round,pad=0.1",
+# ── MC 外框 ──────────────────────────────────────────────────────────────────
+ax.add_patch(FancyBboxPatch((0.25, 0.30), 13.5, 8.50, boxstyle="round,pad=0.1",
                              lw=2.2, edgecolor='#555555', facecolor=C_MC, zorder=0))
-ax.text(7.0, 8.38, "模块 MC   （主帧周期 100 ms，RMS调度）",
+ax.text(7.0, 8.60, "模块 MC   （主帧周期 100 ms，RMS调度）",
         ha='center', va='center', fontsize=9.5, color='#444444', style='italic')
 
-# 分区坐标
-NX, NY, NW, NH = 0.55, 4.20, 5.80, 3.70   # NAV 左上
-DX, DY, DW, DH = 7.60, 4.20, 5.80, 3.70   # DISP 右上
-MX, MY, MW, MH = 0.55, 0.55, 5.80, 3.25   # MON 左下
-TX, TY, TW, TH = 7.60, 0.55, 5.80, 3.25   # CTRL 右下
-
-COL_W = 1.55   # 每列宽度
-COL_G = 0.28   # 列间距
-
-# ── NAV ──────────────────────────────────────────────────────────────────────
+# ── 分区框 ───────────────────────────────────────────────────────────────────
 partition(ax, NX, NY, NW, NH, "NAV（导航分区）")
-top_nav = NY + NH - TITLE_H - PAD
+partition(ax, DX, DY, DW, DH, "DISP（显示分区）")
+partition(ax, MX, MY, MW, MH, "MON（监控分区）", tc='#607D8B')
+partition(ax, TX, TY, TW, TH, "CTRL（控制分区）")
 
-c1 = NX + PAD
-c2 = c1 + COL_W + COL_G
-c3 = c2 + COL_W + COL_G
+# ════════════════════════════════════════════════════════════════════════════
+#  NAV  内容：三列（任务 | 黑板 | 缓冲区）
+# ════════════════════════════════════════════════════════════════════════════
+top_nav = NY + NH - TITLE_H - PAD   # 7.82
+c1 = NX + PAD                        # 0.70
+c2 = c1 + COL_W + COL_G             # 2.53
+c3 = c2 + COL_W + COL_G             # 4.36  (右端 5.91，不超过 NAV 右边 6.30)
 
 items_col(ax, c1, top_nav, COL_W,
           ["taskN1\n25ms  P2", "taskN2\n50ms  P3",
@@ -102,78 +125,72 @@ items_col(ax, c1, top_nav, COL_W,
 items_col(ax, c2, top_nav, COL_W, ["黑板\nbb_bb1", "黑板\nbb_bb2"], C_BB)
 items_col(ax, c3, top_nav, COL_W, ["缓冲区\nbuf_buf1"], C_BUF)
 
-# NAV端口标签（右侧）
-y_pos_out    = top_nav - ITEM_H * 0.5
-y_status_out = top_nav - ITEM_H * 1.5 - ITEM_G
-y_cmd_out    = top_nav - ITEM_H * 3.5 - ITEM_G * 3
-ax.text(NX+NW-0.06, y_pos_out,    "pos_out →\n(采样·源)",    ha='right', va='center', fontsize=7, color=C_SAMPLE)
-ax.text(NX+NW-0.06, y_status_out, "status_out →\n(采样·源)", ha='right', va='center', fontsize=7, color=C_SAMPLE)
-ax.text(NX+NW-0.06, y_cmd_out,    "cmd_out →\n(队列·源)",    ha='right', va='center', fontsize=7, color=C_QUEUE)
+# ════════════════════════════════════════════════════════════════════════════
+#  DISP 内容：左留端口区，右排任务+黑板
+# ════════════════════════════════════════════════════════════════════════════
+top_disp = DY + DH - TITLE_H - PAD   # 7.82
+d1 = DX + PORT_OFFSET                  # 8.24
+d2 = d1 + COL_W + COL_G               # 10.07
 
-# ── DISP ─────────────────────────────────────────────────────────────────────
-partition(ax, DX, DY, DW, DH, "DISP（显示分区）")
-top_disp = DY + DH - TITLE_H - PAD
-
-d1 = DX + PAD
-d2 = d1 + COL_W + COL_G
 items_col(ax, d1, top_disp, COL_W, ["taskD1\n50ms  P2", "taskD2\n100ms P3"], C_TASK)
 items_col(ax, d2, top_disp, COL_W, ["黑板\nbb_disp"], C_BB)
 
-y_posin  = top_disp - ITEM_H * 0.5
-y_ctrlin = top_disp - ITEM_H * 1.5 - ITEM_G
-ax.text(DX+0.06, y_posin,  "← pos_in\n(采样·目标)",  ha='left', va='center', fontsize=7, color=C_SAMPLE)
-ax.text(DX+0.06, y_ctrlin, "← ctrl_in\n(队列·目标)", ha='left', va='center', fontsize=7, color=C_QUEUE)
-
-# ── MON ──────────────────────────────────────────────────────────────────────
-partition(ax, MX, MY, MW, MH, "MON（监控分区）", tc='#607D8B')
-top_mon = MY + MH - TITLE_H - PAD
-
+# ════════════════════════════════════════════════════════════════════════════
+#  MON  内容
+# ════════════════════════════════════════════════════════════════════════════
+top_mon = MY + MH - TITLE_H - PAD   # 3.62
 items_col(ax, MX + PAD, top_mon, COL_W, ["taskM1\n100ms P2"], C_TASK)
-ax.text(MX+MW/2, MY+MH*0.35, "（无分区内共享资源）",
+ax.text(MX + MW/2, MY + MH*0.32, "（无分区内共享资源）",
         ha='center', va='center', fontsize=8.5, color='#888888', style='italic')
-ax.text(MX+MW-0.06, top_mon - ITEM_H*0.5, "← status_in\n(采样·目标)",
-        ha='right', va='center', fontsize=7, color=C_SAMPLE)
 
-# ── CTRL ─────────────────────────────────────────────────────────────────────
-partition(ax, TX, TY, TW, TH, "CTRL（控制分区）")
-top_ctrl = TY + TH - TITLE_H - PAD
+# ════════════════════════════════════════════════════════════════════════════
+#  CTRL 内容：左留端口区，右排任务+缓冲区
+# ════════════════════════════════════════════════════════════════════════════
+top_ctrl = TY + TH - TITLE_H - PAD   # 3.62
+t1 = TX + PORT_OFFSET                  # 8.24
+t2 = t1 + COL_W + COL_G               # 10.07
 
-t1 = TX + PAD
-t2 = t1 + COL_W + COL_G
 items_col(ax, t1, top_ctrl, COL_W,
           ["taskT1\n25ms  P2", "taskT2\n50ms  P3", "taskT3\n100ms P4"], C_TASK)
 items_col(ax, t2, top_ctrl, COL_W, ["缓冲区\nbuf_ctrl"], C_BUF)
 
-y_navin   = top_ctrl - ITEM_H * 0.5
-y_ctrlout = top_ctrl - ITEM_H * 2.5 - ITEM_G * 2
-ax.text(TX+0.06, y_navin,   "← nav_in\n(队列·目标)",  ha='left', va='center', fontsize=7, color=C_QUEUE)
-ax.text(TX+0.06, y_ctrlout, "ctrl_out →\n(队列·源)",   ha='left', va='center', fontsize=7, color=C_QUEUE)
+# ════════════════════════════════════════════════════════════════════════════
+#  端口框 + 通信箭头
+#
+#  四条连接：
+#    NAV.pos_out  → DISP.pos_in   采样  水平（NAV右 → DISP左）
+#    NAV.status_out→ MON.status_in 采样  垂直（NAV底 → MON顶）
+#    NAV.cmd_out  → CTRL.nav_in   队列  斜线（NAV右 → CTRL左）
+#    CTRL.ctrl_out→ DISP.ctrl_in  队列  垂直（CTRL顶→ DISP底）
+# ════════════════════════════════════════════════════════════════════════════
 
-# ══════════════════════════════════════════════════════════════════════════════
-#  分区间通信箭头（坐标与端口标签对齐）
-# ══════════════════════════════════════════════════════════════════════════════
+# 1. pos_out → pos_in   水平，上方
+Y_POS = NY + NH * 0.80        # 7.67  (NAV / DISP 右/左 边中上)
+p_pos_out = port_box(ax, NX + NW,  Y_POS, "pos_out", C_SAMPLE)
+p_pos_in  = port_box(ax, DX,       Y_POS, "pos_in",  C_SAMPLE)
+connect(ax, p_pos_out, p_pos_in, C_SAMPLE, "采样端口", lbl_offset=(0, 0.32))
 
-# NAV → DISP  pos_out → pos_in  水平
-arrow(ax, NX+NW, y_pos_out, DX, y_posin,
-      C_SAMPLE, "pos_out → pos_in\n采样端口", lbl_offset=(0, 0.30))
+# 2. status_out → status_in   垂直，左侧（NAV底边→MON顶边）
+X_ST = NX + NW * 0.28          # 2.12
+p_status_out = port_box(ax, X_ST, NY,      "status_out", C_SAMPLE)
+p_status_in  = port_box(ax, X_ST, MY + MH, "status_in",  C_SAMPLE)
+connect(ax, p_status_out, p_status_in, C_SAMPLE, "采样端口", lbl_offset=(0.75, 0))
 
-# NAV → MON  status_out → status_in  垂直（沿左列中线）
-x_vert_l = NX + PAD + COL_W * 0.5
-arrow(ax, x_vert_l, NY, x_vert_l, MY+MH,
-      C_SAMPLE, "status_out → status_in\n采样端口", lbl_offset=(1.9, 0))
+# 3. cmd_out → nav_in   队列斜线（NAV右边→CTRL左边）
+Y_CMD   = NY + NH * 0.40       # 6.21  NAV 右边中下
+Y_NAVIN = TY + TH * 0.78       # 3.39  CTRL 左边中上
+p_cmd_out = port_box(ax, NX + NW, Y_CMD,   "cmd_out", C_QUEUE)
+p_nav_in  = port_box(ax, TX,      Y_NAVIN, "nav_in",  C_QUEUE)
+connect(ax, p_cmd_out, p_nav_in, C_QUEUE, "队列端口",
+        rad=-0.08, lbl_offset=(0.65, 0.28))
 
-# NAV → CTRL  cmd_out → nav_in  斜线（右侧出→右上角入）
-arrow(ax, NX+NW, y_cmd_out, TX, y_navin,
-      C_QUEUE, "cmd_out → nav_in\n队列端口", rad=-0.12, lbl_offset=(0, 0.34))
+# 4. ctrl_out → ctrl_in   垂直，右侧（CTRL顶边→DISP底边）
+X_CT = TX + TW * 0.55           # 10.89
+p_ctrl_out = port_box(ax, X_CT, TY + TH, "ctrl_out", C_QUEUE)
+p_ctrl_in  = port_box(ax, X_CT, DY,      "ctrl_in",  C_QUEUE)
+connect(ax, p_ctrl_out, p_ctrl_in, C_QUEUE, "队列端口", lbl_offset=(-0.75, 0))
 
-# CTRL → DISP  ctrl_out → ctrl_in  垂直（右列中线）
-x_vert_r = TX + TW * 0.55
-arrow(ax, x_vert_r, y_ctrlout, x_vert_r, DY,
-      C_QUEUE, "ctrl_out → ctrl_in\n队列端口", lbl_offset=(1.9, 0))
-
-# ══════════════════════════════════════════════════════════════════════════════
-#  图例
-# ══════════════════════════════════════════════════════════════════════════════
+# ── 图例 ────────────────────────────────────────────────────────────────────
 legend_items = [
     mpatches.Patch(facecolor=C_TASK,   label="周期性任务（period / priority）"),
     mpatches.Patch(facecolor=C_BB,     label="黑板（data port连接）"),
