@@ -1,0 +1,305 @@
+================================================================================
+  参考文献整理说明（共 25 篇）
+  生成时间：2026-05-10
+  基准文件：thesis_revised.md（行号以该文件为准）
+================================================================================
+
+本文件包含三部分：
+  A. 完整参考文献列表（25篇，含 4 篇新增）
+  B. 新增引用的插入位置（逐段说明，带具体行号和改写方式）
+  C. 原有条目中需补全的信息说明
+
+所有新增文献（[22]–[25]）均来自您上传至 毕业论文/ 目录的文件，
+均可在仓库中二次核查原始PDF/CAJ文件。
+
+================================================================================
+  A. 完整参考文献列表
+================================================================================
+
+── 第一部分：提示工程 ──────────────────────────────────────────────────────────
+
+[1]  Wei J, Wang X, Schuurmans D, et al. Chain-of-Thought Prompting Elicits
+     Reasoning in Large Language Models[C]//Advances in Neural Information
+     Processing Systems 35, 2022: 24824-24837.
+     ✓ 现有文献，无需改动
+
+[2]  Kojima T, Gu S S, Reid M, et al. Large Language Models are Zero-Shot
+     Reasoners[C]//Advances in Neural Information Processing Systems 35,
+     2022: 22199-22213.
+     ✓ 现有文献，无需改动
+
+[3]  Wang L, Xu W, Lan Y, et al. Plan-and-Solve Prompting: Improving
+     Zero-Shot Chain-of-Thought Reasoning by Large Language Models[C]//
+     Proceedings of the 61st Annual Meeting of the Association for
+     Computational Linguistics, 2023: 2609-2634.
+     ✓ 现有文献，无需改动
+
+[4]  Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for
+     Code Generation[J]. ACM Transactions on Software Engineering and
+     Methodology, 2025, 34(2).
+     DOI: https://doi.org/10.1145/3690635
+     来源文件：毕业论文/Structured Chain-of-Thought Prompting for Code Generation.pdf
+     ✓ 现有文献，无需改动
+
+── 第二部分：航空领域代码生成（MDE / AADL / ARINC 653）─────────────────────
+
+[5]  Lukić B, Friedrich S, Schubert T, et al. Automated Configuration of
+     ARINC 653-Compliant Avionics Architectures[C]//AIAA/IEEE Digital
+     Avionics Systems Conference (DASC), 2018.
+     ✓ 现有文献，无需改动
+
+[6]  Lukić B, et al. A Streamlined Approach Toward Automated Generation and
+     Validation of ARINC 653-Compliant Avionics Code[C]//AIAA/IEEE Digital
+     Avionics Systems Conference (DASC), 2019.
+     ✓ 现有文献，无需改动
+
+[7]  Hugues J, Delange J. Model-Based Design and Automated Validation of
+     ARINC653 Architectures Using the AADL[M]//Cyber-Physical Systems:
+     Foundations, Principles and Applications. Elsevier, 2017.
+     ✓ 现有文献，无需改动
+
+[8]  AADL653: An AADL-Based Formal Language for Modeling and Validation of
+     ARINC653-Based Avionics Software[C]//IEEE, 2017.
+     ⚠ 原条目缺少作者，建议补全（见 C 部分说明）
+
+[9]  Englhardt Z, Li R, Nissanka D, et al. Exploring and Characterizing
+     Large Language Models for Embedded System Development[C]//Proceedings
+     of the 61st Design Automation Conference, 2024.
+     ✓ 现有文献，无需改动
+
+[10] Fakih M, Dharmaji R, Moghaddas Y, et al. LLM4PLC: Harnessing Large
+     Language Models for Verifiable Programming of PLCs in Industrial
+     Control Systems[C]//ICSE, 2024.
+     ✓ 现有文献，无需改动
+
+[11] Babiuch M, Smutný P. Benchmarking Large Language Models for Embedded
+     Systems Programming in Microcontroller-Driven Applications[J].
+     Electronics, 2024.
+     ✓ 现有文献，无需改动
+
+[12] Using Large Language Models for Aerospace Code Generation: Methods,
+     Benchmarks, and Potential Values[J]. Aerospace, 2024.
+     ⚠ 原条目缺少作者（见 C 部分说明）
+
+── 第三部分：LLM 代码生成（综述 / 评估 / 进阶方法）──────────────────────────
+
+[13] Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for
+     Code Generation[J]. ACM Transactions on Software Engineering and
+     Methodology, 2024.
+     ✓ 现有文献，无需改动
+
+[14] 陈娟. ARINC653分区操作系统在综合模块化航空电子系统中的应用[J].
+     电信工程技术与标准化, 2009, 49(5): 1-4.
+     来源文件：毕业论文/ARINC653分区操作系统在综合模块化航空电子系统中的应用_陈娟.pdf
+     ✓ 现有文献，无需改动
+
+[15] Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language
+     Models in Domain-Specific Code Generation[J]. ACM Transactions on
+     Software Engineering and Methodology, 2025, 34(3).
+     DOI: https://doi.org/10.1145/3697012
+     来源文件：毕业论文/On the Effectiveness of Large Language Models in
+                Domain-Specific Code Generation.pdf
+     ✓ 现有文献，无需改动
+
+[16] Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for
+     Secure Code Generation: A Systematic Investigation[J]. ACM Transactions
+     on Software Engineering and Methodology, 2025, 34(8).
+     DOI: https://doi.org/10.1145/3722108
+     来源文件：毕业论文/（对应文件名含 Prompting Techniques for Secure Code）
+     ✓ 现有文献，无需改动
+
+[17] Li J, Tao C, Li J, et al. Large Language Model-Aware In-Context
+     Learning for Code Generation[J]. ACM Transactions on Software
+     Engineering and Methodology, 2025, 34(7).
+     DOI: https://doi.org/10.1145/3715908
+     来源文件：毕业论文/Large Language Model-Aware In-Context Learning for
+                Code Generation.pdf
+     ✓ 现有文献，无需改动
+
+[18] Weyssow M, Sahraoui H, Zhou X, et al. Exploring Parameter-Efficient
+     Fine-Tuning Techniques for Code Generation with Large Language
+     Models[J]. ACM Transactions on Software Engineering and Methodology,
+     2025, 34(7).
+     DOI: https://doi.org/10.1145/3714461
+     来源文件：毕业论文/Exploring Parameter-Efficient Fine-Tuning Techniques
+                for Code Generation with Large Language Models.pdf
+     ✓ 现有文献，无需改动
+
+[19] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation
+     by Learning Code Execution[J]. ACM Transactions on Software Engineering
+     and Methodology, 2025, 34(3).
+     DOI: https://doi.org/10.1145/3695991
+     来源文件：毕业论文/Evaluating Code Generation by Learning Code Execution.pdf
+     ✓ 现有文献，无需改动
+
+[20] Yang Z, Chen S, Gao C, et al. An Empirical Study of Retrieval-Augmented
+     Code Generation: Challenges and Opportunities[J]. ACM Transactions on
+     Software Engineering and Methodology, 2025, 34(7).
+     DOI: https://doi.org/10.1145/3717061
+     来源文件：毕业论文/An Empirical Study of Retrieval-Augmented Code
+                Generation Challenges and Opportunities.pdf
+     ✓ 现有文献，无需改动
+
+[21] 凌仕翔, 杨之彬, 周宇. 面向ARINC653操作系统的综合化航空电子软件代码
+     自动生成方法[J]. 计算机科学, 2024, 51(7): 1-9.
+     来源文件：毕业论文/面向ARINC653操作系统的综合化航空电子软件代码自动
+                生成方法_凌仕翔__.pdf
+     ✓ 现有文献，无需改动
+
+── 第四部分：新增文献（[22]–[25]）─────────────────────────────────────────────
+
+[22] 褚文奎. 综合模块化航空电子系统软件体系结构综述[J]. 航空学报,
+     2009, 30(10).
+     来源文件：毕业论文/综合模块化航空电子系统软件体系结构综述_褚文奎.caj
+     （CAJ格式，需用CNKI阅读器查看完整页码，期刊代码 HKXB200910019）
+     ★ 新增，引用位置见 B 部分 §1
+
+[23] 张凤鸣. 综合模块化航空电子体系结构研究[J].
+     西安航空技术高等专科学校学报, 2009, 27(1): 47-52.
+     来源文件：毕业论文/综合模块化航空电子体系结构研究_张凤鸣.pdf
+     ★ 新增，引用位置见 B 部分 §1
+
+[24] 陈晓阳. 大模型代码生成技术及航天领域潜在应用[J].
+     航天控制, 2025, 43(1).
+     DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006
+     来源文件：毕业论文/大模型代码生成技术及航天领域潜在应用_陈晓阳.caj
+     （CAJ格式，期刊代码 HTKZ202501002，ISSN 1006-3242，需核查完整页码）
+     ★ 新增，引用位置见 B 部分 §2
+
+[25] 王东青, 卢飞, 张炳会, 等. 大语言模型中提示词工程综述[J].
+     计算机系统应用, 2025, 34(1): 1-10.
+     DOI: 10.15888/j.cnki.csa.009782
+     来源文件：毕业论文/大语言模型中提示词工程综述.pdf
+     ★ 新增，引用位置见 B 部分 §3
+
+================================================================================
+  B. 新增引用插入位置（针对 [22]–[25]）
+================================================================================
+
+─────────────────────────────────────────────────────────────────────────────
+§1  [22][23]  位于 §1.1 研究背景  （thesis_revised.md 约第 75 行）
+─────────────────────────────────────────────────────────────────────────────
+
+现在第 75 行原文：
+  "...已成为波音787、空客A380等现代民航客机的核心软件平台。"
+
+改为：
+  "...已成为波音787、空客A380等现代民航客机的核心软件平台[22][23]。"
+
+理由：褚文奎和张凤鸣两篇论文均是国内关于IMA系统架构与软件体系结构的
+综述或研究性文章，引用在首次提及IMA平台及体系结构发展之处，符合学术
+惯例，可支撑"IMA已成为主流航电软件平台"这一背景陈述。
+
+─────────────────────────────────────────────────────────────────────────────
+§2  [24]  位于 §1.2.2 领域专用代码自动生成  （约第 99 行）
+─────────────────────────────────────────────────────────────────────────────
+
+当前第 99 行末句：
+  "...面向航天领域的LLM代码生成研究表明，LLM在结构化规范翻译任务中具有
+  应用潜力，但需要专业提示策略的支撑[12]。"
+
+改为（在 [12] 后追加 [24]）：
+  "...面向航天领域的LLM代码生成研究表明，LLM在结构化规范翻译任务中具有
+  应用潜力，但需要专业提示策略的支撑[12][24]。"
+
+理由：陈晓阳（2025）专门讨论大模型代码生成技术在航天领域的潜在应用，
+是[12]所引论文的国内对应研究，两者共同支撑"航天领域LLM代码生成"这一
+陈述，形成国内外文献对照。
+
+─────────────────────────────────────────────────────────────────────────────
+§3  [25]  位于 §1.2.1 大语言模型代码生成  （约第 91 行）
+─────────────────────────────────────────────────────────────────────────────
+
+在第 91 行段落末尾（"少样本情境学习..."句之后）追加一句：
+
+  在四种提示策略之外，提示词工程领域已形成系统化的方法综述与分类框架，
+  为本文策略选取提供了理论参照[25]。
+
+或（更简洁，直接在已有句末追加）找到：
+  "...面向安全性的提示技术研究表明，不同提示策略对生成代码的安全性和
+  规范符合度有系统性影响，递归批评改进（RCI）等技术可显著减少安全弱点
+  [16]。"
+
+在该句末追加：
+  "提示词工程方法的系统化综述与分类见[25]。"
+
+理由：王东青等（2025）是中文提示词工程综述，内容涵盖CoT、few-shot、
+in-context learning等本文所用策略的系统分类，是§1.2.1背景部分的重要
+补充，也便于中文读者进一步查阅。
+
+================================================================================
+  C. 原有条目中需补全的信息（建议核查，供参考）
+================================================================================
+
+─────────────────────────────────────────────────────────────────────────────
+[8]  缺少作者
+─────────────────────────────────────────────────────────────────────────────
+当前：
+  [8] AADL653: An AADL-Based Formal Language for Modeling and Validation
+      of ARINC653-Based Avionics Software[C]//IEEE, 2017.
+
+该论文最可能是 2017 IEEE International Symposium on High Assurance Systems
+Engineering (HASE) 或 AIAA/IEEE DASC 会议论文。建议在 IEEE Xplore
+(https://ieeexplore.ieee.org) 以标题搜索确认作者和完整出版信息。
+
+─────────────────────────────────────────────────────────────────────────────
+[12]  缺少作者
+─────────────────────────────────────────────────────────────────────────────
+当前：
+  [12] Using Large Language Models for Aerospace Code Generation: Methods,
+       Benchmarks, and Potential Values[J]. Aerospace, 2024.
+
+该文发表在 MDPI Aerospace 期刊（ISSN 2226-4310），可在以下链接找到：
+  https://www.mdpi.com/journal/aerospace
+  建议以标题搜索获取完整作者信息和 DOI。
+
+─────────────────────────────────────────────────────────────────────────────
+[4] 已确认 DOI
+─────────────────────────────────────────────────────────────────────────────
+建议将 DOI 加入条目：
+  DOI: https://doi.org/10.1145/3690635
+（原条目正确，DOI 为可选补充）
+
+─────────────────────────────────────────────────────────────────────────────
+[22][23] 页码待核查
+─────────────────────────────────────────────────────────────────────────────
+[22] 褚文奎论文的完整页码和作者信息可在中国知网（cnki.net）以期刊代码
+     HKXB200910019 或在"航空学报"2009年第10期中检索确认。
+
+[23] 张凤鸣论文的完整卷号和页码在PDF中可见（47-52页已确认），
+     建议在CNKI核查确认卷期号。
+
+================================================================================
+  汇总表（方便一览）
+================================================================================
+
+编号   类型    第一次引用位置（行）    说明
+[1]   现有    91                      CoT 提示
+[2]   现有    91                      Zero-Shot 推理
+[3]   现有    91                      Plan-and-Solve
+[4]   现有    91                      SCoT 代码生成
+[5]   现有    81                      Lukić ARINC653 自动配置
+[6]   现有    81                      Lukić ARINC653 代码生成
+[7]   现有    81                      Hugues AADL/ARINC653
+[8]   现有    81                      AADL653 形式化语言（⚠缺作者）
+[9]   现有    99                      LLM 嵌入式开发
+[10]  现有    99                      LLM4PLC
+[11]  现有    99                      LLM 微控制器基准测试
+[12]  现有    99                      LLM 航天代码生成（⚠缺作者）
+[13]  现有    89                      LLM 代码生成综述
+[14]  现有    79                      ARINC653 分区操作系统应用
+[15]  现有    89                      LLM 领域专用代码生成
+[16]  现有    91                      安全代码生成提示技术
+[17]  现有    91                      ICL 代码生成
+[18]  现有    93                      PEFT 代码生成
+[19]  现有    193                     CodeScore 评估方法
+[20]  现有    93                      RAG 代码生成
+[21]  现有    81                      凌仕翔 ARINC653 代码生成
+[22]  ★新增  75（§1.1 末）           褚文奎 IMA 软件体系结构综述
+[23]  ★新增  75（§1.1 末，同[22]）   张凤鸣 IMA 体系结构研究
+[24]  ★新增  99（§1.2.2 末，加到[12]后）  陈晓阳 大模型+航天代码生成
+[25]  ★新增  91（§1.2.1 末追加句）   王东青等 提示词工程综述
+
+================================================================================
+  end
+================================================================================
