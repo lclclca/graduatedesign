@@ -949,13 +949,13 @@ IMA3的合规检查结果与IMA2实验呈现出高度一致的规律：**R1（�
 
 [4] 王东清, 芦飞, 张炳会, 等. 大语言模型中提示词工程综述[J]. 计算机系统应用, 2025, 34(01): 1-10. DOI: 10.15888/j.cnki.csa.009782.
 
-[5] 张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示演化方法[J/OL]. 计算机科学, 1-19[2026-05-10]. https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029.
+[5] 张杨, 范梓硕, 武少广. 自动化代码重构：基于大语言模型的提示演化方法[J/OL]. 计算机科学, 2026: 1-19[2026-05-10]. https://link.cnki.net/urlid/50.1075.tp.20260424.1411.029.
 
 [6] 郑明琪, 陈晓慧, 刘冰, 等. 提示学习中思维链生成和增强方法综述[J]. 计算机科学, 2025, 52(01): 56-64.
 
 [7] 杜家乐, 陈曙东, 叶亮, 等. 大语言模型中的思维链技术综述[J]. 无线电通信技术, 2025, 51(05): 877-887.
 
-[8] 陈晓阳. 大模型代码生成技术及航天领域潜在应用[J]. 航天控制, 2025, 43(1). DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006.
+[8] 陈晓阳. 大模型代码生成技术及航天领域潜在应用[J]. 航天控制, 2025, 43(1): 8-16. DOI: 10.16804/j.cnki.issn1006-3242.2025.01.006.
 
 [9] Wei J, Wang X, Schuurmans D, et al. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models[C]//Advances in Neural Information Processing Systems 35. NeurIPS, 2022: 24824-24837.
 
@@ -963,7 +963,7 @@ IMA3的合规检查结果与IMA2实验呈现出高度一致的规律：**R1（�
 
 [11] Wang L, Xu W, Lan Y, et al. Plan-and-Solve Prompting: Improving Zero-Shot Chain-of-Thought Reasoning by Large Language Models[C]//Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics. ACL, 2023: 2609-2634.
 
-[12] Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(2). DOI: 10.1145/3690635.
+[12] Li J, Li G, Li Y, et al. Structured Chain-of-Thought Prompting for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(2): Article 37. DOI: 10.1145/3690635.
 
 [13] Lukić B, Friedrich S, Schubert T, et al. Automated Configuration of ARINC 653-Compliant Avionics Architectures[C]//AIAA/IEEE Digital Avionics Systems Conference (DASC). IEEE, 2018.
 
@@ -981,15 +981,15 @@ IMA3的合规检查结果与IMA2实验呈现出高度一致的规律：**R1（�
 
 [20] Wang L, Zhang H, Zhang Q, et al. CodeBC: A more secure large language model for smart contract code generation in blockchain[J]. Neurocomputing, 2026, 688: 133741. DOI: 10.1016/J.NEUCOM.2026.133741.
 
-[21] Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2024. DOI: 10.1145/3747588.
+[21] Jiang J, Wang F, Shen J, et al. A Survey on Large Language Models for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025[2026-05-10]. DOI: 10.1145/3747588.
 
-[22] Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language Models in Domain-Specific Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3). DOI: 10.1145/3697012.
+[22] Gu X, Chen M, Lin Y, et al. On the Effectiveness of Large Language Models in Domain-Specific Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3): Article 78. DOI: 10.1145/3697012.
 
-[23] Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for Secure Code Generation: A Systematic Investigation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(8). DOI: 10.1145/3722108.
+[23] Tony C, Díaz Ferreyra N E, Mutas M, et al. Prompting Techniques for Secure Code Generation: A Systematic Investigation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(8): 1-53. DOI: 10.1145/3722108.
 
-[24] Li J, Tao C, Li J, et al. Large Language Model-Aware In-Context Learning for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7). DOI: 10.1145/3715908.
+[24] Li J, Tao C, Li J, et al. Large Language Model-Aware In-Context Learning for Code Generation[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(7): Article 190. DOI: 10.1145/3715908.
 
-[25] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by Learning Code Execution[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3). DOI: 10.1145/3695991.
+[25] Dong Y, Ding J, Jiang X, et al. CodeScore: Evaluating Code Generation by Learning Code Execution[J]. ACM Transactions on Software Engineering and Methodology, 2025, 34(3): Article 77. DOI: 10.1145/3695991.
 
 ---
 
