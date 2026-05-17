@@ -1,37 +1,22 @@
 #ifndef DEPLOYMENT_H
 #define DEPLOYMENT_H
 
-/* ============================================================
- * deployment.h
- * Partition P2 – Deployment & Initialisation Declarations
- * ARINC 653 / ACoreOS653
- * ============================================================ */
+/* Number of threads/processes in this partition */
+#define ACoreOS653_CONFIG_NB_THREADS        3
 
-#include "apex/apextypes.h"
+/* Sampling ports: pr2samplingin (DESTINATION) */
+#define ACoreOS653_CONFIG_NB_SAMPLINGS      1
 
-/* ------------------------------------------------------------
- * Create and configure all ARINC 653 resources required by
- * Partition P2 before SET_PARTITION_MODE(NORMAL) is called.
- *
- * Sequence:
- *   1. Inter-partition ports  (sampling in, queuing out)
- *   2. Intra-partition blackboards
- *   3. Intra-partition buffers
- *   4. Processes (Tsk21, Tsk22, Tsk23)
- * ------------------------------------------------------------ */
-void deployment_init(void);
+/* Queuing ports: pr2queueingout (SOURCE) */
+#define ACoreOS653_CONFIG_NB_QUEUEINGS      1
 
-/* ------------------------------------------------------------
- * Module-level Health Monitor callback.
- * Required by ARINC 653 Part 1 §3.7 and DAL-A guidelines.
- * Registered with CREATE_ERROR_HANDLER at module level.
- * ------------------------------------------------------------ */
-void module_HM_callback(ERROR_STATUS_TYPE *error_status);
+/* Blackboards: task1_acc3 (task21->task22), task2_blackboard (task22<->task23) */
+#define ACoreOS653_CONFIG_NB_BLACKBOARDS    2
 
-/* ------------------------------------------------------------
- * Partition-level Health Monitor callback.
- * Registered with CREATE_ERROR_HANDLER at partition level.
- * ------------------------------------------------------------ */
-void partition_HM_callback(ERROR_STATUS_TYPE *error_status);
+/* Buffers: task2to1 (task22->task21), task2to3 (task22<->task23) */
+#define ACoreOS653_CONFIG_NB_BUFFERS        2
+
+/* Stack size per thread: 8 KB = 8192 bytes */
+#define ACoreOS653_NEEDS_STACKS_SIZE        8192
 
 #endif /* DEPLOYMENT_H */

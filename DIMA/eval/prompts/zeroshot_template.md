@@ -8,9 +8,28 @@
 ## 分区规格
 
 ```json
-{{SPEC_JSON}}
-```
-
+{
+  "partition": "ps2",
+  "module": "M1",
+  "tasks": [
+    {"name": "task21", "period_ms": 50,  "priority": 2},
+    {"name": "task22", "period_ms": 50,  "priority": 3},
+    {"name": "task23", "period_ms": 100, "priority": 4}
+  ],
+  "sampling_ports": [
+    {"name": "pr2samplingin", "direction": "DESTINATION", "api_read": "READ_SAMPLING_MESSAGE"}
+  ],
+  "queuing_ports": [
+    {"name": "pr2queueingout", "direction": "SOURCE", "max_nb": 30, "api_write": "SEND_QUEUING_MESSAGE"}
+  ],
+  "blackboards": ["bb_acc3", "bb_t2t3", "bb_t3t2"],
+  "buffers":     ["buf_order", "buf_t2tot3", "buf_t3tot2"],
+  "subprograms": ["commandboard_receiveinput_spg", "commandboard_printinfos_spg"],
+  "deployment": {
+    "nb_threads": 3, "nb_samplings": 1, "nb_queueings": 1,
+    "nb_blackboards": 3, "nb_buffers": 3, "stacks_size": 24576
+  }
+}
 ## 要求
 
 请生成以下 11 个文件的完整代码：

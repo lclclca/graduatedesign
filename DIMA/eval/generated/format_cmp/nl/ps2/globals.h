@@ -1,37 +1,21 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include <apex/apex.h>
-#include <apex/apexBlackboard.h>
-#include <apex/apexBuffer.h>
-#include <apex/apexProcess.h>
-#include <apex/apexSampling.h>
-#include <apex/apexQueuing.h>
+#include <stdio.h>
+#include <os/pos/apex/apexLib.h>
 
-/* ---------------------------------------------------------------
- * Process identifiers
- * --------------------------------------------------------------- */
-extern PROCESS_ID_TYPE  g_task21_id;
-extern PROCESS_ID_TYPE  g_task22_id;
-extern PROCESS_ID_TYPE  g_task23_id;
-
-/* ---------------------------------------------------------------
- * Inter-partition communication port identifiers
- * --------------------------------------------------------------- */
-extern SAMPLING_PORT_ID_TYPE  g_pr2samplingin_id;
-extern QUEUING_PORT_ID_TYPE   g_pr2queueingout_id;
-
-/* ---------------------------------------------------------------
- * Intra-partition IPC resource identifiers
- * --------------------------------------------------------------- */
-/* Blackboards */
-extern BLACKBOARD_ID_TYPE  g_bb_acc3_id;
-extern BLACKBOARD_ID_TYPE  g_bb_t2t3_id;
-extern BLACKBOARD_ID_TYPE  g_bb_t3t2_id;
-
-/* Buffers */
-extern BUFFER_ID_TYPE  g_buf_order_id;
-extern BUFFER_ID_TYPE  g_buf_t2tot3_id;
-extern BUFFER_ID_TYPE  g_buf_t3tot2_id;
+/*
+ * CHECK_CODE(msg, code):
+ *   If code == NO_ERROR, print success message.
+ *   Otherwise, print the actual error code.
+ */
+#define CHECK_CODE(msg, code) \
+    do { \
+        if ((code) == NO_ERROR) { \
+            printf("[OK]    %s succeeded\n", (msg)); \
+        } else { \
+            printf("[ERROR] %s failed with code: %d\n", (msg), (int)(code)); \
+        } \
+    } while (0)
 
 #endif /* GLOBALS_H */

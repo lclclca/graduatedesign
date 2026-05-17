@@ -1,211 +1,169 @@
-/*============================================================
- * main.c
- * 分区主入口 —— ps2 分区
- *
- * 执行顺序（ARINC 653 冷启动标准流程）：
- *   1. 注册 HM 回调
- *   2. 创建所有 IPC 对象（deployment_init）
- *   3. 创建所有任务
- *   4. 切换到 NORMAL 模式
- *============================================================*/
+#include <stdio.h>
 #include <string.h>
-#include "globals.h"
+#include <os/pos/apex/apexLib.h>
+
 #include "deployment.h"
+#include "globals.h"
 #include "activity.h"
-#include "gtypes.h"
 
-/*------------------------------------------------------------
- * 前向声明：HM 回调
- *------------------------------------------------------------*/
-static void module_HM_callback(ERROR_STATUS_TYPE *error);
-static void partition_HM_callback(ERROR_STATUS_TYPE *error);
+/* ================================================================== */
+/* Global IDs for ports, blackboards and buffers                      */
+/* ================================================================== */
 
-/*------------------------------------------------------------
- * module_HM_callback
- * 模块级健康监控回调。
- * 由 ARINC 653 HM 在检测到模块级错误时调用。
- *------------------------------------------------------------*/
-static void module_HM_callback(ERROR_STATUS_TYPE *error)
+/* Sampling ports */
+SAMPLING_PORT_ID_TYPE   pr2samplingin_id;
+
+/* Queuing ports */
+QUEUING_PORT_ID_TYPE    pr2queueingout_id;
+
+/* Blackboards */
+BLACKBOARD_ID_TYPE      bb_acc3_id;
+BLACKBOARD_ID_TYPE      bb_t2t3_id;
+BLACKBOARD_ID_TYPE      bb_t3t2_id;
+
+/* Buffers */
+BUFFER_ID_TYPE          buf_order_id;
+BUFFER_ID_TYPE          buf_t2tot3_id;
+BUFFER_ID_TYPE          buf_t3tot2_id;
+
+/* ================================================================== */
+/* Health-Monitor callbacks                                            */
+/* ================================================================== */
+
+void module_HM_callback(HM_ERROR_STATUS_TYPE *error_status)
 {
-    if (error == NULL) {
-        return;
-    }
-
-    /*
-     * 策略：
-     *   - 对于可恢复错误（APPLICATION_ERROR）→ 忽略并继续
-     *   - 对于不可恢复错误               → 重置模块
-     * 此处保守实现：任何模块级错误均请求模块重启。
-     */
-    switch (error->ERROR_CODE) {
-        case APPLICATION_ERROR:
-            /* 应用层错误可选择恢复，视具体策略而定 */
-            break;
-
-        case DEADLINE_MISSED_ERROR:
-        case HARDWARE_FAULT_ERROR:
-        case POWER_FAIL_ERROR:
-        default:
-            /* 不可恢复：请求模块重置（平台相关，此处以 SET_MODULE_MODE 示意） */
-            {
-                RETURN_CODE_TYPE ret;
-                SET_MODULE_MODE(IDLE, &ret);
-                /* 若 SET_MODULE_MODE 不支持，平台将调用安全关机序列 */
-                (void)ret;
-            }
-            break;
-    }
+    printf("[HM] module_HM_callback: error_id=%d, failed_process_id=%d\n",
+           (int)error_status->ERROR_CODE,
+           (int)error_status->FAILED_PROCESS_ID);
+    /* TODO: add module-level recovery actions */
 }
 
-/*------------------------------------------------------------
- * partition_HM_callback
- * 分区级健康监控回调。
- * 由 ARINC 653 HM 在检测到分区级错误时调用。
- *------------------------------------------------------------*/
-static void partition_HM_callback(ERROR_STATUS_TYPE *error)
+void partition_HM_callback(HM_ERROR_STATUS_TYPE *error_status)
 {
-    if (error == NULL) {
-        return;
-    }
-
-    switch (error->ERROR_CODE) {
-        case APPLICATION_ERROR:
-            /*
-             * 应用层错误：尝试恢复——重启出错进程。
-             * STOP_SELF / START 仅在进程级错误时有意义；
-             * 若 FAILED_PROCESS_ID 有效则重启对应进程。
-             */
-            if (error->FAILED_PROCESS_ID != 0) {
-                RETURN_CODE_TYPE ret;
-                STOP(error->FAILED_PROCESS_ID, &ret);
-                (void)ret;
-                START(error->FAILED_PROCESS_ID, &ret);
-                (void)ret;
-            }
-            break;
-
-        case DEADLINE_MISSED_ERROR:
-            /*
-             * 截止期错误：停止该进程，允许其他进程继续运行。
-             */
-            if (error->FAILED_PROCESS_ID != 0) {
-                RETURN_CODE_TYPE ret;
-                STOP(error->FAILED_PROCESS_ID, &ret);
-                (void)ret;
-            }
-            break;
-
-        case STACK_OVERFLOW_ERROR:
-        case HARDWARE_FAULT_ERROR:
-        default:
-            /*
-             * 不可恢复错误：重启整个分区。
-             */
-            {
-                RETURN_CODE_TYPE ret;
-                SET_PARTITION_MODE(WARM_START, &ret);
-                (void)ret;
-            }
-            break;
-    }
+    printf("[HM] partition_HM_callback: error_id=%d, failed_process_id=%d\n",
+           (int)error_status->ERROR_CODE,
+           (int)error_status->FAILED_PROCESS_ID);
+    /* TODO: add partition-level recovery actions */
 }
 
-/*------------------------------------------------------------
- * 内部辅助：创建三个周期性任务
- *------------------------------------------------------------*/
-static void create_tasks(void)
+/* ================================================================== */
+/* appMain – partition entry point                                     */
+/* ================================================================== */
+
+void appMain(void)
 {
-    PROCESS_ATTRIBUTE_TYPE attr;
     RETURN_CODE_TYPE        ret;
+    PROCESS_ID_TYPE         pid;
+    PROCESS_ATTRIBUTE_TYPE  tattr;
 
-    /*-- task21: 50 ms, 优先级 2 --*/
-    memset(&attr, 0, sizeof(attr));
-    strncpy(attr.NAME, "task21", MAX_NAME_LENGTH - 1);
-    attr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task21_entry;
-    attr.STACK_SIZE    = (STACK_SIZE_TYPE)TASK_STACK_SIZE;
-    attr.BASE_PRIORITY = (PRIORITY_TYPE)TASK21_PRIORITY;
-    attr.PERIOD        = TASK21_PERIOD_NS;
-    attr.TIME_CAPACITY = TASK_TIME_CAPACITY_NS;
-    attr.DEADLINE      = HARD;
+    /* -------------------------------------------------------------- */
+    /* 1. Create sampling port(s)                                      */
+    /* -------------------------------------------------------------- */
+    ret = CREATE_SAMPLING_PORT(
+            "pr2samplingin",            /* port name (must match XML config)  */
+            256,                        /* max message size (bytes) – adjust   */
+            DESTINATION,               /* direction                           */
+            50 * 1000000LL,            /* refresh period: 50 ms in ns        */
+            &pr2samplingin_id);
+    CHECK_CODE("CREATE_SAMPLING_PORT(pr2samplingin)", ret);
 
-    CREATE_PROCESS(&attr, &g_task21_id, &ret);
-    CHECK_CODE("CREATE_PROCESS task21", ret);
+    /* -------------------------------------------------------------- */
+    /* 2. Create queuing port(s)                                       */
+    /* -------------------------------------------------------------- */
+    ret = CREATE_QUEUING_PORT(
+            "pr2queueingout",           /* port name                          */
+            256,                        /* max message size (bytes) – adjust  */
+            30,                         /* max nb messages                    */
+            SOURCE,                     /* direction                          */
+            FIFO,                       /* queuing discipline                 */
+            &pr2queueingout_id);
+    CHECK_CODE("CREATE_QUEUING_PORT(pr2queueingout)", ret);
 
-    START(g_task21_id, &ret);
-    CHECK_CODE("START task21", ret);
+    /* -------------------------------------------------------------- */
+    /* 3. Create blackboards                                           */
+    /* -------------------------------------------------------------- */
+    ret = CREATE_BLACKBOARD("bb_acc3", 256, &bb_acc3_id);
+    CHECK_CODE("CREATE_BLACKBOARD(bb_acc3)", ret);
 
-    /*-- task22: 50 ms, 优先级 3 --*/
-    memset(&attr, 0, sizeof(attr));
-    strncpy(attr.NAME, "task22", MAX_NAME_LENGTH - 1);
-    attr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task22_entry;
-    attr.STACK_SIZE    = (STACK_SIZE_TYPE)TASK_STACK_SIZE;
-    attr.BASE_PRIORITY = (PRIORITY_TYPE)TASK22_PRIORITY;
-    attr.PERIOD        = TASK22_PERIOD_NS;
-    attr.TIME_CAPACITY = TASK_TIME_CAPACITY_NS;
-    attr.DEADLINE      = HARD;
+    ret = CREATE_BLACKBOARD("bb_t2t3", 256, &bb_t2t3_id);
+    CHECK_CODE("CREATE_BLACKBOARD(bb_t2t3)", ret);
 
-    CREATE_PROCESS(&attr, &g_task22_id, &ret);
-    CHECK_CODE("CREATE_PROCESS task22", ret);
+    ret = CREATE_BLACKBOARD("bb_t3t2", 256, &bb_t3t2_id);
+    CHECK_CODE("CREATE_BLACKBOARD(bb_t3t2)", ret);
 
-    START(g_task22_id, &ret);
-    CHECK_CODE("START task22", ret);
+    /* -------------------------------------------------------------- */
+    /* 4. Create buffers                                               */
+    /* -------------------------------------------------------------- */
+    ret = CREATE_BUFFER("buf_order",   256, 16, FIFO, &buf_order_id);
+    CHECK_CODE("CREATE_BUFFER(buf_order)", ret);
 
-    /*-- task23: 100 ms, 优先级 4 --*/
-    memset(&attr, 0, sizeof(attr));
-    strncpy(attr.NAME, "task23", MAX_NAME_LENGTH - 1);
-    attr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task23_entry;
-    attr.STACK_SIZE    = (STACK_SIZE_TYPE)TASK_STACK_SIZE;
-    attr.BASE_PRIORITY = (PRIORITY_TYPE)TASK23_PRIORITY;
-    attr.PERIOD        = TASK23_PERIOD_NS;
-    attr.TIME_CAPACITY = TASK_TIME_CAPACITY_NS;
-    attr.DEADLINE      = HARD;
+    ret = CREATE_BUFFER("buf_t2tot3", 256, 16, FIFO, &buf_t2tot3_id);
+    CHECK_CODE("CREATE_BUFFER(buf_t2tot3)", ret);
 
-    CREATE_PROCESS(&attr, &g_task23_id, &ret);
-    CHECK_CODE("CREATE_PROCESS task23", ret);
+    ret = CREATE_BUFFER("buf_t3tot2", 256, 16, FIFO, &buf_t3tot2_id);
+    CHECK_CODE("CREATE_BUFFER(buf_t3tot2)", ret);
 
-    START(g_task23_id, &ret);
-    CHECK_CODE("START task23", ret);
-}
+    /* -------------------------------------------------------------- */
+    /* 5. Create processes (tasks)                                     */
+    /* -------------------------------------------------------------- */
 
-/*------------------------------------------------------------
- * main —— 分区初始化入口（ARINC 653 冷/暖启动均调用此函数）
- *------------------------------------------------------------*/
-int main(void)
-{
-    RETURN_CODE_TYPE       ret;
-    PARTITION_STATUS_TYPE  status;
+    /* --- task21 : period 50 ms, priority 2 --- */
+    memset(&tattr, 0, sizeof(tattr));
+    strcpy(tattr.NAME, "task21");
+    tattr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task21_job;
+    tattr.STACK_SIZE    = ACoreOS653_NEEDS_STACKS_SIZE /
+                          ACoreOS653_CONFIG_NB_THREADS;   /* divide evenly */
+    tattr.BASE_PRIORITY = 2;
+    tattr.PERIOD        = 50 * 1000000LL;                /* 50 ms in ns   */
+    tattr.TIME_CAPACITY = INFINITE_TIME_VALUE;
+    tattr.DEADLINE      = SOFT;
 
-    /*-- 查询启动模式 --*/
-    GET_PARTITION_STATUS(&status, &ret);
-    CHECK_CODE("GET_PARTITION_STATUS", ret);
+    ret = CREATE_PROCESS(&tattr, &pid);
+    CHECK_CODE("CREATE_PROCESS(task21)", ret);
 
-    if (status.OPERATING_MODE == COLD_START ||
-        status.OPERATING_MODE == WARM_START) {
+    ret = START(pid, &ret);
+    CHECK_CODE("START(task21)", ret);
 
-        /*-- 1. 注册 HM 回调 --*/
-        CREATE_ERROR_HANDLER(
-            (SYSTEM_ADDRESS_TYPE)partition_HM_callback,
-            (STACK_SIZE_TYPE)TASK_STACK_SIZE,
-            &ret);
-        CHECK_CODE("CREATE_ERROR_HANDLER (partition)", ret);
+    /* --- task22 : period 50 ms, priority 3 --- */
+    memset(&tattr, 0, sizeof(tattr));
+    strcpy(tattr.NAME, "task22");
+    tattr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task22_job;
+    tattr.STACK_SIZE    = ACoreOS653_NEEDS_STACKS_SIZE /
+                          ACoreOS653_CONFIG_NB_THREADS;
+    tattr.BASE_PRIORITY = 3;
+    tattr.PERIOD        = 50 * 1000000LL;
+    tattr.TIME_CAPACITY = INFINITE_TIME_VALUE;
+    tattr.DEADLINE      = SOFT;
 
-        /* 模块 HM 回调由模块级初始化注册；
-         * ACoreOS653 通过配置表绑定，此处显式注册供参考。 */
-        (void)module_HM_callback;   /* 抑制未使用警告 */
+    ret = CREATE_PROCESS(&tattr, &pid);
+    CHECK_CODE("CREATE_PROCESS(task22)", ret);
 
-        /*-- 2. 创建 IPC 对象 --*/
-        deployment_init();
+    ret = START(pid, &ret);
+    CHECK_CODE("START(task22)", ret);
 
-        /*-- 3. 创建并启动任务 --*/
-        create_tasks();
+    /* --- task23 : period 100 ms, priority 4 --- */
+    memset(&tattr, 0, sizeof(tattr));
+    strcpy(tattr.NAME, "task23");
+    tattr.ENTRY_POINT   = (SYSTEM_ADDRESS_TYPE)task23_job;
+    tattr.STACK_SIZE    = ACoreOS653_NEEDS_STACKS_SIZE /
+                          ACoreOS653_CONFIG_NB_THREADS;
+    tattr.BASE_PRIORITY = 4;
+    tattr.PERIOD        = 100 * 1000000LL;               /* 100 ms in ns  */
+    tattr.TIME_CAPACITY = INFINITE_TIME_VALUE;
+    tattr.DEADLINE      = SOFT;
 
-        /*-- 4. 进入 NORMAL 模式 --*/
-        SET_PARTITION_MODE(NORMAL, &ret);
-        CHECK_CODE("SET_PARTITION_MODE NORMAL", ret);
-    }
+    ret = CREATE_PROCESS(&tattr, &pid);
+    CHECK_CODE("CREATE_PROCESS(task23)", ret);
 
-    /* 若到达此处，表明模式切换异常——永远不应执行 */
-    for (;;) { ; }
+    ret = START(pid, &ret);
+    CHECK_CODE("START(task23)", ret);
 
-    return 0;
+    /* -------------------------------------------------------------- */
+    /* 6. Switch partition to NORMAL mode                              */
+    /* -------------------------------------------------------------- */
+    ret = SET_PARTITION_MODE(NORMAL, &ret);
+    CHECK_CODE("SET_PARTITION_MODE(NORMAL)", ret);
+
+    /* appMain must not return in ARINC 653 */
+    while (1) { ; }
 }

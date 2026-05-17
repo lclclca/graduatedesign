@@ -1,239 +1,259 @@
-/* ============================================================
- * activity.c
- * Partition P2 – Task (Process) Entry-Point Implementations
- * ARINC 653 / ACoreOS653
- *
- * Implements the three periodic tasks defined in the AADL model:
- *   Tsk21 (50 ms, priority 2)
- *   Tsk22 (50 ms, priority 3)
- *   Tsk23 (100 ms, priority 4)
- * ============================================================ */
+#include <stdio.h>
+#include <string.h>
+#include <os/pos/apex/apexLib.h>
 
 #include "activity.h"
 #include "globals.h"
-#include "subprograms.h"
 #include "gtypes.h"
-#include "apex/apex.h"
+#include "subprograms.h"
 
-/* ============================================================
- * task21_entry
- *
- * Periodic task – 50 ms
- * Data-flow (from AADL connections):
- *   RECEIVE  sampling port  g_sampling_port_in  (task21sampling)
- *   READ     buffer         g_buf_22_21         (task1_order_in)
- *   WRITE    blackboard     g_bb_21_22          (task1_acc3_out)
- * Subprogram calls:
- *   commandboard_receiveinput_spg
- *   commandboard_printinfos_spg
- * ============================================================ */
-void task21_entry(void)
+/*
+ * Extern references to port/blackboard/buffer IDs created in main.c
+ */
+
+/* Sampling port */
+extern SAMPLING_PORT_ID_TYPE  sampling_in_id;       /* pr2samplingin  (DESTINATION) */
+
+/* Queuing port */
+extern QUEUING_PORT_ID_TYPE   queuing_out_id;        /* pr2queueingout (SOURCE)      */
+
+/* Blackboards */
+extern BLACKBOARD_ID_TYPE     bb_task1_acc3_id;      /* task21 -> task22             */
+extern BLACKBOARD_ID_TYPE     bb_task2_task3_id;     /* task22 <-> task23            */
+
+/* Buffers */
+extern BUFFER_ID_TYPE         buf_task2_order_id;    /* task22 -> task21 (order)     */
+extern BUFFER_ID_TYPE         buf_task2_task3_id;    /* task22 <-> task23 (data)     */
+
+/* ------------------------------------------------------------------ */
+/* Tsk21 — Period 50 ms, Priority 2                                    */
+/* Connections:                                                        */
+/*   IN  sampling  : pr2samplingin   (READ_SAMPLING_MESSAGE)           */
+/*   OUT blackboard: task1_acc3_out  (DISPLAY_BLACKBOARD)              */
+/*   IN  buffer    : task1_order_in  (RECEIVE_BUFFER)                  */
+/* ------------------------------------------------------------------ */
+void *task21_job(void *arg)
 {
-    RETURN_CODE_TYPE    rc;
-    APP_INTEGER_TYPE    sampling_data  = 0;
-    APP_INTEGER_TYPE    order_data     = 0;
-    APP_INTEGER_TYPE    acc3_out       = 0;
-    MESSAGE_SIZE_TYPE   recv_len       = 0;
+    RETURN_CODE_TYPE        ret;
+    integer                 sampling_data   = 0;
+    integer                 order_data      = 0;
+    integer                 acc3_out_data   = 0;
+    MESSAGE_SIZE_TYPE       msg_size        = 0;
+    VALIDITY_TYPE           validity;
+    APEX_BYTE               recv_buf[sizeof(integer)];
+    APEX_BYTE               send_buf[sizeof(integer)];
 
-    while (1) {
-        /* ---- 1. Receive from inbound sampling port ---------- */
-        commandboard_receiveinput_spg(&sampling_data, &rc);
-        CHECK_CODE("Tsk21 receiveinput_spg", rc);
+    while (1)
+    {
+        /* --- Read sampling input from partition port --- */
+        ret = READ_SAMPLING_MESSAGE(sampling_in_id,
+                                    (MESSAGE_ADDR_TYPE)&sampling_data,
+                                    &msg_size,
+                                    &validity);
+        CHECK_CODE("READ_SAMPLING_MESSAGE (task21)", ret);
 
-        /* ---- 2. Read order feedback buffer from task22 ------ */
-        RECEIVE_BUFFER(g_buf_22_21,
-                       ARINC_ZERO_TIMEOUT,
-                       (MESSAGE_ADDR_TYPE)&order_data,
-                       &recv_len,
-                       &rc);
-        /* TIMED_OUT is acceptable: no new order this cycle     */
-        if (rc != NO_ERROR && rc != TIMED_OUT) {
-            CHECK_CODE("Tsk21 RECEIVE_BUFFER buf_22_21", rc);
+        /* Call receive subprogram */
+        commandboard_receiveinput_spg();
+
+        /* Call print subprogram */
+        commandboard_printinfos_spg();
+
+        /* --- Receive order from task22 via buffer (non-blocking, timeout=0) --- */
+        ret = RECEIVE_BUFFER(buf_task2_order_id,
+                             0,                          /* timeout: 0 = no wait */
+                             (MESSAGE_ADDR_TYPE)recv_buf,
+                             &msg_size,
+                             &ret);
+        /* Not checking strictly — buffer may be empty */
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&order_data, recv_buf, sizeof(integer));
+            printf("[task21] received order: %d\n", order_data);
         }
 
-        /* ---- 3. Compute accelerometer accumulator (stub) ---- */
-        acc3_out = sampling_data + order_data;   /* application logic placeholder */
+        /* --- Write acc3 output to blackboard for task22 --- */
+        acc3_out_data = sampling_data; /* example: pass through */
+        memcpy(send_buf, &acc3_out_data, sizeof(integer));
+        ret = DISPLAY_BLACKBOARD(bb_task1_acc3_id,
+                                 (MESSAGE_ADDR_TYPE)send_buf,
+                                 sizeof(integer));
+        CHECK_CODE("DISPLAY_BLACKBOARD bb_task1_acc3 (task21)", ret);
 
-        /* ---- 4. Write result to blackboard for task22 ------- */
-        DISPLAY_BLACKBOARD(g_bb_21_22,
-                           (MESSAGE_ADDR_TYPE)&acc3_out,
-                           (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                           &rc);
-        CHECK_CODE("Tsk21 DISPLAY_BLACKBOARD bb_21_22", rc);
-
-        /* ---- 5. Print diagnostic info ----------------------- */
-        commandboard_printinfos_spg(&acc3_out, &rc);
-        CHECK_CODE("Tsk21 printinfos_spg", rc);
-
-        /* ---- 6. Wait for next period ------------------------ */
-        PERIODIC_WAIT(&rc);
-        CHECK_CODE("Tsk21 PERIODIC_WAIT", rc);
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT (task21)", ret);
     }
+
+    return NULL;
 }
 
-/* ============================================================
- * task22_entry
- *
- * Periodic task – 50 ms
- * Data-flow (from AADL connections):
- *   READ  blackboard  g_bb_21_22  (task2_acc3_in)
- *   READ  buffer      g_buf_23_22 (task2_buffer_receive)
- *   READ  blackboard  g_bb_23_22  (task2_blackboard_read)
- *   WRITE buffer      g_buf_22_21 (task2_order_out)
- *   WRITE buffer      g_buf_22_23 (task2_buffer_send)
- *   WRITE blackboard  g_bb_22_23  (task2_blackboard_write)
- * ============================================================ */
-void task22_entry(void)
+/* ------------------------------------------------------------------ */
+/* Tsk22 — Period 50 ms, Priority 3                                    */
+/* Connections:                                                        */
+/*   IN  blackboard: task2_acc3_in       (READ_BLACKBOARD)             */
+/*   OUT buffer    : task2_order_out     (SEND_BUFFER -> task21)       */
+/*   OUT buffer    : task2_buffer_send   (SEND_BUFFER -> task23)       */
+/*   IN  buffer    : task2_buffer_receive(RECEIVE_BUFFER <- task23)    */
+/*   IN  blackboard: task2_blackboard_read (READ_BLACKBOARD <- task23) */
+/*   OUT blackboard: task2_blackboard_write(DISPLAY_BLACKBOARD->task23)*/
+/* ------------------------------------------------------------------ */
+void *task22_job(void *arg)
 {
-    RETURN_CODE_TYPE    rc;
-    APP_INTEGER_TYPE    acc3_in        = 0;
-    APP_INTEGER_TYPE    buf_from_23    = 0;
-    APP_INTEGER_TYPE    bb_from_23     = 0;
-    APP_INTEGER_TYPE    order_out      = 0;
-    APP_INTEGER_TYPE    buf_to_23      = 0;
-    APP_INTEGER_TYPE    bb_to_23       = 0;
-    MESSAGE_SIZE_TYPE   msg_len        = 0;
+    RETURN_CODE_TYPE    ret;
+    integer             acc3_data       = 0;
+    integer             order_data      = 0;
+    integer             buf_send_data   = 0;
+    integer             buf_recv_data   = 0;
+    integer             bb_read_data    = 0;
+    integer             bb_write_data   = 0;
+    MESSAGE_SIZE_TYPE   msg_size        = 0;
+    APEX_BYTE           data_buf[sizeof(integer)];
 
-    while (1) {
-        /* ---- 1. Read blackboard from task21 (acc3_in) ------- */
-        READ_BLACKBOARD(g_bb_21_22,
-                        (MESSAGE_ADDR_TYPE)&acc3_in,
-                        &msg_len,
-                        &rc);
-        CHECK_CODE("Tsk22 READ_BLACKBOARD bb_21_22", rc);
-
-        /* ---- 2. Receive buffer from task23 ------------------ */
-        RECEIVE_BUFFER(g_buf_23_22,
-                       ARINC_ZERO_TIMEOUT,
-                       (MESSAGE_ADDR_TYPE)&buf_from_23,
-                       &msg_len,
-                       &rc);
-        if (rc != NO_ERROR && rc != TIMED_OUT) {
-            CHECK_CODE("Tsk22 RECEIVE_BUFFER buf_23_22", rc);
+    while (1)
+    {
+        /* --- Read acc3 from blackboard (task21 -> task22) --- */
+        ret = READ_BLACKBOARD(bb_task1_acc3_id,
+                              (MESSAGE_ADDR_TYPE)data_buf,
+                              &msg_size);
+        CHECK_CODE("READ_BLACKBOARD bb_task1_acc3 (task22)", ret);
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&acc3_data, data_buf, sizeof(integer));
         }
 
-        /* ---- 3. Read blackboard from task23 ----------------- */
-        READ_BLACKBOARD(g_bb_23_22,
-                        (MESSAGE_ADDR_TYPE)&bb_from_23,
-                        &msg_len,
-                        &rc);
-        CHECK_CODE("Tsk22 READ_BLACKBOARD bb_23_22", rc);
+        /* --- Send order to task21 via buffer --- */
+        order_data = acc3_data + 1; /* example processing */
+        memcpy(data_buf, &order_data, sizeof(integer));
+        ret = SEND_BUFFER(buf_task2_order_id,
+                          (MESSAGE_ADDR_TYPE)data_buf,
+                          sizeof(integer),
+                          0);        /* timeout 0 */
+        CHECK_CODE("SEND_BUFFER order (task22->task21)", ret);
 
-        /* ---- 4. Application logic (stub) -------------------- */
-        order_out = acc3_in + buf_from_23;
-        buf_to_23 = acc3_in - bb_from_23;
-        bb_to_23  = acc3_in ^ buf_from_23;   /* synthetic aggregate */
+        /* --- Send data to task23 via buffer --- */
+        buf_send_data = acc3_data;
+        memcpy(data_buf, &buf_send_data, sizeof(integer));
+        ret = SEND_BUFFER(buf_task2_task3_id,
+                          (MESSAGE_ADDR_TYPE)data_buf,
+                          sizeof(integer),
+                          0);
+        CHECK_CODE("SEND_BUFFER data (task22->task23)", ret);
 
-        /* ---- 5. Write order feedback buffer to task21 ------- */
-        SEND_BUFFER(g_buf_22_21,
-                    (MESSAGE_ADDR_TYPE)&order_out,
-                    (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                    ARINC_ZERO_TIMEOUT,
-                    &rc);
-        CHECK_CODE("Tsk22 SEND_BUFFER buf_22_21", rc);
+        /* --- Receive data from task23 via buffer --- */
+        ret = RECEIVE_BUFFER(buf_task2_task3_id,
+                             0,
+                             (MESSAGE_ADDR_TYPE)data_buf,
+                             &msg_size,
+                             &ret);
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&buf_recv_data, data_buf, sizeof(integer));
+            printf("[task22] received from task23 buffer: %d\n", buf_recv_data);
+        }
 
-        /* ---- 6. Write buffer to task23 ---------------------- */
-        SEND_BUFFER(g_buf_22_23,
-                    (MESSAGE_ADDR_TYPE)&buf_to_23,
-                    (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                    ARINC_ZERO_TIMEOUT,
-                    &rc);
-        CHECK_CODE("Tsk22 SEND_BUFFER buf_22_23", rc);
+        /* --- Read blackboard from task23 --- */
+        ret = READ_BLACKBOARD(bb_task2_task3_id,
+                              (MESSAGE_ADDR_TYPE)data_buf,
+                              &msg_size);
+        CHECK_CODE("READ_BLACKBOARD bb_task2_task3 (task22)", ret);
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&bb_read_data, data_buf, sizeof(integer));
+        }
 
-        /* ---- 7. Write blackboard to task23 ------------------ */
-        DISPLAY_BLACKBOARD(g_bb_22_23,
-                           (MESSAGE_ADDR_TYPE)&bb_to_23,
-                           (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                           &rc);
-        CHECK_CODE("Tsk22 DISPLAY_BLACKBOARD bb_22_23", rc);
+        /* --- Write blackboard to task23 --- */
+        bb_write_data = acc3_data * 2; /* example */
+        memcpy(data_buf, &bb_write_data, sizeof(integer));
+        ret = DISPLAY_BLACKBOARD(bb_task2_task3_id,
+                                 (MESSAGE_ADDR_TYPE)data_buf,
+                                 sizeof(integer));
+        CHECK_CODE("DISPLAY_BLACKBOARD bb_task2_task3 (task22)", ret);
 
-        /* ---- 8. Wait for next period ------------------------ */
-        PERIODIC_WAIT(&rc);
-        CHECK_CODE("Tsk22 PERIODIC_WAIT", rc);
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT (task22)", ret);
     }
+
+    return NULL;
 }
 
-/* ============================================================
- * task23_entry
- *
- * Periodic task – 100 ms
- * Data-flow (from AADL connections):
- *   READ  buffer      g_buf_22_23      (task3_buffer_receive)
- *   READ  blackboard  g_bb_22_23       (task3_blackboard_read)
- *   WRITE buffer      g_buf_23_22      (task3_buffer_send)
- *   WRITE blackboard  g_bb_23_22       (task3_blackboard_write)
- *   SEND  queuing port g_queuing_port_out (task3Queuing)
- * Subprogram calls:
- *   commandboard_receiveinput_spg
- *   commandboard_printinfos_spg
- * ============================================================ */
-void task23_entry(void)
+/* ------------------------------------------------------------------ */
+/* Tsk23 — Period 100 ms, Priority 4                                   */
+/* Connections:                                                        */
+/*   OUT buffer    : task3_buffer_send    (SEND_BUFFER -> task22)      */
+/*   IN  buffer    : task3_buffer_receive (RECEIVE_BUFFER <- task22)   */
+/*   IN  blackboard: task3_blackboard_read (READ_BLACKBOARD <- task22) */
+/*   OUT blackboard: task3_blackboard_write(DISPLAY_BLACKBOARD->task22)*/
+/*   OUT queuing   : task3Queuing          (SEND_QUEUING_MESSAGE)      */
+/* ------------------------------------------------------------------ */
+void *task23_job(void *arg)
 {
-    RETURN_CODE_TYPE    rc;
-    APP_INTEGER_TYPE    buf_from_22    = 0;
-    APP_INTEGER_TYPE    bb_from_22     = 0;
-    APP_INTEGER_TYPE    buf_to_22      = 0;
-    APP_INTEGER_TYPE    bb_to_22       = 0;
-    APP_INTEGER_TYPE    queuing_out    = 0;
-    APP_INTEGER_TYPE    sampling_data  = 0;
-    MESSAGE_SIZE_TYPE   msg_len        = 0;
+    RETURN_CODE_TYPE    ret;
+    integer             buf_recv_data   = 0;
+    integer             buf_send_data   = 0;
+    integer             bb_read_data    = 0;
+    integer             bb_write_data   = 0;
+    integer             queuing_data    = 0;
+    MESSAGE_SIZE_TYPE   msg_size        = 0;
+    APEX_BYTE           data_buf[sizeof(integer)];
 
-    while (1) {
-        /* ---- 1. Receive supplementary sampling input -------- */
-        commandboard_receiveinput_spg(&sampling_data, &rc);
-        CHECK_CODE("Tsk23 receiveinput_spg", rc);
+    while (1)
+    {
+        /* Call receive subprogram */
+        commandboard_receiveinput_spg();
 
-        /* ---- 2. Receive buffer from task22 ------------------ */
-        RECEIVE_BUFFER(g_buf_22_23,
-                       ARINC_ZERO_TIMEOUT,
-                       (MESSAGE_ADDR_TYPE)&buf_from_22,
-                       &msg_len,
-                       &rc);
-        if (rc != NO_ERROR && rc != TIMED_OUT) {
-            CHECK_CODE("Tsk23 RECEIVE_BUFFER buf_22_23", rc);
+        /* --- Receive data from task22 via buffer --- */
+        ret = RECEIVE_BUFFER(buf_task2_task3_id,
+                             0,
+                             (MESSAGE_ADDR_TYPE)data_buf,
+                             &msg_size,
+                             &ret);
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&buf_recv_data, data_buf, sizeof(integer));
+            printf("[task23] received from task22 buffer: %d\n", buf_recv_data);
         }
 
-        /* ---- 3. Read blackboard from task22 ----------------- */
-        READ_BLACKBOARD(g_bb_22_23,
-                        (MESSAGE_ADDR_TYPE)&bb_from_22,
-                        &msg_len,
-                        &rc);
-        CHECK_CODE("Tsk23 READ_BLACKBOARD bb_22_23", rc);
+        /* --- Send data back to task22 via buffer --- */
+        buf_send_data = buf_recv_data + 10; /* example processing */
+        memcpy(data_buf, &buf_send_data, sizeof(integer));
+        ret = SEND_BUFFER(buf_task2_task3_id,
+                          (MESSAGE_ADDR_TYPE)data_buf,
+                          sizeof(integer),
+                          0);
+        CHECK_CODE("SEND_BUFFER data (task23->task22)", ret);
 
-        /* ---- 4. Application logic (stub) -------------------- */
-        buf_to_22   = buf_from_22 + sampling_data;
-        bb_to_22    = bb_from_22  + sampling_data;
-        queuing_out = buf_to_22   + bb_to_22;
+        /* --- Read blackboard from task22 --- */
+        ret = READ_BLACKBOARD(bb_task2_task3_id,
+                              (MESSAGE_ADDR_TYPE)data_buf,
+                              &msg_size);
+        CHECK_CODE("READ_BLACKBOARD bb_task2_task3 (task23)", ret);
+        if (ret == NO_ERROR && msg_size == sizeof(integer))
+        {
+            memcpy(&bb_read_data, data_buf, sizeof(integer));
+        }
 
-        /* ---- 5. Write buffer to task22 ---------------------- */
-        SEND_BUFFER(g_buf_23_22,
-                    (MESSAGE_ADDR_TYPE)&buf_to_22,
-                    (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                    ARINC_ZERO_TIMEOUT,
-                    &rc);
-        CHECK_CODE("Tsk23 SEND_BUFFER buf_23_22", rc);
+        /* --- Write blackboard to task22 --- */
+        bb_write_data = buf_recv_data; /* example */
+        memcpy(data_buf, &bb_write_data, sizeof(integer));
+        ret = DISPLAY_BLACKBOARD(bb_task2_task3_id,
+                                 (MESSAGE_ADDR_TYPE)data_buf,
+                                 sizeof(integer));
+        CHECK_CODE("DISPLAY_BLACKBOARD bb_task2_task3 (task23)", ret);
 
-        /* ---- 6. Write blackboard to task22 ------------------ */
-        DISPLAY_BLACKBOARD(g_bb_23_22,
-                           (MESSAGE_ADDR_TYPE)&bb_to_22,
-                           (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                           &rc);
-        CHECK_CODE("Tsk23 DISPLAY_BLACKBOARD bb_23_22", rc);
+        /* --- Send queuing message to partition output port --- */
+        queuing_data = buf_recv_data;
+        memcpy(data_buf, &queuing_data, sizeof(integer));
+        ret = SEND_QUEUING_MESSAGE(queuing_out_id,
+                                   (MESSAGE_ADDR_TYPE)data_buf,
+                                   sizeof(integer),
+                                   5);    /* timeout: 5 ns as per spec */
+        CHECK_CODE("SEND_QUEUING_MESSAGE (task23)", ret);
 
-        /* ---- 7. Send result to inter-partition queuing port - */
-        SEND_QUEUING_MESSAGE(g_queuing_port_out,
-                             (MESSAGE_ADDR_TYPE)&queuing_out,
-                             (MESSAGE_SIZE_TYPE)APP_DATA_SIZE,
-                             (SYSTEM_TIME_TYPE)QUEUING_PORT_OUT_TIMEOUT,
-                             &rc);
-        CHECK_CODE("Tsk23 SEND_QUEUING_MESSAGE queuing_port_out", rc);
+        /* Call print subprogram */
+        commandboard_printinfos_spg();
 
-        /* ---- 8. Print diagnostic info ----------------------- */
-        commandboard_printinfos_spg(&queuing_out, &rc);
-        CHECK_CODE("Tsk23 printinfos_spg", rc);
-
-        /* ---- 9. Wait for next period ------------------------ */
-        PERIODIC_WAIT(&rc);
-        CHECK_CODE("Tsk23 PERIODIC_WAIT", rc);
+        PERIODIC_WAIT(&ret);
+        CHECK_CODE("PERIODIC_WAIT (task23)", ret);
     }
+
+    return NULL;
 }
