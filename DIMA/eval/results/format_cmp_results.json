@@ -1,0 +1,137 @@
+{
+  "nl": {
+    "structural": 27.8,
+    "api": 15.8,
+    "semantic": 0.0,
+    "total": 14.7,
+    "arinc_rate": 16.7,
+    "arinc_detail": [
+      {
+        "rule": "R1",
+        "item": "blackboard read/write",
+        "pass": false,
+        "msg": "activity.c 缺少：DISPLAY_BLACKBOARD（写入）, READ_BLACKBOARD（读取）"
+      },
+      {
+        "rule": "R2",
+        "item": "buffer send/recv",
+        "pass": false,
+        "msg": "activity.c 缺少：SEND_BUFFER（发送）, RECEIVE_BUFFER（接收）"
+      },
+      {
+        "rule": "R4",
+        "item": "pr2samplingin",
+        "pass": false,
+        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+      },
+      {
+        "rule": "R5",
+        "item": "pr2queueingout",
+        "pass": false,
+        "msg": "队列SOURCE pr2queueingout：activity.c 中【无】 SEND_QUEUING_MESSAGE"
+      },
+      {
+        "rule": "R7",
+        "item": "HM callbacks",
+        "pass": false,
+        "msg": "HM 回调缺失：module_HM_callback, partition_HM_callback"
+      },
+      {
+        "rule": "R8",
+        "item": "no CREATE in loop",
+        "pass": true,
+        "msg": "activity.c 中无 while 循环（无法判断，视为通过）"
+      }
+    ]
+  },
+  "aadl": {
+    "structural": 27.8,
+    "api": 15.8,
+    "semantic": 0.0,
+    "total": 14.7,
+    "arinc_rate": 16.7,
+    "arinc_detail": [
+      {
+        "rule": "R1",
+        "item": "blackboard read/write",
+        "pass": false,
+        "msg": "activity.c 缺少：DISPLAY_BLACKBOARD（写入）, READ_BLACKBOARD（读取）"
+      },
+      {
+        "rule": "R2",
+        "item": "buffer send/recv",
+        "pass": false,
+        "msg": "activity.c 缺少：SEND_BUFFER（发送）, RECEIVE_BUFFER（接收）"
+      },
+      {
+        "rule": "R4",
+        "item": "pr2samplingin",
+        "pass": false,
+        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+      },
+      {
+        "rule": "R5",
+        "item": "pr2queueingout",
+        "pass": false,
+        "msg": "队列SOURCE pr2queueingout：activity.c 中【无】 SEND_QUEUING_MESSAGE"
+      },
+      {
+        "rule": "R7",
+        "item": "HM callbacks",
+        "pass": false,
+        "msg": "HM 回调缺失：module_HM_callback, partition_HM_callback"
+      },
+      {
+        "rule": "R8",
+        "item": "no CREATE in loop",
+        "pass": true,
+        "msg": "activity.c 中无 while 循环（无法判断，视为通过）"
+      }
+    ]
+  },
+  "json": {
+    "structural": 27.8,
+    "api": 15.8,
+    "semantic": 0.0,
+    "total": 14.7,
+    "arinc_rate": 16.7,
+    "arinc_detail": [
+      {
+        "rule": "R1",
+        "item": "blackboard read/write",
+        "pass": false,
+        "msg": "activity.c 缺少：DISPLAY_BLACKBOARD（写入）, READ_BLACKBOARD（读取）"
+      },
+      {
+        "rule": "R2",
+        "item": "buffer send/recv",
+        "pass": false,
+        "msg": "activity.c 缺少：SEND_BUFFER（发送）, RECEIVE_BUFFER（接收）"
+      },
+      {
+        "rule": "R4",
+        "item": "pr2samplingin",
+        "pass": false,
+        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+      },
+      {
+        "rule": "R5",
+        "item": "pr2queueingout",
+        "pass": false,
+        "msg": "队列SOURCE pr2queueingout：activity.c 中【无】 SEND_QUEUING_MESSAGE"
+      },
+      {
+        "rule": "R7",
+        "item": "HM callbacks",
+        "pass": false,
+        "msg": "HM 回调缺失：module_HM_callback, partition_HM_callback"
+      },
+      {
+        "rule": "R8",
+        "item": "no CREATE in loop",
+        "pass": true,
+        "msg": "activity.c 中无 while 循环（无法判断，视为通过）"
+      }
+    ]
+  }
+}
