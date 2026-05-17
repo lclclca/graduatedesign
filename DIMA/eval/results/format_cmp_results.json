@@ -1,28 +1,28 @@
 {
   "nl": {
-    "structural": 27.8,
-    "api": 81.6,
-    "semantic": 37.5,
-    "total": 52.2,
-    "arinc_rate": 83.3,
+    "structural": 100.0,
+    "api": 100.0,
+    "semantic": 100.0,
+    "total": 100.0,
+    "arinc_rate": 66.7,
     "arinc_detail": [
       {
         "rule": "R1",
         "item": "blackboard read/write",
-        "pass": true,
-        "msg": "DISPLAY_BLACKBOARD 与 READ_BLACKBOARD 均出现在 activity.c ✓"
+        "pass": false,
+        "msg": "activity.c 缺少：DISPLAY_BLACKBOARD（写入）, READ_BLACKBOARD（读取）"
       },
       {
         "rule": "R2",
         "item": "buffer send/recv",
-        "pass": true,
-        "msg": "SEND_BUFFER 与 RECEIVE_BUFFER 均出现在 activity.c ✓"
+        "pass": false,
+        "msg": "activity.c 缺少：SEND_BUFFER（发送）, RECEIVE_BUFFER（接收）"
       },
       {
         "rule": "R4",
         "item": "pr2samplingin",
-        "pass": false,
-        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+        "pass": true,
+        "msg": "采样DEST pr2samplingin：activity.c 中有 READ_SAMPLING_MESSAGE"
       },
       {
         "rule": "R5",
@@ -40,16 +40,16 @@
         "rule": "R8",
         "item": "no CREATE in loop",
         "pass": true,
-        "msg": "activity.c 中无 while 循环（无法判断，视为通过）"
+        "msg": "while(1) 后无 CREATE_ 调用 ✓"
       }
     ]
   },
   "aadl": {
-    "structural": 27.8,
-    "api": 39.5,
-    "semantic": 12.5,
-    "total": 27.9,
-    "arinc_rate": 66.7,
+    "structural": 100.0,
+    "api": 92.1,
+    "semantic": 81.2,
+    "total": 91.2,
+    "arinc_rate": 100.0,
     "arinc_detail": [
       {
         "rule": "R1",
@@ -66,8 +66,8 @@
       {
         "rule": "R4",
         "item": "pr2samplingin",
-        "pass": false,
-        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+        "pass": true,
+        "msg": "采样DEST pr2samplingin：activity.c 中有 READ_SAMPLING_MESSAGE"
       },
       {
         "rule": "R5",
@@ -78,8 +78,8 @@
       {
         "rule": "R7",
         "item": "HM callbacks",
-        "pass": false,
-        "msg": "HM 回调缺失：module_HM_callback"
+        "pass": true,
+        "msg": "HM 回调函数均已定义"
       },
       {
         "rule": "R8",
@@ -90,29 +90,29 @@
     ]
   },
   "json": {
-    "structural": 27.8,
-    "api": 53.9,
-    "semantic": 37.5,
-    "total": 41.2,
-    "arinc_rate": 83.3,
+    "structural": 100.0,
+    "api": 100.0,
+    "semantic": 90.6,
+    "total": 97.2,
+    "arinc_rate": 66.7,
     "arinc_detail": [
       {
         "rule": "R1",
         "item": "blackboard read/write",
-        "pass": true,
-        "msg": "DISPLAY_BLACKBOARD 与 READ_BLACKBOARD 均出现在 activity.c ✓"
+        "pass": false,
+        "msg": "activity.c 缺少：DISPLAY_BLACKBOARD（写入）, READ_BLACKBOARD（读取）"
       },
       {
         "rule": "R2",
         "item": "buffer send/recv",
-        "pass": true,
-        "msg": "SEND_BUFFER 与 RECEIVE_BUFFER 均出现在 activity.c ✓"
+        "pass": false,
+        "msg": "activity.c 缺少：SEND_BUFFER（发送）, RECEIVE_BUFFER（接收）"
       },
       {
         "rule": "R4",
         "item": "pr2samplingin",
-        "pass": false,
-        "msg": "采样DEST pr2samplingin：activity.c 中【无】 READ_SAMPLING_MESSAGE"
+        "pass": true,
+        "msg": "采样DEST pr2samplingin：activity.c 中有 READ_SAMPLING_MESSAGE"
       },
       {
         "rule": "R5",
@@ -130,7 +130,7 @@
         "rule": "R8",
         "item": "no CREATE in loop",
         "pass": true,
-        "msg": "activity.c 中无 while 循环（无法判断，视为通过）"
+        "msg": "while(1) 后无 CREATE_ 调用 ✓"
       }
     ]
   }
