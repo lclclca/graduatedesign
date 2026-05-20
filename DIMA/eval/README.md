@@ -175,13 +175,28 @@ python3 DIMA/eval/gui.py
 
 ## 规格转换工具
 
-### scripts/aadl2c.py — AADL → JSON 规格提取
+### scripts/aadl2c.py — AADL 解析与代码生成
 
 ```bash
-python3 DIMA/scripts/aadl2c.py --partition P2 \
+# 生成所有分区的 C 代码骨架
+python3 DIMA/scripts/aadl2c.py \
     --partitions DIMA/Sys/DIMA_partitions.aadl \
     --threads    DIMA/Sys/DIMA_threads.aadl \
-    --output     DIMA/eval/specs/ps2.json
+    --outdir     DIMA/C_Code_Gen/generated
+
+# 只生成指定分区，并同时输出 JSON 规格文件
+python3 DIMA/scripts/aadl2c.py \
+    --partitions DIMA/Sys/DIMA_partitions.aadl \
+    --threads    DIMA/Sys/DIMA_threads.aadl \
+    --outdir     DIMA/C_Code_Gen/generated \
+    --partlist   P2 \
+    --spec-json
 ```
 
-从 AADL 模型文件中提取指定分区的规格，生成标准化 JSON 文件供评估脚本使用。
+参数说明：
+- `--partitions`：AADL 分区定义文件
+- `--threads`：AADL 线程定义文件
+- `--outdir`：C 代码输出目录（默认 `./generated`）
+- `--partlist`：只处理指定分区（空格分隔），省略则处理全部
+- `--module`：模块名前缀过滤（如 `M1`）
+- `--spec-json`：同时在输出目录生成 `*_spec.json` 规格文件，可直接用于 LLM 提示词
