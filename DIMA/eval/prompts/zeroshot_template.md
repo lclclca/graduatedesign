@@ -7,26 +7,97 @@
 
 ```json
 {
+{
   "partition": "ps2",
-  "module": "M1",
+  "module": "M?",
+  "aadl_process": "DIMA_partitions::P2.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
   "tasks": [
-    {"name": "task21", "period_ms": 50,  "priority": 2},
-    {"name": "task22", "period_ms": 50,  "priority": 3},
-    {"name": "task23", "period_ms": 100, "priority": 4}
+    {
+      "name": "task21",
+      "period_ms": 50,
+      "priority": 2
+    },
+    {
+      "name": "task22",
+      "period_ms": 50,
+      "priority": 3
+    },
+    {
+      "name": "task23",
+      "period_ms": 100,
+      "priority": 4
+    }
   ],
   "sampling_ports": [
-    {"name": "pr2samplingin", "direction": "DESTINATION", "api_read": "READ_SAMPLING_MESSAGE"}
+    {
+      "name": "pr2samplingin",
+      "direction": "DESTINATION",
+      "refresh_period_ns": 100,
+      "api_read": "READ_SAMPLING_MESSAGE"
+    }
   ],
   "queuing_ports": [
-    {"name": "pr2queueingout", "direction": "SOURCE", "max_nb": 30, "api_write": "SEND_QUEUING_MESSAGE"}
+    {
+      "name": "pr2queueingout",
+      "direction": "SOURCE",
+      "max_nb": 30,
+      "api_write": "SEND_QUEUING_MESSAGE"
+    }
   ],
-  "blackboards": ["bb_acc3", "bb_t2t3", "bb_t3t2"],
-  "buffers":     ["buf_order", "buf_t2tot3", "buf_t3tot2"],
-  "subprograms": ["commandboard_receiveinput_spg", "commandboard_printinfos_spg"],
+  "blackboards": [
+    {
+      "name": "bb_task1to2BlackBoard"
+    }
+  ],
+  "buffers": [
+    {
+      "name": "buf_task2to1Buffer",
+      "max_nb": 10
+    },
+    {
+      "name": "buf_task2to3buffer",
+      "max_nb": 10
+    },
+    {
+      "name": "buf_task3to2buffer",
+      "max_nb": 10
+    },
+    {
+      "name": "buf_task2to3blackboard",
+      "max_nb": 10
+    },
+    {
+      "name": "buf_task3to2blackboard",
+      "max_nb": 10
+    }
+  ],
+  "subprograms": [
+    "commandboard_receiveinput_spg",
+    "commandboard_printinfos_spg"
+  ],
   "deployment": {
-    "nb_threads": 3, "nb_samplings": 1, "nb_queueings": 1,
-    "nb_blackboards": 3, "nb_buffers": 3, "stacks_size": 24576
+    "nb_threads": 3,
+    "nb_samplings": 1,
+    "nb_queueings": 1,
+    "nb_blackboards": 1,
+    "nb_buffers": 5,
+    "stacks_size": 24576
   }
+}
+
 }
 ## 要求
 
