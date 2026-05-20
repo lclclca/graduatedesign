@@ -1,214 +1,253 @@
 #!/usr/bin/env python3
-"""方法总体流程图 — AADL → 提示策略 → LLM → 双维评估"""
+"""方法总体流程图 — 横向四列，仿参考图风格"""
 
 import os
 import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
 from matplotlib.patches import FancyBboxPatch
 from matplotlib import rcParams
 
 rcParams['font.family'] = 'WenQuanYi Zen Hei'
 rcParams['axes.unicode_minus'] = False
 
-OUT_DIR = os.path.join(os.path.dirname(__file__), "results", "figures")
+OUT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "results", "figures")
 os.makedirs(OUT_DIR, exist_ok=True)
 
-# ── 配色 ─────────────────────────────────────────────────────────────────────
-C_AADL_E  = "#2E4057";  C_AADL_F  = "#D6EAF8"
-C_TOOL_E  = "#1A5276";  C_TOOL_F  = "#EBF5FB"
-C_PRM_E   = "#1F618D";  C_PRM_F   = "#EBF5FB"
-C_LLM_E   = "#4A235A";  C_LLM_F   = "#E8DAEF"
-C_EVAL_E  = "#1A5276";  C_EVAL_F  = "#D6EAF8"
-C_ARINC_E = "#922B21";  C_ARINC_F = "#FADBD8"
-C_RES_E   = "#145A32";  C_RES_F   = "#D5F5E3"
-C_RES2_E  = "#7B241C";  C_RES2_F  = "#FDEDEC"
-C_SUB_E   = "#AAAAAA";  C_SUB_F   = "#FDFEFE"
-C_ARR     = "#555555"
-C_PHASE   = "#999999"
+# ── 配色 ──────────────────────────────────────────────────────────────────
+CH = {
+    "input":   ("#2471A3", "#D6EAF8"),   # 蓝：输入层
+    "parse":   ("#148F77", "#D1F2EB"),   # 绿：解析层
+    "prompt":  ("#1F618D", "#EBF5FB"),   # 深蓝：提示词
+    "llm":     ("#6C3483", "#F0EBF8"),   # 紫：LLM
+    "eval3d":  ("#1A5276", "#D6EAF8"),   # 蓝：三维评分
+    "arinc":   ("#922B21", "#FADBD8"),   # 红：ARINC
+}
+C_ARR = "#555555"
 
-fig, ax = plt.subplots(figsize=(12, 12))
-ax.set_xlim(0, 12)
-ax.set_ylim(4.7, 14.5)
+fig, ax = plt.subplots(figsize=(16, 9))
+ax.set_xlim(0, 16)
+ax.set_ylim(0, 9)
 ax.axis('off')
 fig.patch.set_facecolor('white')
 
 
-# ── 辅助函数 ──────────────────────────────────────────────────────────────────
-def box(ax, x, y, w, h, title, ec, fc, title_h=0.55, fs=10, fw='bold', tc='white',
-        subtitle=None, sub_fs=8.5):
-    """圆角矩形，带标题栏（深色顶条 + 内容区）"""
-    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.06",
-                                lw=1.6, edgecolor=ec, facecolor=fc, zorder=2))
-    # 标题顶栏
-    ax.add_patch(FancyBboxPatch((x, y+h-title_h), w, title_h,
-                                boxstyle="round,pad=0.03",
-                                lw=0, edgecolor='none', facecolor=ec, zorder=3))
-    ax.text(x + w/2, y + h - title_h/2, title,
-            ha='center', va='center', fontsize=fs, fontweight=fw,
-            color=tc, zorder=4)
-    if subtitle:
-        ax.text(x + w/2, y + (h - title_h)/2, subtitle,
-                ha='center', va='center', fontsize=sub_fs,
-                color='#444444', zorder=4)
+# ════════════════════════════════════════════════════════════════════════════
+#  辅助函数
+# ════════════════════════════════════════════════════════════════════════════
+
+def section_bg(ax, x, y, w, h, label, fc):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.15",
+                                lw=1.4, edgecolor="#BBBBBB", facecolor=fc,
+                                alpha=0.45, zorder=0))
+    ax.text(x + w / 2, y + h + 0.18, label, ha='center', va='bottom',
+            fontsize=9.5, color='#555555', fontstyle='italic')
 
 
-def simple_box(ax, x, y, w, h, text, ec, fc, fs=8.5, fw='normal'):
-    """无标题栏的简单框"""
+def badge(ax, cx, cy, num, hc):
+    """编号圆形徽章"""
+    ax.add_patch(plt.Circle((cx, cy), 0.26, color=hc, zorder=6))
+    ax.text(cx, cy, num, ha='center', va='center',
+            fontsize=10, fontweight='bold', color='white', zorder=7)
+
+
+def header_box(ax, x, y, w, h, num, title, sec_label, key, items):
+    """带彩色标题栏 + 编号 + 子项的主框"""
+    hc, fc = CH[key]
+    HDR = 0.55
+    # 主框
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.07",
+                                lw=1.6, edgecolor=hc, facecolor=fc, zorder=2))
+    # 标题栏
+    ax.add_patch(FancyBboxPatch((x, y + h - HDR), w, HDR,
+                                boxstyle="round,pad=0.04",
+                                lw=0, edgecolor='none', facecolor=hc, zorder=3))
+    # 徽章
+    badge(ax, x + 0.35, y + h - HDR / 2, num, hc)
+    # 标题
+    ax.text(x + 0.68, y + h - HDR / 2, title,
+            ha='left', va='center', fontsize=9.5, fontweight='bold',
+            color='white', zorder=5)
+    # 章节标注（右上角）
+    if sec_label:
+        ax.text(x + w - 0.12, y + h - HDR / 2, sec_label,
+                ha='right', va='center', fontsize=7.5, color='#BEE0F5', zorder=5)
+    # 子项
+    cy = y + h - HDR - 0.10
+    for item in items:
+        cy -= 0.355
+        ax.text(x + 0.20, cy, item, ha='left', va='top',
+                fontsize=8.2, color='#333333', zorder=4)
+    return (x + w / 2, y)          # 底部中心
+
+
+def strategy_box(ax, x, y, w, h, title, sub, hc, fc):
+    """策略小框"""
+    HDR = 0.40
     ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.05",
-                                lw=1.0, edgecolor=ec, facecolor=fc, zorder=3))
-    ax.text(x + w/2, y + h/2, text,
-            ha='center', va='center', fontsize=fs, fontweight=fw,
-            color='#333333', zorder=4)
+                                lw=1.2, edgecolor=hc, facecolor=fc, zorder=3))
+    ax.add_patch(FancyBboxPatch((x, y + h - HDR), w, HDR,
+                                boxstyle="round,pad=0.03",
+                                lw=0, edgecolor='none', facecolor=hc, zorder=4))
+    ax.text(x + w / 2, y + h - HDR / 2, title,
+            ha='center', va='center', fontsize=8.5, fontweight='bold',
+            color='white', zorder=5)
+    ax.text(x + w / 2, y + (h - HDR) / 2, sub,
+            ha='center', va='center', fontsize=7.6, color='#444444',
+            zorder=4, linespacing=1.5)
 
 
-def arrow(ax, x1, y1, x2, y2, color=C_ARR, lw=1.8):
-    ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
-                arrowprops=dict(arrowstyle="-|>", color=color, lw=lw,
-                                connectionstyle="arc3,rad=0.0"),
-                zorder=5)
+def arrow(ax, x1, y1, x2, y2, lbl=''):
+    ax.annotate('', xy=(x2, y2), xytext=(x1, y1),
+                arrowprops=dict(arrowstyle='-|>', color=C_ARR, lw=2.0), zorder=6)
+    if lbl:
+        mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+        ax.text(mx + 0.12, my, lbl, fontsize=7.5, color='#555555', va='center')
 
 
-def fan_arrows(ax, x_src, y_src, targets_x, y_dst, color=C_ARR):
-    """从单点扇出到多个目标点"""
+def fan_arrow(ax, x1, y1, targets_x, y2):
     for tx in targets_x:
-        ax.annotate("", xy=(tx, y_dst), xytext=(x_src, y_src),
-                    arrowprops=dict(arrowstyle="-|>", color=color, lw=1.6,
-                                    connectionstyle="arc3,rad=0.0"),
-                    zorder=5)
+        ax.annotate('', xy=(tx, y2), xytext=(x1, y1),
+                    arrowprops=dict(arrowstyle='-|>', color=C_ARR, lw=1.6), zorder=6)
 
 
-def fan_in_arrows(ax, sources_x, y_src, x_dst, y_dst, color=C_ARR):
-    """从多个源点汇聚到单点"""
+def fan_in_arrow(ax, sources_x, y1, x2, y2):
     for sx in sources_x:
-        ax.annotate("", xy=(x_dst, y_dst), xytext=(sx, y_src),
-                    arrowprops=dict(arrowstyle="-|>", color=color, lw=1.6,
-                                    connectionstyle="arc3,rad=0.0"),
-                    zorder=5)
-
-
-# ── 阶段标签（左侧）──────────────────────────────────────────────────────────
-def phase_label(ax, y_mid, text):
-    ax.text(0.22, y_mid, text, ha='center', va='center',
-            fontsize=8.5, color=C_PHASE, rotation=90,
-            fontstyle='italic', zorder=1)
+        ax.annotate('', xy=(x2, y2), xytext=(sx, y1),
+                    arrowprops=dict(arrowstyle='-|>', color=C_ARR, lw=1.6), zorder=6)
 
 
 # ════════════════════════════════════════════════════════════════════════════
-#  第1层：AADL模型文件
+#  Section 背景（三个阶段）
 # ════════════════════════════════════════════════════════════════════════════
-BW1 = 4.5;  BX1 = (12 - BW1) / 2    # 居中
-BY1 = 13.3;  BH1 = 0.75
-simple_box(ax, BX1, BY1, BW1, BH1, "AADL 系统架构模型",
-           C_AADL_E, C_AADL_F, fs=10, fw='bold')
-phase_label(ax, BY1 + BH1/2, "输  入")
+section_bg(ax, 0.20, 0.30, 4.90, 8.10, "输入与规格提取", "#EBF5FB")
+section_bg(ax, 5.30, 0.30, 4.60, 8.10, "提示词工程",    "#EAF7EF")
+section_bg(ax, 10.10, 0.30, 5.65, 8.10, "代码生成与评估", "#F5EEF8")
 
 # ════════════════════════════════════════════════════════════════════════════
-#  第2层：aadl2c.py 解析器
+#  列1：实验系统（§3.3）
 # ════════════════════════════════════════════════════════════════════════════
-BW2 = 5.2;  BX2 = (12 - BW2) / 2
-BY2 = 12.05;  BH2 = 0.75
-simple_box(ax, BX2, BY2, BW2, BH2, "aadl2c.py   AADL 解析与规格提取",
-           C_TOOL_E, C_TOOL_F, fs=9.5, fw='bold')
-
-phase_label(ax, BY2 + BH2/2, "解  析")
-
-# ── 箭头 1→2 ─────────────────────────────────────────────────────────────────
-arrow(ax, 6.0, BY1, 6.0, BY2 + BH2)
+header_box(ax, 0.40, 4.55, 2.20, 3.70, "①", "实验系统", "§3.3", "input", [
+    "· AADL 系统架构模型",
+    "",
+    "· DIMA 系统  5 个分区",
+    "· IMA2 系统  3 个分区",
+    "· IMA3 系统  4 个分区",
+    "",
+    "  共 12 个分区",
+    "  合计 48 组实验",
+])
 
 # ════════════════════════════════════════════════════════════════════════════
-#  第3层：4个提示策略框
+#  列2：AADL 解析（§3.2）
 # ════════════════════════════════════════════════════════════════════════════
-PW = 2.55;  PH = 1.55;  PY = 10.05
-PXS = [0.35, 3.10, 5.85, 8.60]   # 左边 x
+header_box(ax, 0.40, 0.55, 2.20, 3.65, "②", "规格解析", "§3.2", "parse", [
+    "· aadl2c.py 解析器",
+    "",
+    "  分区规格提取",
+    "  任务（周期/优先级）",
+    "  端口（采样/队列）",
+    "  资源（黑板/缓冲区）",
+    "",
+    "· 输出：JSON 规格",
+])
 
-prompt_titles  = ["零样本策略", "思维链策略", "少样本策略", "组合策略"]
-prompt_subs    = [
-    "角色定义\n11文件清单",
-    "4步推理链\nAPI参考",
-    "ps3完整示例\n模式迁移",
-    "示例+推理链\n+API片段",
+# 系统 → 解析
+arrow(ax, 1.50, 4.55, 1.50, 4.20)
+
+# ── JSON规格 → 提示词工程（水平箭头）────────────────────────────────────────
+arrow(ax, 2.60, 2.35, 5.40, 2.35, "JSON规格")
+
+# 系统也有箭头向右
+arrow(ax, 2.60, 6.40, 3.20, 6.40)
+ax.annotate('', xy=(5.40, 4.65), xytext=(3.20, 6.40),
+            arrowprops=dict(arrowstyle='-|>', color=C_ARR, lw=1.6,
+                            connectionstyle="arc3,rad=-0.25"), zorder=6)
+
+# ════════════════════════════════════════════════════════════════════════════
+#  列3：提示词工程（§3.4）
+# ════════════════════════════════════════════════════════════════════════════
+hc_p, fc_p = CH["prompt"]
+
+# 大框
+ax.add_patch(FancyBboxPatch((5.40, 0.55), 4.20, 8.0,
+                             boxstyle="round,pad=0.08",
+                             lw=1.6, edgecolor=hc_p, facecolor=fc_p, zorder=2))
+# header
+HDR = 0.55
+ax.add_patch(FancyBboxPatch((5.40, 8.00), 4.20, HDR,
+                             boxstyle="round,pad=0.04",
+                             lw=0, edgecolor='none', facecolor=hc_p, zorder=3))
+badge(ax, 5.75, 8.00 + HDR / 2, "③", hc_p)
+ax.text(6.08, 8.00 + HDR / 2, "提示词工程",
+        ha='left', va='center', fontsize=9.5, fontweight='bold', color='white', zorder=5)
+ax.text(9.42, 8.00 + HDR / 2, "§3.4",
+        ha='right', va='center', fontsize=7.5, color='#BEE0F5', zorder=5)
+
+# 四种策略（纵向排列）
+strategies = [
+    ("零样本策略", "角色定义\n+ 文件清单"),
+    ("思维链策略", "4步推理链\n+ API参考片段"),
+    ("少样本策略", "完整示例代码\n+ 模式迁移"),
+    ("组合策略",   "示例 + 推理链\n+ API片段"),
 ]
-
-for px, title, sub in zip(PXS, prompt_titles, prompt_subs):
-    box(ax, px, PY, PW, PH, title,
-        C_PRM_E, C_PRM_F, title_h=0.45, fs=9, sub_fs=8, subtitle=sub)
-
-phase_label(ax, PY + PH/2, "提示策略")
-
-# ── 扇出箭头 2→3（从 aadl2c 底部中心 → 各提示框顶部中心）────────────────────
-src_y = BY2
-targets_x3 = [px + PW/2 for px in PXS]
-fan_arrows(ax, 6.0, src_y, targets_x3, PY + PH)
+sy = 7.75
+strat_centers = []
+for title, sub in strategies:
+    strategy_box(ax, 5.58, sy - 1.68, 3.84, 1.55, title, sub, hc_p, "#F0F6FF")
+    strat_centers.append(5.58 + 3.84 / 2)
+    sy -= 1.75
 
 # ════════════════════════════════════════════════════════════════════════════
-#  第4层：大语言模型（横跨）
+#  列4：大语言模型
 # ════════════════════════════════════════════════════════════════════════════
-LX = 0.55;  LW = 10.9;  LY = 8.55;  LH = 0.90
-simple_box(ax, LX, LY, LW, LH, "大  语  言  模  型  （ LLM ）",
-           C_LLM_E, C_LLM_F, fs=11, fw='bold')
-
-phase_label(ax, LY + LH/2, "生  成")
-
-# ── 扇入箭头 3→4（各提示框底部中心 → LLM 顶部对应位置）──────────────────────
-fan_in_arrows(ax, targets_x3, PY, 6.0, LY + LH)
-
-# ════════════════════════════════════════════════════════════════════════════
-#  第5层：两个评估框（并排）
-# ════════════════════════════════════════════════════════════════════════════
-EY = 6.25;  EH = 1.90;  EW = 5.40
-EX_L = 0.40;  EX_R = 6.20
-
-# 左：三维评分
-box(ax, EX_L, EY, EW, EH, "三维评分框架",
-    C_EVAL_E, C_EVAL_F, title_h=0.50, fs=9.5)
-# 内部3个子框
-sub_labels_l = ["结构完整性  S × 30%", "API 正确性   A × 40%", "语义一致性  C × 30%"]
-sub_h = 0.36;  sub_gap = 0.06;  sub_w = EW - 0.40
-sub_y = EY + EH - 0.50 - sub_gap
-for lbl in sub_labels_l:
-    sub_y -= sub_h
-    simple_box(ax, EX_L + 0.20, sub_y, sub_w, sub_h, lbl,
-               C_SUB_E, C_SUB_F, fs=8.0)
-    sub_y -= sub_gap
-
-# 右：ARINC 653合规检查
-box(ax, EX_R, EY, EW, EH, "ARINC 653 合规检查",
-    C_ARINC_E, C_ARINC_F, title_h=0.50, fs=9.5)
-sub_labels_r = ["R1–R8   共 8 条规则", "双端 API · HM回调 · 11文件"]
-sub_y = EY + EH - 0.50 - sub_gap
-for lbl in sub_labels_r:
-    sub_y -= sub_h
-    simple_box(ax, EX_R + 0.20, sub_y, sub_w, sub_h, lbl,
-               "#E8BCBA", "#FEF9F9", fs=8.0)
-    sub_y -= sub_gap
-
-phase_label(ax, EY + EH/2, "评  估")
-
-# ── 扇出箭头 4→5（LLM底部 → 两评估框顶部中心）────────────────────────────────
-arrow(ax, 6.0, LY, EX_L + EW/2, EY + EH)
-arrow(ax, 6.0, LY, EX_R + EW/2, EY + EH)
+header_box(ax, 10.25, 5.00, 5.10, 3.55, "④", "大语言模型", "", "llm", [
+    "· Claude 3.5 Sonnet",
+    "",
+    "· 输入：提示词 + JSON规格",
+    "· 输出：11 个 C/H 文件 / 分区",
+    "",
+    "  每分区代码约 500–1200 行",
+])
 
 # ════════════════════════════════════════════════════════════════════════════
-#  第6层：结果输出框（两个）
+#  列4下：双评估框（§3.5/第4章）
 # ════════════════════════════════════════════════════════════════════════════
-RY = 5.10;  RH = 0.65;  RW = EW
+header_box(ax, 10.25, 0.55, 2.40, 4.10, "⑤", "三维评分", "§3.5", "eval3d", [
+    "· S  结构完整性 ×30%",
+    "     11文件 / HM回调",
+    "· A  API 正确性  ×40%",
+    "     CREATE/READ/WRITE",
+    "· C  语义一致性 ×30%",
+    "     任务/端口/资源命名",
+    "",
+    "  → 综合得分（0–100）",
+])
 
-simple_box(ax, EX_L, RY, RW, RH, "三 维 综 合 得 分  （ S / A / C ）",
-           C_RES_E, C_RES_F, fs=8.5, fw='bold')
-simple_box(ax, EX_R, RY, RW, RH, "ARINC 653  合 规 率",
-           C_RES2_E, C_RES2_F, fs=8.5, fw='bold')
+header_box(ax, 12.90, 0.55, 2.40, 4.10, "⑥", "ARINC 653", "§3.5", "arinc", [
+    "· R1  黑板双端操作",
+    "· R2  缓冲区双端操作",
+    "· R3/R4  采样端口方向",
+    "· R5/R6  队列端口方向",
+    "· R7  HM 回调实现",
+    "· R8  禁止循环内CREATE",
+    "",
+    "  → 合规率（0–100%）",
+])
 
-phase_label(ax, RY + RH/2, "结  果")
+# ════════════════════════════════════════════════════════════════════════════
+#  箭头连接
+# ════════════════════════════════════════════════════════════════════════════
+# 提示词大框右侧 → LLM 左侧
+arrow(ax, 9.60, 4.55, 10.25, 6.77)
 
-# ── 箭头 5→6 ─────────────────────────────────────────────────────────────────
-arrow(ax, EX_L + EW/2, EY, EX_L + EW/2, RY + RH)
-arrow(ax, EX_R + EW/2, EY, EX_R + EW/2, RY + RH)
+# LLM → 三维评分
+arrow(ax, 11.45, 5.00, 11.45, 4.65)
+# LLM → ARINC653
+arrow(ax, 13.90, 5.00, 14.10, 4.65)
 
-# ── 图标题 ───────────────────────────────────────────────────────────────────
+# ── 图标题 ────────────────────────────────────────────────────────────────
 plt.title("图3-1  基于提示词工程的IMA分区代码自动生成方法总体流程",
-          fontsize=11, fontweight='bold', pad=10, color='#2E4057')
+          fontsize=11, fontweight='bold', pad=14, color='#2E4057')
 
-plt.tight_layout()
 out_path = os.path.join(OUT_DIR, "fig3_pipeline.png")
 plt.savefig(out_path, bbox_inches='tight', dpi=180)
 print(f"[DONE] 已保存: {out_path}")
