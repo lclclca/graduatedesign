@@ -1,0 +1,61 @@
+{
+  "partition": "disp",
+  "module": "M?",
+  "aadl_process": "IMA3_partitions::DISP.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskD1",
+      "period_ms": 50,
+      "priority": 2
+    },
+    {
+      "name": "taskD2",
+      "period_ms": 100,
+      "priority": 3
+    }
+  ],
+  "sampling_ports": [
+    {
+      "name": "pos_in",
+      "direction": "DESTINATION",
+      "refresh_period_ns": 100000000,
+      "api_read": "READ_SAMPLING_MESSAGE"
+    }
+  ],
+  "queuing_ports": [
+    {
+      "name": "ctrl_in",
+      "direction": "DESTINATION",
+      "max_nb": 4,
+      "api_read": "RECEIVE_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [
+    {
+      "name": "bb_disp"
+    }
+  ],
+  "buffers": [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 2,
+    "nb_samplings": 1,
+    "nb_queueings": 1,
+    "nb_blackboards": 1,
+    "nb_buffers": 0,
+    "stacks_size": 16384
+  }
+}

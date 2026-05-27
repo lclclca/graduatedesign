@@ -1,0 +1,260 @@
+{
+  "partition": "mon",
+  "gen_dir": "DIMA/eval/generated/fewshot/mon",
+  "timestamp": "2026-05-09T17:36:51",
+  "scores": {
+    "structural": 100.0,
+    "api": 100.0,
+    "semantic": 100.0,
+    "total": 100.0
+  },
+  "details": {
+    "structural": [
+      {
+        "id": "S1",
+        "weight": 2.0,
+        "desc": "必需文件完整性（11个文件）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部存在"
+      },
+      {
+        "id": "S2",
+        "weight": 1.5,
+        "desc": "main.c 中定义了 appMain(void)",
+        "passed": true,
+        "partial": 1.0,
+        "note": ""
+      },
+      {
+        "id": "S3",
+        "weight": 1.0,
+        "desc": "activity.h 声明了所有 1 个任务函数",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部声明"
+      },
+      {
+        "id": "S4",
+        "weight": 1.5,
+        "desc": "activity.c 实现了所有 1 个任务函数",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部实现"
+      },
+      {
+        "id": "S5",
+        "weight": 0.5,
+        "desc": "所有 .h 文件有头文件保护（#ifndef/#define/#endif）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部正确"
+      },
+      {
+        "id": "S6",
+        "weight": 0.5,
+        "desc": "activity.c 和 main.c 包含 apexLib.h",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部包含"
+      },
+      {
+        "id": "S7",
+        "weight": 1.0,
+        "desc": "globals.h 定义了 CHECK_CODE 宏（且 else 分支打印真实错误）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "正确"
+      },
+      {
+        "id": "S8",
+        "weight": 1.0,
+        "desc": "gtypes.h 中 typedef int integer",
+        "passed": true,
+        "partial": 1.0,
+        "note": ""
+      }
+    ],
+    "api": [
+      {
+        "id": "A1",
+        "weight": 1.5,
+        "desc": "CREATE_SAMPLING_PORT 次数（期望 1，实际 1）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望1次，实际1次"
+      },
+      {
+        "id": "A2",
+        "weight": 1.5,
+        "desc": "CREATE_QUEUING_PORT 次数（期望 0，实际 0）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望0次，实际0次"
+      },
+      {
+        "id": "A3",
+        "weight": 1.5,
+        "desc": "CREATE_BLACKBOARD 次数（期望 0，实际 0）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望0次，实际0次"
+      },
+      {
+        "id": "A4",
+        "weight": 1.5,
+        "desc": "CREATE_BUFFER 次数（期望 0，实际 0）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望0次，实际0次"
+      },
+      {
+        "id": "A5",
+        "weight": 2.0,
+        "desc": "CREATE_PROCESS 次数（期望 1，实际 1）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望1次，实际1次"
+      },
+      {
+        "id": "A6",
+        "weight": 1.5,
+        "desc": "START 次数（期望 1，实际 1）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "期望1次，实际1次"
+      },
+      {
+        "id": "A7",
+        "weight": 2.0,
+        "desc": "main.c 末尾调用 SET_PARTITION_MODE(NORMAL)",
+        "passed": true,
+        "partial": 1.0,
+        "note": ""
+      },
+      {
+        "id": "A8",
+        "weight": 2.0,
+        "desc": "每个任务函数体包含 PERIODIC_WAIT",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部包含"
+      },
+      {
+        "id": "A9",
+        "weight": 1.0,
+        "desc": "CHECK_CODE 调用次数合理（期望≥4，实际5）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "实际5次，最少期望4次"
+      },
+      {
+        "id": "A10",
+        "weight": 1.5,
+        "desc": "采样端口方向与 API 匹配（SOURCE→WRITE, DEST→READ）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部正确"
+      },
+      {
+        "id": "A11",
+        "weight": 1.5,
+        "desc": "队列端口方向与 API 匹配（SOURCE→SEND, DEST→RECEIVE）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "无队列端口"
+      },
+      {
+        "id": "A12",
+        "weight": 1.5,
+        "desc": "activity.c 中不含 GET_QUEUING_PORT_ID（端口ID应在appMain创建）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "正确"
+      }
+    ],
+    "semantic": [
+      {
+        "id": "C1",
+        "weight": 2.0,
+        "desc": "任务数量（期望 1，实际 1）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "找到任务: ['taskM1']"
+      },
+      {
+        "id": "C2",
+        "weight": 2.0,
+        "desc": "任务名称与 AADL 一致（['taskM1']）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部匹配"
+      },
+      {
+        "id": "C3",
+        "weight": 1.5,
+        "desc": "任务周期值（纳秒）与 AADL 一致",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部正确"
+      },
+      {
+        "id": "C4",
+        "weight": 1.5,
+        "desc": "任务优先级与 AADL 一致",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部正确"
+      },
+      {
+        "id": "C5",
+        "weight": 2.0,
+        "desc": "分区间端口名称出现在代码中（['status_in']）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "全部出现"
+      },
+      {
+        "id": "C6",
+        "weight": 1.5,
+        "desc": "黑板名称出现在代码中（[]）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "无黑板"
+      },
+      {
+        "id": "C7",
+        "weight": 1.5,
+        "desc": "缓冲区名称出现在代码中（[]）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "无缓冲区"
+      },
+      {
+        "id": "C8",
+        "weight": 1.0,
+        "desc": "子程序名称出现在代码中（[]）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "无子程序"
+      },
+      {
+        "id": "C9",
+        "weight": 1.5,
+        "desc": "deployment.h NB_THREADS（期望 1）",
+        "passed": true,
+        "partial": 1.0,
+        "note": "实际值: 1"
+      },
+      {
+        "id": "C10",
+        "weight": 1.5,
+        "desc": "deployment.h NB_QUEUEINGS=0, NB_SAMPLINGS=1",
+        "passed": true,
+        "partial": 1.0,
+        "note": "QUEUEINGS: 期望0 实际0; SAMPLINGS: 期望1 实际1"
+      }
+    ]
+  },
+  "experiment": "fewshot"
+}

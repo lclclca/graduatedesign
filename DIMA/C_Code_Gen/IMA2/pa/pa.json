@@ -1,0 +1,45 @@
+{
+  "partition": "pa",
+  "module": "MA",
+  "aadl_process": "DIMA2_partitions::PA.impl",
+  "required_files": [
+    "activity.c",
+    "activity.h",
+    "deployment.c",
+    "deployment.h",
+    "globals.c",
+    "globals.h",
+    "gtypes.c",
+    "gtypes.h",
+    "main.c",
+    "subprograms.c",
+    "subprograms.h"
+  ],
+  "tasks": [
+    {
+      "name": "taskA1",
+      "period_ms": 50,
+      "priority": 2
+    }
+  ],
+  "sampling_ports": [],
+  "queuing_ports": [
+    {
+      "name": "ctrl_in",
+      "direction": "DESTINATION",
+      "max_nb": 4,
+      "api_read": "RECEIVE_QUEUING_MESSAGE"
+    }
+  ],
+  "blackboards": [],
+  "buffers": [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 1,
+    "nb_samplings": 0,
+    "nb_queueings": 1,
+    "nb_blackboards": 0,
+    "nb_buffers": 0,
+    "stacks_size": 8192
+  }
+}

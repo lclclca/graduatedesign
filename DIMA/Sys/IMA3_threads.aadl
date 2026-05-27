@@ -1,0 +1,237 @@
+package IMA3_threads
+public
+
+	with ARINC653;
+	with Base_Types;
+
+	-- =========================================================================
+	--  Partition NAV  (4 tasks)
+	--  导航分区：位置解算与数据分发，覆盖全部4类ARINC 653资源
+	--  Inter-partition: 2 sampling SOURCE (pos_out, status_out), 1 queuing SOURCE (cmd_out)
+	--  Intra-partition: 2 blackboards (bb1, bb2), 1 buffer (buf1)
+	-- =========================================================================
+
+	-- TskN1: 主导航计算任务，生成位置数据并写入两块黑板
+	thread TskN1
+		features
+			pos_out:    out data port Base_Types::Integer;
+			status_out: out data port Base_Types::Integer;
+			bb1_write:  out data port Base_Types::Integer;
+			bb2_write:  out data port Base_Types::Integer;
+	end TskN1;
+
+	thread implementation TskN1.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 25ms;
+			Deadline                 => 25ms;
+			Priority                 => 2;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 25ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskN1.impl;
+
+	-- TskN2: 数据融合任务，读黑板bb1，向内部缓冲区发送融合结果
+	thread TskN2
+		features
+			bb1_read:  in  data port Base_Types::Integer;
+			buf1_send: out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskN2;
+
+	thread implementation TskN2.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 50ms;
+			Deadline                 => 50ms;
+			Priority                 => 3;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskN2.impl;
+
+	-- TskN3: 位置预测任务，读黑板bb2（低频长周期）
+	thread TskN3
+		features
+			bb2_read: in data port Base_Types::Integer;
+	end TskN3;
+
+	thread implementation TskN3.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 100ms;
+			Deadline                 => 100ms;
+			Priority                 => 4;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 100ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskN3.impl;
+
+	-- TskN4: 指令分发任务，从内部缓冲区接收，向CTRL发送队列指令
+	thread TskN4
+		features
+			buf1_recv: in  event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			cmd_out:   out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskN4;
+
+	thread implementation TskN4.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 50ms;
+			Deadline                 => 50ms;
+			Priority                 => 5;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskN4.impl;
+
+	-- =========================================================================
+	--  Partition DISP  (2 tasks)
+	--  显示分区：接收位置采样数据和控制队列，通过黑板在任务间传递显示参数
+	--  Inter-partition: 1 sampling DESTINATION (pos_in), 1 queuing DESTINATION (ctrl_in)
+	--  Intra-partition: 1 blackboard (disp)
+	-- =========================================================================
+
+	-- TskD1: 数据接收与预处理任务，写入显示黑板
+	thread TskD1
+		features
+			pos_in:     in  data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+			disp_write: out data port Base_Types::Integer;
+	end TskD1;
+
+	thread implementation TskD1.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 50ms;
+			Deadline                 => 50ms;
+			Priority                 => 2;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskD1.impl;
+
+	-- TskD2: 显示渲染任务，读黑板，处理控制队列输入
+	thread TskD2
+		features
+			ctrl_in:   in event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			disp_read: in data port Base_Types::Integer;
+	end TskD2;
+
+	thread implementation TskD2.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 100ms;
+			Deadline                 => 100ms;
+			Priority                 => 3;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 100ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskD2.impl;
+
+	-- =========================================================================
+	--  Partition CTRL  (3 tasks)
+	--  控制分区：接收导航指令队列，经内部缓冲区处理后转发显示控制命令
+	--  Inter-partition: 1 queuing DESTINATION (nav_in), 1 queuing SOURCE (ctrl_out)
+	--  Intra-partition: 1 buffer (ctrl)
+	-- =========================================================================
+
+	-- TskT1: 指令接收任务，从NAV接收导航指令并写入内部缓冲区
+	thread TskT1
+		features
+			nav_in:    in  event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			ctrl_send: out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskT1;
+
+	thread implementation TskT1.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 25ms;
+			Deadline                 => 25ms;
+			Priority                 => 2;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 25ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskT1.impl;
+
+	-- TskT2: 指令处理任务，从内部缓冲区读取后执行控制逻辑
+	thread TskT2
+		features
+			ctrl_recv: in event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskT2;
+
+	thread implementation TskT2.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 50ms;
+			Deadline                 => 50ms;
+			Priority                 => 3;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 50ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskT2.impl;
+
+	-- TskT3: 显示指令发送任务，向DISP分区发送队列控制命令（低频）
+	thread TskT3
+		features
+			ctrl_out: out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end TskT3;
+
+	thread implementation TskT3.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 100ms;
+			Deadline                 => 100ms;
+			Priority                 => 4;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 100ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskT3.impl;
+
+	-- =========================================================================
+	--  Partition MON  (1 task)
+	--  监控分区：仅接收NAV的状态采样数据，无分区内共享资源，作为基准用例
+	--  Inter-partition: 1 sampling DESTINATION (status_in)
+	--  Intra-partition: none
+	-- =========================================================================
+
+	-- TskM1: 状态监控任务，周期性读取来自NAV的状态数据
+	thread TskM1
+		features
+			status_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+	end TskM1;
+
+	thread implementation TskM1.impl
+		properties
+			Dispatch_Protocol        => Periodic;
+			Period                   => 100ms;
+			Deadline                 => 100ms;
+			Priority                 => 2;
+			Stack_Size               => 8Kbyte;
+			ARINC653::Time_Capacity  => 100ms;
+			ARINC653::Deadline_Type  => soft;
+	end TskM1.impl;
+
+end IMA3_threads;

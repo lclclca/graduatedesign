@@ -1,0 +1,30 @@
+{
+  "partition": "ps3",
+  "module": "M2",
+  "aadl_process": "DIMA_partitions::P3.impl",
+  "required_files": [
+    "activity.c", "activity.h",
+    "deployment.c", "deployment.h",
+    "globals.c", "globals.h",
+    "gtypes.c", "gtypes.h",
+    "main.c",
+    "subprograms.c", "subprograms.h"
+  ],
+  "tasks": [
+    {"name": "task31", "period_ms": 25, "priority": 2},
+    {"name": "task32", "period_ms": 50, "priority": 3},
+    {"name": "task33", "period_ms": 50, "priority": 4}
+  ],
+  "sampling_ports": [],
+  "queuing_ports": [
+    {"name": "order_in",    "direction": "DESTINATION", "max_nb": 4, "api_read": "RECEIVE_QUEUING_MESSAGE"},
+    {"name": "queueingin",  "direction": "DESTINATION", "max_nb": 4, "api_read": "RECEIVE_QUEUING_MESSAGE"}
+  ],
+  "blackboards": [],
+  "buffers":     [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 3, "nb_samplings": 0, "nb_queueings": 2,
+    "nb_blackboards": 0, "nb_buffers": 0, "stacks_size": 24576
+  }
+}

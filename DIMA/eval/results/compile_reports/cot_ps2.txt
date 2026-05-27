@@ -1,0 +1,103 @@
+﻿编译检查报告：cot/ps2
+==================================================
+错误数：74  警告数：13  未通过
+
+分类统计：
+  语法错误         28
+  未声明标识符       44
+  其他           15
+
+详细问题：
+
+  [语法错误]
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2059: 语法错误:“)”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2059: 语法错误:“)”
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2059: 语法错误:“)”
+    ERROR   C2143  DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+    ERROR   C2143  DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+    ERROR   C2059  DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2059: 语法错误:“)”
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(20): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(20): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(28): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(38): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(42): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(42): error C2065: “bb_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(50): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(50): error C2065: “bb_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(55): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(55): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(59): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(64): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(64): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(78): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(79): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(103): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(103): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(110): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(121): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(121): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(125): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(129): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(129): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(133): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(155): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(156): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(179): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(179): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(186): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(197): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(197): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(201): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(205): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(205): error C2065: “buf_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(209): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(222): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps2\activity.c(223): error C2065: “integer”: 未声明的标识符
+    WARNING C4013  DIMA\eval\generated\cot\ps2\activity.c(35): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\activity.c(38): warning C4013: “commandboard_receiveinput_spg”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\activity.c(56): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\activity.c(76): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\activity.c(133): warning C4013: “commandboard_printinfos_spg”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\main.c(30): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps2\main.c(164): warning C4013: “STOP_SELF”未定义；假设外部返回 int
+
+  [其他]
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(20): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(42): error C2146: 语法错误: 缺少“;”(在标识符“bb_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(55): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(103): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(121): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(179): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps2\activity.c(197): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+    ERROR   C2054  DIMA\eval\generated\cot\ps2\subprograms.c(9): error C2054: 在“input_val”之后应输入“(”
+    ERROR   C2054  DIMA\eval\generated\cot\ps2\subprograms.c(22): error C2054: 在“info_val”之后应输入“(”
+    WARNING C4113  DIMA\eval\generated\cot\ps2\main.c(105): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps2\main.c(121): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps2\main.c(137): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4996  DIMA\eval\generated\cot\ps2\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps2\main.c(120): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps2\main.c(136): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

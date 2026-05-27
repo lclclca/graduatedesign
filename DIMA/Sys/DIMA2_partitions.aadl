@@ -1,0 +1,87 @@
+package DIMA2_partitions
+public
+
+	with DIMA2_threads;
+	with ARINC653;
+	with Base_Types;
+
+	-- =========================================================================
+	--  PA: 极简分区（1 任务，1 队列入端口）
+	--  Simplest partition: 1 task, 1 queuing DESTINATION port
+	-- =========================================================================
+
+	process PA
+		features
+			ctrl_in: in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end PA;
+
+	process implementation PA.impl
+		subcomponents
+			taskA1: thread DIMA2_threads::TskA1.impl;
+		connections
+			c1: port ctrl_in -> taskA1.ctrl_in;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end PA.impl;
+
+	-- =========================================================================
+	--  PB: 中等分区（2 任务，1 采样出，1 队列入，1 黑板）
+	--  Medium partition: 2 tasks, 1 sampling SOURCE, 1 queuing DEST, 1 blackboard
+	-- =========================================================================
+
+	process PB
+		features
+			sensor_out: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ns;};
+			cmd_in:     in event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end PB;
+
+	process implementation PB.impl
+		subcomponents
+			taskB1: thread DIMA2_threads::TskB1.impl;
+			taskB2: thread DIMA2_threads::TskB2.impl;
+		connections
+			-- inter-partition
+			sampling_out: port taskB1.sensor_out -> sensor_out;
+			queuing_in:   port cmd_in -> taskB2.cmd_in;
+			-- intra-partition (blackboard: data port → data port)
+			data_link:    port taskB1.bb_write -> taskB2.bb_read;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end PB.impl;
+
+	-- =========================================================================
+	--  PC: 复杂分区（3 任务，1 采样入，1 队列出，1 黑板，1 缓冲区）
+	--  Complex partition: 3 tasks, 1 sampling DEST, 1 queuing SOURCE,
+	--                     1 blackboard, 1 buffer
+	-- =========================================================================
+
+	process PC
+		features
+			data_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ns;};
+			cmd_out: out event data port Base_Types::Integer {Queue_Size => 4;
+				ARINC653::Timeout => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end PC;
+
+	process implementation PC.impl
+		subcomponents
+			taskC1: thread DIMA2_threads::TskC1.impl;
+			taskC2: thread DIMA2_threads::TskC2.impl;
+			taskC3: thread DIMA2_threads::TskC3.impl;
+		connections
+			-- inter-partition
+			sampling_in: port data_in -> taskC1.data_in;
+			queuing_out: port taskC3.cmd_out -> cmd_out;
+			-- intra-partition (blackboard: data port → data port)
+			data_link:   port taskC1.bb_write -> taskC2.bb_read;
+			-- intra-partition (buffer: event data port → event data port)
+			msg_queue:   port taskC1.buf_send -> taskC2.buf_recv;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end PC.impl;
+
+end DIMA2_partitions;

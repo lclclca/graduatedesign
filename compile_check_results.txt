@@ -1,0 +1,695 @@
+编译检查结果 
+生成时间: 2026-04-18 20:01:59.85 
+======================== 
+[zeroshot/ps1] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\zeroshot\ps1\activity.c(100): error C2065: “QUEUING_PORT_STATUS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps1\activity.c(100): error C2146: 语法错误: 缺少“;”(在标识符“qstatus”的前面)
+DIMA\eval\generated\zeroshot\ps1\activity.c(100): error C2065: “qstatus”: 未声明的标识符
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\zeroshot\ps1\main.c(41): error C2146: 语法错误: 缺少“)”(在标识符“error_id”的前面)
+DIMA\eval\generated\zeroshot\ps1\main.c(41): error C2061: 语法错误: 标识符“error_id”
+DIMA\eval\generated\zeroshot\ps1\main.c(41): error C2059: 语法错误:“;”
+DIMA\eval\generated\zeroshot\ps1\main.c(41): error C2059: 语法错误:“)”
+DIMA\eval\generated\zeroshot\ps1\main.c(42): error C2449: 在文件范围内找到“{”(是否缺少函数头?)
+DIMA\eval\generated\zeroshot\ps1\main.c(46): error C2059: 语法错误:“}”
+DIMA\eval\generated\zeroshot\ps1\main.c(180): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps1\main.c(180): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps1\main.c(180): error C2146: 语法错误: 缺少“;”(在标识符“task11_job”的前面)
+DIMA\eval\generated\zeroshot\ps1\main.c(180): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps1\main.c(196): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps1\main.c(196): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps1\main.c(196): error C2146: 语法错误: 缺少“;”(在标识符“task12_job”的前面)
+DIMA\eval\generated\zeroshot\ps1\main.c(196): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps1\main.c(212): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps1\main.c(212): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps1\main.c(212): error C2146: 语法错误: 缺少“;”(在标识符“task13_job”的前面)
+DIMA\eval\generated\zeroshot\ps1\main.c(212): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps1\main.c(228): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps1\main.c(228): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps1\main.c(228): error C2146: 语法错误: 缺少“;”(在标识符“task14_job”的前面)
+DIMA\eval\generated\zeroshot\ps1\main.c(228): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps1\main.c(179): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps1\main.c(195): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps1\main.c(211): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps1\main.c(227): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[zeroshot/ps2] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\zeroshot\ps2\activity.c(37): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\zeroshot\ps2\main.c(39): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\zeroshot\ps2\main.c(38): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\zeroshot\ps2\main.c(38): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\zeroshot\ps2\main.c(38): note: 缺失的可变参数 2 为格式字符串“%d”所需
+DIMA\eval\generated\zeroshot\ps2\main.c(47): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\zeroshot\ps2\main.c(46): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\zeroshot\ps2\main.c(46): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\zeroshot\ps2\main.c(46): note: 缺失的可变参数 2 为格式字符串“%d”所需
+DIMA\eval\generated\zeroshot\ps2\main.c(155): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps2\main.c(155): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps2\main.c(155): error C2146: 语法错误: 缺少“;”(在标识符“task21_job”的前面)
+DIMA\eval\generated\zeroshot\ps2\main.c(155): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps2\main.c(172): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps2\main.c(172): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps2\main.c(172): error C2146: 语法错误: 缺少“;”(在标识符“task22_job”的前面)
+DIMA\eval\generated\zeroshot\ps2\main.c(172): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps2\main.c(189): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps2\main.c(189): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps2\main.c(189): error C2146: 语法错误: 缺少“;”(在标识符“task23_job”的前面)
+DIMA\eval\generated\zeroshot\ps2\main.c(189): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps2\main.c(154): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps2\main.c(171): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps2\main.c(188): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[zeroshot/ps3] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\zeroshot\ps3\activity.c(22): warning C4101: “msg_addr”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\zeroshot\ps3\main.c(20): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(20): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(20): error C2059: 语法错误:“)”
+DIMA\eval\generated\zeroshot\ps3\main.c(21): error C2054: 在“hm_status”之后应输入“(”
+DIMA\eval\generated\zeroshot\ps3\main.c(27): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(27): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(27): error C2059: 语法错误:“)”
+DIMA\eval\generated\zeroshot\ps3\main.c(28): error C2054: 在“hm_status”之后应输入“(”
+DIMA\eval\generated\zeroshot\ps3\main.c(83): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(83): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps3\main.c(83): error C2146: 语法错误: 缺少“;”(在标识符“task31_job”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(83): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps3\main.c(88): error C2065: “INFINITE_TIME_VALUE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(100): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(100): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps3\main.c(100): error C2146: 语法错误: 缺少“;”(在标识符“task32_job”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(100): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps3\main.c(105): error C2065: “INFINITE_TIME_VALUE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(117): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(117): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps3\main.c(117): error C2146: 语法错误: 缺少“;”(在标识符“task33_job”的前面)
+DIMA\eval\generated\zeroshot\ps3\main.c(117): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps3\main.c(122): error C2065: “INFINITE_TIME_VALUE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps3\main.c(82): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps3\main.c(99): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps3\main.c(116): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[zeroshot/ps4] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\zeroshot\ps4\main.c(25): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\zeroshot\ps4\main.c(24): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“__int64”
+DIMA\eval\generated\zeroshot\ps4\main.c(24): note: 请考虑在格式字符串中使用“%lld”
+DIMA\eval\generated\zeroshot\ps4\main.c(24): note: 请考虑在格式字符串中使用“%I64d”
+DIMA\eval\generated\zeroshot\ps4\main.c(24): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\zeroshot\ps4\main.c(24): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\zeroshot\ps4\main.c(24): note: 缺失的可变参数 2 为格式字符串“%lld”所需
+DIMA\eval\generated\zeroshot\ps4\main.c(33): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\zeroshot\ps4\main.c(32): warning C4477: “printf”: 格式字符串“%d”需要类型“int”的参数，但可变参数 1 拥有了类型“__int64”
+DIMA\eval\generated\zeroshot\ps4\main.c(32): note: 请考虑在格式字符串中使用“%lld”
+DIMA\eval\generated\zeroshot\ps4\main.c(32): note: 请考虑在格式字符串中使用“%I64d”
+DIMA\eval\generated\zeroshot\ps4\main.c(32): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\zeroshot\ps4\main.c(32): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\zeroshot\ps4\main.c(32): note: 缺失的可变参数 2 为格式字符串“%lld”所需
+DIMA\eval\generated\zeroshot\ps4\main.c(105): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps4\main.c(105): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps4\main.c(105): error C2146: 语法错误: 缺少“;”(在标识符“task41_job”的前面)
+DIMA\eval\generated\zeroshot\ps4\main.c(105): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps4\main.c(122): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps4\main.c(122): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps4\main.c(122): error C2146: 语法错误: 缺少“;”(在标识符“task42_job”的前面)
+DIMA\eval\generated\zeroshot\ps4\main.c(122): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps4\main.c(139): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps4\main.c(139): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps4\main.c(139): error C2146: 语法错误: 缺少“;”(在标识符“task43_job”的前面)
+DIMA\eval\generated\zeroshot\ps4\main.c(139): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps4\main.c(156): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps4\main.c(156): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps4\main.c(156): error C2146: 语法错误: 缺少“;”(在标识符“task44_job”的前面)
+DIMA\eval\generated\zeroshot\ps4\main.c(156): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps4\main.c(173): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps4\main.c(173): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps4\main.c(173): error C2146: 语法错误: 缺少“;”(在标识符“task45_job”的前面)
+DIMA\eval\generated\zeroshot\ps4\main.c(173): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps4\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps4\main.c(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps4\main.c(138): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps4\main.c(155): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps4\main.c(172): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[zeroshot/ps5] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2065: “MAX_MESSAGE_SIZE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2057: 应输入常量表达式
+DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2466: 不能分配常量大小为 0 的数组
+DIMA\eval\generated\zeroshot\ps5\activity.c(24): error C2133: “msg_buf”: 未知的大小
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(22): error C2059: 语法错误:“)”
+DIMA\eval\generated\zeroshot\ps5\main.c(23): error C2054: 在“error_status”之后应输入“(”
+DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(31): error C2059: 语法错误:“)”
+DIMA\eval\generated\zeroshot\ps5\main.c(32): error C2054: 在“error_status”之后应输入“(”
+DIMA\eval\generated\zeroshot\ps5\main.c(88): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps5\main.c(88): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps5\main.c(88): error C2146: 语法错误: 缺少“;”(在标识符“task51_job”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(88): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps5\main.c(105): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps5\main.c(105): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps5\main.c(105): error C2146: 语法错误: 缺少“;”(在标识符“task52_job”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(105): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps5\main.c(122): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+DIMA\eval\generated\zeroshot\ps5\main.c(122): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+DIMA\eval\generated\zeroshot\ps5\main.c(122): error C2146: 语法错误: 缺少“;”(在标识符“task53_job”的前面)
+DIMA\eval\generated\zeroshot\ps5\main.c(122): warning C4550: 表达式计算为缺少参数列表的函数
+DIMA\eval\generated\zeroshot\ps5\main.c(87): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps5\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\zeroshot\ps5\main.c(121): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[cot/ps1] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps1\activity.c(21): error C2146: 语法错误: 缺少“;”(在标识符“received_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(21): error C2065: “received_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(22): error C2146: 语法错误: 缺少“;”(在标识符“acc2_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(22): error C2065: “acc2_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(29): warning C4013: “commandboard_receiveinput_spg”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(29): error C2065: “received_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(32): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(34): error C2065: “received_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(40): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(51): error C2065: “acc2_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(76): error C2146: 语法错误: 缺少“;”(在标识符“out_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(82): warning C4013: “commandboard_printinfos_spg”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(103): error C2146: 语法错误: 缺少“;”(在标识符“sensor_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(104): error C2146: 语法错误: 缺少“;”(在标识符“result_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(105): error C2146: 语法错误: 缺少“;”(在标识符“sem_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(105): error C2065: “sem_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(112): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(123): warning C4013: “calculate_spg”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\activity.c(163): error C2146: 语法错误: 缺少“;”(在标识符“sem_val”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(163): error C2065: “sem_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(164): error C2146: 语法错误: 缺少“;”(在标识符“t3_data”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(164): error C2065: “t3_data”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(165): error C2146: 语法错误: 缺少“;”(在标识符“t3t4_bb”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(165): error C2065: “t3t4_bb”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(166): error C2146: 语法错误: 缺少“;”(在标识符“feedback”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(166): error C2065: “feedback”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(167): error C2146: 语法错误: 缺少“;”(在标识符“sem_clear”的前面)
+DIMA\eval\generated\cot\ps1\activity.c(167): error C2065: “sem_clear”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(181): error C2065: “sem_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(194): error C2065: “t3_data”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “feedback”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “t3_data”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(213): error C2065: “t3t4_bb”: 未声明的标识符
+DIMA\eval\generated\cot\ps1\activity.c(226): error C2065: “feedback”: 未声明的标识符
+deployment.c
+globals.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+gtypes.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+main.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps1\main.c(29): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\main.c(117): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps1\main.c(131): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps1\main.c(145): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps1\main.c(159): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps1\main.c(116): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps1\main.c(130): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps1\main.c(144): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps1\main.c(158): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps1\main.c(186): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\cot\ps1\main.c(185): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\cot\ps1\main.c(185): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\cot\ps1\main.c(185): note: 缺失的可变参数 2 为格式字符串“%lu”所需
+DIMA\eval\generated\cot\ps1\main.c(190): warning C4013: “STOP_SELF”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps1\main.c(201): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+DIMA\eval\stubs\os/pos/apex/apexLib.h(100): note: 参见“ERROR_STATUS_TYPE”的声明
+DIMA\eval\generated\cot\ps1\main.c(200): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+DIMA\eval\generated\cot\ps1\main.c(200): note: 占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+DIMA\eval\generated\cot\ps1\main.c(200): note: 缺失的可变参数 2 为格式字符串“%lu”所需
+subprograms.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\gtypes.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(12): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(19): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps1\subprograms.h(26): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(14): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps1\subprograms.c(15): error C2054: 在“out_val”之后应输入“(”
+DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(47): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps1\subprograms.c(48): error C2054: 在“in_val”之后应输入“(”
+DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2143: 语法错误: 缺少“;”(在“*”的前面)
+DIMA\eval\generated\cot\ps1\subprograms.c(83): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps1\subprograms.c(84): error C2054: 在“result_val”之后应输入“(”
+ 
+[cot/ps2] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps2\activity.c(20): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(20): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(20): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(28): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(35): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\activity.c(38): warning C4013: “commandboard_receiveinput_spg”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\activity.c(38): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(42): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(42): error C2146: 语法错误: 缺少“;”(在标识符“bb_val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(42): error C2065: “bb_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(50): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(50): error C2065: “bb_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(55): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(55): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(55): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(56): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\activity.c(59): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(64): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(64): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(76): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\activity.c(78): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(79): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(103): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(103): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(103): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(110): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(121): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(121): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(121): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(125): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(129): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(129): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(133): warning C4013: “commandboard_printinfos_spg”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\activity.c(133): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(155): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(156): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(179): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(179): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(179): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(186): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(197): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(197): error C2146: 语法错误: 缺少“;”(在标识符“buf_val”的前面)
+DIMA\eval\generated\cot\ps2\activity.c(197): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(201): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(205): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(205): error C2065: “buf_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(209): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(222): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps2\activity.c(223): error C2065: “integer”: 未声明的标识符
+deployment.c
+globals.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+gtypes.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+main.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps2\main.c(30): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps2\main.c(105): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps2\main.c(121): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps2\main.c(137): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps2\main.c(104): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps2\main.c(120): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps2\main.c(136): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps2\main.c(164): warning C4013: “STOP_SELF”未定义；假设外部返回 int
+subprograms.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\gtypes.h(8): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(7): error C2059: 语法错误:“)”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps2\subprograms.h(8): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\cot\ps2\subprograms.c(8): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps2\subprograms.c(9): error C2054: 在“input_val”之后应输入“(”
+DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2143: 语法错误: 缺少“)”(在“*”的前面)
+DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2143: 语法错误: 缺少“{”(在“*”的前面)
+DIMA\eval\generated\cot\ps2\subprograms.c(21): error C2059: 语法错误:“)”
+DIMA\eval\generated\cot\ps2\subprograms.c(22): error C2054: 在“info_val”之后应输入“(”
+ 
+[cot/ps3] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2061: 语法错误: 标识符“ps3_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2061: 语法错误: 标识符“ps3_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps3\activity.c(18): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(18): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps3\activity.c(18): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(29): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps3\activity.c(33): error C2065: “ps3_order_in_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(33): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(52): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(52): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps3\activity.c(52): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(67): error C2065: “ps3_queueingin_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps3\activity.c(67): error C2065: “val”: 未声明的标识符
+deployment.c
+globals.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2061: 语法错误: 标识符“ps3_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2061: 语法错误: 标识符“ps3_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps3\globals.c(3): error C2061: 语法错误: 标识符“ps3_order_in_val”
+DIMA\eval\generated\cot\ps3\globals.c(3): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps3\globals.c(3): error C2513: “ ”: 在“=”前没有声明变量
+DIMA\eval\generated\cot\ps3\globals.c(4): error C2061: 语法错误: 标识符“ps3_queueingin_val”
+DIMA\eval\generated\cot\ps3\globals.c(4): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps3\globals.c(4): error C2513: “ ”: 在“=”前没有声明变量
+gtypes.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2059: 语法错误:“;”
+main.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2061: 语法错误: 标识符“ps3_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2061: 语法错误: 标识符“ps3_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps3\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps3\main.c(31): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps3\main.c(50): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps3\main.c(53): error C2059: 语法错误:“常数”
+DIMA\eval\generated\cot\ps3\main.c(67): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps3\main.c(70): error C2059: 语法错误:“常数”
+DIMA\eval\generated\cot\ps3\main.c(84): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps3\main.c(87): error C2059: 语法错误:“常数”
+DIMA\eval\generated\cot\ps3\main.c(49): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps3\main.c(66): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps3\main.c(83): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[cot/ps4] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\activity.c(21): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(21): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps4\activity.c(21): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(32): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps4\activity.c(35): error C2065: “ps4_queueingout_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(35): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(61): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(61): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps4\activity.c(61): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(75): error C2065: “ps4_queueingout_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(75): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(101): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(101): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps4\activity.c(101): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(115): error C2065: “ps4_queueingin_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(115): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(158): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(158): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps4\activity.c(158): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(172): error C2065: “ps4_order_in_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps4\activity.c(172): error C2065: “val”: 未声明的标识符
+deployment.c
+globals.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\globals.c(3): error C2061: 语法错误: 标识符“ps4_order_in_val”
+DIMA\eval\generated\cot\ps4\globals.c(3): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\globals.c(3): error C2513: “ ”: 在“=”前没有声明变量
+DIMA\eval\generated\cot\ps4\globals.c(4): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+DIMA\eval\generated\cot\ps4\globals.c(4): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\globals.c(4): error C2513: “ ”: 在“=”前没有声明变量
+DIMA\eval\generated\cot\ps4\globals.c(5): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+DIMA\eval\generated\cot\ps4\globals.c(5): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\globals.c(5): error C2513: “ ”: 在“=”前没有声明变量
+gtypes.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+main.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps4\main.c(38): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps4\main.c(65): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps4\main.c(79): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps4\main.c(93): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps4\main.c(107): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps4\main.c(121): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps4\main.c(64): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps4\main.c(78): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps4\main.c(92): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps4\main.c(106): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps4\main.c(120): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[cot/ps5] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2061: 语法错误: 标识符“ps5_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2061: 语法错误: 标识符“ps5_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps5\activity.c(20): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(20): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps5\activity.c(20): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(30): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps5\activity.c(34): error C2065: “ps5_order_in_val”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(34): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(51): error C2065: “integer”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(51): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+DIMA\eval\generated\cot\ps5\activity.c(51): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(55): error C2065: “val”: 未声明的标识符
+DIMA\eval\generated\cot\ps5\activity.c(55): error C2065: “ps5_queueingout_val”: 未声明的标识符
+deployment.c
+globals.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2061: 语法错误: 标识符“ps5_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2061: 语法错误: 标识符“ps5_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps5\globals.c(3): error C2061: 语法错误: 标识符“ps5_order_in_val”
+DIMA\eval\generated\cot\ps5\globals.c(3): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps5\globals.c(3): error C2513: “ ”: 在“=”前没有声明变量
+DIMA\eval\generated\cot\ps5\globals.c(4): error C2061: 语法错误: 标识符“ps5_queueingout_val”
+DIMA\eval\generated\cot\ps5\globals.c(4): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps5\globals.c(4): error C2513: “ ”: 在“=”前没有声明变量
+gtypes.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2059: 语法错误:“;”
+main.c
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\gtypes.h(6): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2061: 语法错误: 标识符“ps5_order_in_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(7): error C2059: 语法错误:“;”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2061: 语法错误: 标识符“ps5_queueingout_val”
+C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps5\globals.h(8): error C2059: 语法错误:“;”
+DIMA\eval\generated\cot\ps5\main.c(36): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+DIMA\eval\generated\cot\ps5\main.c(52): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps5\main.c(66): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps5\main.c(80): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+DIMA\eval\generated\cot\ps5\main.c(51): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps5\main.c(65): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\cot\ps5\main.c(79): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[fewshot/pa] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\fewshot\pa\activity.c(16): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\fewshot\pa\main.c(21): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[fewshot/pb] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\fewshot\pb\activity.c(36): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\fewshot\pb\main.c(25): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\fewshot\pb\main.c(37): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[fewshot/pc] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\fewshot\pc\activity.c(17): warning C4101: “msg_len”: 未引用的局部变量
+DIMA\eval\generated\fewshot\pc\activity.c(58): warning C4101: “valid”: 未引用的局部变量
+DIMA\eval\generated\fewshot\pc\activity.c(59): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\fewshot\pc\main.c(26): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\fewshot\pc\main.c(38): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\fewshot\pc\main.c(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[combined/pa] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\combined\pa\activity.c(16): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\combined\pa\main.c(21): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[combined/pb] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\combined\pb\activity.c(17): warning C4101: “msg_len”: 未引用的局部变量
+DIMA\eval\generated\combined\pb\activity.c(41): warning C4101: “msg_len”: 未引用的局部变量
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\combined\pb\main.c(25): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\combined\pb\main.c(37): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 
+[combined/pc] 
+用于 x86 的 Microsoft (R) C/C++ 优化编译器 19.35.32217.1 版
+版权所有(C) Microsoft Corporation。保留所有权利。
+
+activity.c
+DIMA\eval\generated\combined\pc\activity.c(17): warning C4101: “msg_len”: 未引用的局部变量
+DIMA\eval\generated\combined\pc\activity.c(49): warning C4013: “WRITE_BUFFER”未定义；假设外部返回 int
+DIMA\eval\generated\combined\pc\activity.c(41): warning C4101: “msg_len”: 未引用的局部变量
+DIMA\eval\generated\combined\pc\activity.c(68): warning C4013: “READ_BUFFER”未定义；假设外部返回 int
+deployment.c
+globals.c
+gtypes.c
+main.c
+DIMA\eval\generated\combined\pc\main.c(26): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\combined\pc\main.c(38): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+DIMA\eval\generated\combined\pc\main.c(50): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+subprograms.c
+ 

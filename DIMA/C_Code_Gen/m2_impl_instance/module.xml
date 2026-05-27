@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ARINC 653 Module Configuration File for M2 (arinckernel.module2)     -->
+<!-- 对应 AADL: DIMA_models::M2.impl + DIMA_Processor::arinckernel.module2 -->
+<!-- 本文件由 ARINC 653 操作系统（ACoreOS653）在启动时读取，               -->
+<!-- 用于配置模块内所有分区的资源、调度窗口和健康监控策略。                -->
+<ARINC_653_Module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:noNamespaceSchemaLocation="A653_Part1_revA.xsd"
+                  ModuleName="M2_DIMA_Module" ModuleVersion="1.0">
+
+    <!-- ================================================================ -->
+    <!-- 分区定义                                                           -->
+    <!-- ================================================================ -->
+
+    <!-- ps3 (P3): 接收模块，接收 M1 发送的指令和 M3 的队列反馈            -->
+    <!-- 对应 AADL: DIMA_partitions::P3.impl                              -->
+    <Partition PartitionIdentifier="1" PartitionName="ps3"
+               Criticality="LEVEL_A" SystemPartition="true" EntryPoint="entryPoint">
+        <!-- order_in: 接收 M1 广播的指令（来自 v1_in 采样端口）           -->
+        <Queuing_Port PortName="order_in"    MaxMessageSize="4" Direction="Destination" MaxNbMessages="4"/>
+        <!-- queueingin: 接收 M3 的队列反馈消息                           -->
+        <Queuing_Port PortName="queueingin"  MaxMessageSize="4" Direction="Destination" MaxNbMessages="4"/>
+    </Partition>
+
+    <!-- ps5 (P5): 中继模块，接收 M1 指令后转发至 M3                       -->
+    <!-- 对应 AADL: DIMA_partitions::P5.impl                              -->
+    <Partition PartitionIdentifier="2" PartitionName="ps5"
+               Criticality="LEVEL_A" SystemPartition="true" EntryPoint="entryPoint">
+        <!-- order_in: 接收 M1 广播的指令                                 -->
+        <Queuing_Port PortName="order_in"    MaxMessageSize="4" Direction="Destination" MaxNbMessages="4"/>
+        <!-- queueingout: 向 M3 发送处理结果（对应 v4_out）                -->
+        <Queuing_Port PortName="queueingout" MaxMessageSize="4" Direction="Source"      MaxNbMessages="4"/>
+    </Partition>
+
+    <!-- ================================================================ -->
+    <!-- 内存分配                                                           -->
+    <!-- 对应 AADL: DIMA_Memory::mainmemory.module2                       -->
+    <!-- ================================================================ -->
+    <Partition_Memory PartitionIdentifier="1" PartitionName="ps3">
+        <Memory_Requirements Type="CODE" SizeBytes="1024" Access="READ_WRITE" PhysicalAddress="0"/>
+    </Partition_Memory>
+    <Partition_Memory PartitionIdentifier="2" PartitionName="ps5">
+        <Memory_Requirements Type="CODE" SizeBytes="1024" Access="READ_WRITE" PhysicalAddress="1024"/>
+    </Partition_Memory>
+
+    <!-- ================================================================ -->
+    <!-- 模块调度表（Major Frame = 25ms）                                   -->
+    <!-- 对应 AADL: arinckernel.module2 Module_Schedule                   -->
+    <!-- 窗口布局：[ps3: 0~5ms] [ps5: 5~15ms] [ps3: 15~25ms]             -->
+    <!-- ================================================================ -->
+    <Module_Schedule MajorFrameSeconds="0.025">
+        <Partition_Schedule PartitionIdentifier="1" PartitionName="ps3"
+                            PeriodSeconds="0.025" PeriodDurationSeconds="0.015">
+            <!-- 第一窗口：0ms 开始，持续 5ms，标记为新周期起点             -->
+            <Window_Schedule WindowIdentifier="101" WindowStartSeconds="0.000"
+                             WindowDurationSeconds="0.005" PartitionPeriodStart="true"/>
+            <!-- 第二窗口：15ms 开始，持续 10ms                           -->
+            <Window_Schedule WindowIdentifier="102" WindowStartSeconds="0.015"
+                             WindowDurationSeconds="0.010" PartitionPeriodStart="false"/>
+        </Partition_Schedule>
+        <Partition_Schedule PartitionIdentifier="2" PartitionName="ps5"
+                            PeriodSeconds="0.025" PeriodDurationSeconds="0.010">
+            <!-- 唯一窗口：5ms 开始，持续 10ms                            -->
+            <Window_Schedule WindowIdentifier="201" WindowStartSeconds="0.005"
+                             WindowDurationSeconds="0.010" PartitionPeriodStart="true"/>
+        </Partition_Schedule>
+    </Module_Schedule>
+
+    <!-- ================================================================ -->
+    <!-- 通道连接表（模块内分区间连接，此处两分区无直接通信）                -->
+    <!-- 跨模块通信（M1→M2，M3→M2）由系统级 FC 总线实现，不在此定义        -->
+    <!-- ================================================================ -->
+    <Connection_Table>
+        <!-- M2 内无分区间通道；所有通信均跨模块 -->
+    </Connection_Table>
+
+    <!-- ================================================================ -->
+    <!-- 健康监控表（Health Monitoring）                                    -->
+    <!-- 对应 AADL: arinckernel.module2 HM_Error_ID_Levels/Actions        -->
+    <!-- ================================================================ -->
+    <System_HM_Table>
+        <System_State_Entry SystemState="1" Description="Module Init">
+            <Error_ID_Level ErrorIdentifier="1" Description="Module Config Error"      ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="2" Description="Module Init Error"        ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="5" Description="Segmentation Error"       ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="6" Description="Time Duration Exceeded"   ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="7" Description="Invalid OS Call"          ErrorLevel="MODULE"/>
+        </System_State_Entry>
+        <System_State_Entry SystemState="2" Description="System Function Execution">
+            <Error_ID_Level ErrorIdentifier="5" Description="Segmentation Violation"   ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="6" Description="Time Duration Exceeded"   ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="7" Description="Invalid OS Call"          ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="8" Description="Divide by Zero"           ErrorLevel="MODULE"/>
+            <Error_ID_Level ErrorIdentifier="9" Description="Floating Point Error"     ErrorLevel="MODULE"/>
+        </System_State_Entry>
+    </System_HM_Table>
+
+    <Module_HM_Table ModuleCallback="module_HM_callback">
+        <System_State_Entry SystemState="1" Description="module init">
+            <Error_ID_Action ErrorIdentifier="1" Action="SHUTDOWN"/>
+            <Error_ID_Action ErrorIdentifier="2" Action="SHUTDOWN"/>
+            <Error_ID_Action ErrorIdentifier="5" Action="SHUTDOWN"/>
+            <Error_ID_Action ErrorIdentifier="6" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Action="IGNORE"/>
+        </System_State_Entry>
+        <System_State_Entry SystemState="2" Description="system function execution">
+            <Error_ID_Action ErrorIdentifier="5" Action="SHUTDOWN"/>
+            <Error_ID_Action ErrorIdentifier="6" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="8" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="9" Action="IGNORE"/>
+        </System_State_Entry>
+    </Module_HM_Table>
+
+    <Partition_HM_Table PartitionIdentifier="1" PartitionName="ps3" PartitionCallback="partition_HM_callback">
+        <System_State_Entry SystemState="1" Description="partition init">
+            <Error_ID_Action ErrorIdentifier="3" Description="partition config error" Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="4" Description="partition init error"   Action="COLD_START"/>
+            <Error_ID_Action ErrorIdentifier="5" Description="segmentation error"     Action="COLD_START"/>
+            <Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Description="invalid OS call"        Action="IGNORE"/>
+        </System_State_Entry>
+        <System_State_Entry SystemState="2" Description="partition error handler">
+            <Error_ID_Action ErrorIdentifier="5" Description="segmentation error"     Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Description="invalid OS call"        Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="8" Description="divide by 0"            Action="WARM_START"/>
+            <Error_ID_Action ErrorIdentifier="9" Description="overflow"               Action="WARM_START"/>
+        </System_State_Entry>
+    </Partition_HM_Table>
+
+    <Partition_HM_Table PartitionIdentifier="2" PartitionName="ps5" PartitionCallback="partition_HM_callback">
+        <System_State_Entry SystemState="1" Description="partition init">
+            <Error_ID_Action ErrorIdentifier="3" Description="partition config error" Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="4" Description="partition init error"   Action="COLD_START"/>
+            <Error_ID_Action ErrorIdentifier="5" Description="segmentation error"     Action="COLD_START"/>
+            <Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Description="invalid OS call"        Action="IGNORE"/>
+        </System_State_Entry>
+        <System_State_Entry SystemState="2" Description="partition error handler">
+            <Error_ID_Action ErrorIdentifier="5" Description="segmentation error"     Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="6" Description="time duration exceeded" Action="IGNORE"/>
+            <Error_ID_Action ErrorIdentifier="7" Description="invalid OS call"        Action="IDLE"/>
+            <Error_ID_Action ErrorIdentifier="8" Description="divide by 0"            Action="WARM_START"/>
+            <Error_ID_Action ErrorIdentifier="9" Description="overflow"               Action="WARM_START"/>
+        </System_State_Entry>
+    </Partition_HM_Table>
+
+</ARINC_653_Module>

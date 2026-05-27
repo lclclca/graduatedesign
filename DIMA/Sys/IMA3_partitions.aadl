@@ -1,0 +1,165 @@
+package IMA3_partitions
+public
+
+	with IMA3_threads;
+	with ARINC653;
+	with Base_Types;
+
+	-- =========================================================================
+	--  IMA3：导航计算模块（Navigation Computing Module）
+	--  单模块 MC，4个分区：NAV / DISP / CTRL / MON
+	--  主帧周期 100ms，采用速率单调调度（RMS）策略
+	--
+	--  分区间通信拓扑：
+	--    NAV.pos_out    → DISP.pos_in     （采样，位置数据）
+	--    NAV.status_out → MON.status_in   （采样，状态监控）
+	--    NAV.cmd_out    → CTRL.nav_in     （队列，导航指令）
+	--    CTRL.ctrl_out  → DISP.ctrl_in    （队列，显示控制命令）
+	-- =========================================================================
+
+	-- =========================================================================
+	--  NAV：导航分区（最复杂分区）
+	--  4任务 + 2采样源端口 + 1队列源端口 + 2黑板 + 1缓冲区
+	--  设计意图：覆盖全部4类ARINC 653资源，测试组合策略的资源密度上限
+	-- =========================================================================
+
+	process NAV
+		features
+			pos_out:    out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+			status_out: out data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+			cmd_out:    out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end NAV;
+
+	process implementation NAV.impl
+		subcomponents
+			taskN1: thread IMA3_threads::TskN1.impl;
+			taskN2: thread IMA3_threads::TskN2.impl;
+			taskN3: thread IMA3_threads::TskN3.impl;
+			taskN4: thread IMA3_threads::TskN4.impl;
+		connections
+			-- 分区间通信：将任务端口路由到分区端口
+			pos_link:    port taskN1.pos_out    -> pos_out;
+			status_link: port taskN1.status_out -> status_out;
+			cmd_link:    port taskN4.cmd_out    -> cmd_out;
+			-- 分区内通信：黑板（data port连接）→ 生成 BLACKBOARD 资源
+			-- 连接名即为资源标识：bb1 → bb_bb1, bb2 → bb_bb2
+			bb1:         port taskN1.bb1_write  -> taskN2.bb1_read;
+			bb2:         port taskN1.bb2_write  -> taskN3.bb2_read;
+			-- 分区内通信：缓冲区（event data port连接）→ 生成 BUFFER 资源
+			-- 连接名即为资源标识：buf1 → buf_buf1
+			buf1:        port taskN2.buf1_send  -> taskN4.buf1_recv;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end NAV.impl;
+
+	-- =========================================================================
+	--  DISP：显示分区（中等复杂度）
+	--  2任务 + 1采样目标端口 + 1队列目标端口 + 1黑板
+	--  设计意图：验证采样READ方向API和队列RECEIVE方向API的生成正确性
+	-- =========================================================================
+
+	process DISP
+		features
+			pos_in:  in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+			ctrl_in: in event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end DISP;
+
+	process implementation DISP.impl
+		subcomponents
+			taskD1: thread IMA3_threads::TskD1.impl;
+			taskD2: thread IMA3_threads::TskD2.impl;
+		connections
+			-- 分区间通信
+			pos_link:  port pos_in  -> taskD1.pos_in;
+			ctrl_link: port ctrl_in -> taskD2.ctrl_in;
+			-- 分区内通信：黑板（disp → bb_disp）
+			disp:      port taskD1.disp_write -> taskD2.disp_read;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end DISP.impl;
+
+	-- =========================================================================
+	--  CTRL：控制分区（中等复杂度）
+	--  3任务 + 1队列目标端口 + 1队列源端口 + 1缓冲区
+	--  设计意图：测试双向队列端口（DESTINATION+SOURCE）同时存在时的代码生成
+	-- =========================================================================
+
+	process CTRL
+		features
+			nav_in:  in event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+			ctrl_out: out event data port Base_Types::Integer {
+				Queue_Size                   => 4;
+				ARINC653::Timeout            => 5ms;
+				ARINC653::Queueing_Discipline => FIFO;};
+	end CTRL;
+
+	process implementation CTRL.impl
+		subcomponents
+			taskT1: thread IMA3_threads::TskT1.impl;
+			taskT2: thread IMA3_threads::TskT2.impl;
+			taskT3: thread IMA3_threads::TskT3.impl;
+		connections
+			-- 分区间通信
+			nav_link:  port nav_in      -> taskT1.nav_in;
+			ctrl_link: port taskT3.ctrl_out -> ctrl_out;
+			-- 分区内通信：缓冲区（ctrl → buf_ctrl）
+			ctrl:      port taskT1.ctrl_send -> taskT2.ctrl_recv;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end CTRL.impl;
+
+	-- =========================================================================
+	--  MON：监控分区（最简分区，基准用例）
+	--  1任务 + 1采样目标端口，无分区内共享资源
+	--  设计意图：与NAV形成对比，验证方法在极简配置下的稳定性
+	-- =========================================================================
+
+	process MON
+		features
+			status_in: in data port Base_Types::Integer {ARINC653::Sampling_Refresh_Period => 100ms;};
+	end MON;
+
+	process implementation MON.impl
+		subcomponents
+			taskM1: thread IMA3_threads::TskM1.impl;
+		connections
+			-- 分区间通信
+			status_link: port status_in -> taskM1.status_in;
+		properties
+			ARINC653::DAL => LEVEL_A;
+	end MON.impl;
+
+	-- =========================================================================
+	--  System-level binding（模块MC，主帧100ms）
+	-- =========================================================================
+
+	system IMA3_system
+	end IMA3_system;
+
+	system implementation IMA3_system.impl
+		subcomponents
+			nav_pr:  process NAV.impl;
+			disp_pr: process DISP.impl;
+			ctrl_pr: process CTRL.impl;
+			mon_pr:  process MON.impl;
+		connections
+			-- 采样通信
+			nav_to_disp:  port nav_pr.pos_out    -> disp_pr.pos_in;
+			nav_to_mon:   port nav_pr.status_out -> mon_pr.status_in;
+			-- 队列通信
+			nav_to_ctrl:  port nav_pr.cmd_out    -> ctrl_pr.nav_in;
+			ctrl_to_disp: port ctrl_pr.ctrl_out  -> disp_pr.ctrl_in;
+		properties
+			ARINC653::Module_Major_Frame => 100ms;
+	end IMA3_system.impl;
+
+end IMA3_partitions;

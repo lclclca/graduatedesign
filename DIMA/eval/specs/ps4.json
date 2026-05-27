@@ -1,0 +1,33 @@
+{
+  "partition": "ps4",
+  "module": "M3",
+  "aadl_process": "DIMA_partitions::P4.impl",
+  "required_files": [
+    "activity.c", "activity.h",
+    "deployment.c", "deployment.h",
+    "globals.c", "globals.h",
+    "gtypes.c", "gtypes.h",
+    "main.c",
+    "subprograms.c", "subprograms.h"
+  ],
+  "tasks": [
+    {"name": "task41", "period_ms": 25,  "priority": 2},
+    {"name": "task42", "period_ms": 50,  "priority": 3},
+    {"name": "task43", "period_ms": 50,  "priority": 4},
+    {"name": "task44", "period_ms": 100, "priority": 5},
+    {"name": "task45", "period_ms": 200, "priority": 6}
+  ],
+  "sampling_ports": [],
+  "queuing_ports": [
+    {"name": "order_in",    "direction": "DESTINATION", "max_nb": 1, "api_read":  "RECEIVE_QUEUING_MESSAGE"},
+    {"name": "queueingout", "direction": "SOURCE",      "max_nb": 4, "api_write": "SEND_QUEUING_MESSAGE"},
+    {"name": "queueingin",  "direction": "DESTINATION", "max_nb": 4, "api_read":  "RECEIVE_QUEUING_MESSAGE"}
+  ],
+  "blackboards": [],
+  "buffers":     [],
+  "subprograms": [],
+  "deployment": {
+    "nb_threads": 5, "nb_samplings": 0, "nb_queueings": 3,
+    "nb_blackboards": 0, "nb_buffers": 0, "stacks_size": 40960
+  }
+}

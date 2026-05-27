@@ -1,0 +1,36 @@
+﻿编译检查报告：zeroshot/ps2
+==================================================
+错误数：8  警告数：12  未通过
+
+分类统计：
+  未使用变量        1
+  其他           16
+  未声明标识符       3
+
+详细问题：
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps2\main.c(155): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps2\main.c(172): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\zeroshot\ps2\main.c(189): error C2065: “SYSTEM_ADDRESS_TYPE”: 未声明的标识符
+
+  [未使用变量]
+    WARNING C4101  DIMA\eval\generated\zeroshot\ps2\activity.c(37): warning C4101: “msg_len”: 未引用的局部变量
+
+  [其他]
+    ERROR   C2039  DIMA\eval\generated\zeroshot\ps2\main.c(39): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2039  DIMA\eval\generated\zeroshot\ps2\main.c(47): error C2039: "ERROR_CODE": 不是 "ERROR_STATUS_TYPE" 的成员
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps2\main.c(155): error C2146: 语法错误: 缺少“;”(在标识符“task21_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps2\main.c(172): error C2146: 语法错误: 缺少“;”(在标识符“task22_job”的前面)
+    ERROR   C2146  DIMA\eval\generated\zeroshot\ps2\main.c(189): error C2146: 语法错误: 缺少“;”(在标识符“task23_job”的前面)
+    WARNING C4473  DIMA\eval\generated\zeroshot\ps2\main.c(38): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+    WARNING C4473  DIMA\eval\generated\zeroshot\ps2\main.c(46): warning C4473: “printf”: 没有为格式字符串传递足够的参数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps2\main.c(155): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps2\main.c(155): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps2\main.c(172): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps2\main.c(172): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4047  DIMA\eval\generated\zeroshot\ps2\main.c(189): warning C4047: “=”:“void *(__cdecl *)(void)”与“int”的间接级别不同
+    WARNING C4550  DIMA\eval\generated\zeroshot\ps2\main.c(189): warning C4550: 表达式计算为缺少参数列表的函数
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps2\main.c(154): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps2\main.c(171): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\zeroshot\ps2\main.c(188): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.

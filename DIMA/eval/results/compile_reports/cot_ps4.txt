@@ -1,0 +1,83 @@
+﻿编译检查报告：cot/ps4
+==================================================
+错误数：55  警告数：12  未通过
+
+分类统计：
+  语法错误         32
+  未声明标识符       18
+  其他           17
+
+详细问题：
+
+  [语法错误]
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+    ERROR   C2061  DIMA\eval\generated\cot\ps4\globals.c(3): error C2061: 语法错误: 标识符“ps4_order_in_val”
+    ERROR   C2059  DIMA\eval\generated\cot\ps4\globals.c(3): error C2059: 语法错误:“;”
+    ERROR   C2061  DIMA\eval\generated\cot\ps4\globals.c(4): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+    ERROR   C2059  DIMA\eval\generated\cot\ps4\globals.c(4): error C2059: 语法错误:“;”
+    ERROR   C2061  DIMA\eval\generated\cot\ps4\globals.c(5): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+    ERROR   C2059  DIMA\eval\generated\cot\ps4\globals.c(5): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2061: 语法错误: 标识符“integer”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\gtypes.h(6): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2061: 语法错误: 标识符“ps4_order_in_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(7): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2061: 语法错误: 标识符“ps4_queueingout_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(8): error C2059: 语法错误:“;”
+    ERROR   C2061  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2061: 语法错误: 标识符“ps4_queueingin_val”
+    ERROR   C2059  C:\Users\86138\Desktop\毕设代码\graduatedesign\DIMA\eval\generated\cot\ps4\globals.h(9): error C2059: 语法错误:“;”
+
+  [未声明标识符]
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(21): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(21): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(35): error C2065: “ps4_queueingout_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(35): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(61): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(61): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(75): error C2065: “ps4_queueingout_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(75): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(101): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(101): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(115): error C2065: “ps4_queueingin_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(115): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(158): error C2065: “integer”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(158): error C2065: “val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(172): error C2065: “ps4_order_in_val”: 未声明的标识符
+    ERROR   C2065  DIMA\eval\generated\cot\ps4\activity.c(172): error C2065: “val”: 未声明的标识符
+    WARNING C4013  DIMA\eval\generated\cot\ps4\activity.c(32): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+    WARNING C4013  DIMA\eval\generated\cot\ps4\main.c(38): warning C4013: “CHECK_CODE”未定义；假设外部返回 int
+
+  [其他]
+    ERROR   C2146  DIMA\eval\generated\cot\ps4\activity.c(21): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps4\activity.c(61): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps4\activity.c(101): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2146  DIMA\eval\generated\cot\ps4\activity.c(158): error C2146: 语法错误: 缺少“;”(在标识符“val”的前面)
+    ERROR   C2513  DIMA\eval\generated\cot\ps4\globals.c(3): error C2513: “ ”: 在“=”前没有声明变量
+    ERROR   C2513  DIMA\eval\generated\cot\ps4\globals.c(4): error C2513: “ ”: 在“=”前没有声明变量
+    ERROR   C2513  DIMA\eval\generated\cot\ps4\globals.c(5): error C2513: “ ”: 在“=”前没有声明变量
+    WARNING C4113  DIMA\eval\generated\cot\ps4\main.c(65): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps4\main.c(79): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps4\main.c(93): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps4\main.c(107): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4113  DIMA\eval\generated\cot\ps4\main.c(121): warning C4113: “void *(__cdecl *)(void *)”和“void *(__cdecl *)(void)”的参数列表不同
+    WARNING C4996  DIMA\eval\generated\cot\ps4\main.c(64): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps4\main.c(78): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps4\main.c(92): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps4\main.c(106): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+    WARNING C4996  DIMA\eval\generated\cot\ps4\main.c(120): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
